@@ -1,0 +1,29 @@
+$ kubectl describe pod klopa-api -n klopa
+Name:         klopa-api
+Namespace:    klopa
+Node:         node-2/10.0.1.12
+Status:       Pending
+Containers:
+  klopa-api:
+    Image:          registry.klopa.example/klopa-api:1.3.20
+    State:          Waiting
+      Reason:       ImagePullBackOff
+Events:
+  Type     Reason     Age                From               Message
+  ----     ------     ----               ----               -------
+  Normal   Scheduled  61s                default-scheduler  Successfully assigned klopa/klopa-api to node-2
+  Normal   Pulling    26s (x3 over 60s)  kubelet            Pulling image "registry.klopa.example/klopa-api:1.3.20"
+  Warning  Failed     25s (x3 over 59s)  kubelet            Failed to pull image "registry.klopa.example/klopa-api:1.3.20": … not found
+  Warning  Failed     25s (x3 over 59s)  kubelet            Error: ErrImagePull
+  Normal   BackOff    12s (x4 over 58s)  kubelet            Back-off pulling image "registry.klopa.example/klopa-api:1.3.20"
+  Warning  Failed     12s (x4 over 58s)  kubelet            Error: ImagePullBackOff
+
+$ kubectl describe pod klopa-worker -n klopa
+Name:         klopa-worker
+Namespace:    klopa
+Node:         <none>
+Status:       Pending
+Events:
+  Type     Reason            Age   From               Message
+  ----     ------            ----  ----               -------
+  Warning  FailedScheduling  58s   default-scheduler  0/3 nodes are available: 3 Insufficient memory. preemption: 0/3 nodes are available: 3 No preemption victims found for incoming pod.
