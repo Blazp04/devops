@@ -12,7 +12,6 @@
 
   /* ---- day shift ---- */
   --ground: #e6e1d5;
-  --ground-deep: #d9d2c2;
   --paper: #f4f0e6;
   --manila: #ead39c;
   --ink: #14212e;
@@ -87,14 +86,10 @@
   --dock-down: #4a5259;
   --beam-op: 0.42;
   --grid-strong: rgba(20, 33, 46, 0.06);
-  --yard-light: rgba(255, 255, 255, 0.35);
   --frame-line: #14212e;
   --panel-light: linear-gradient(transparent, transparent);
   --board-face: #070c11;
-  --plate-frame: #14212e;
-  --plate-field: #f6f1e4;
   --plate-rule: rgba(20, 33, 46, 0.18);
-  --plate-screw: radial-gradient(circle, #d9dcdd 0 2.5px, #6c7174 2.5px 3.6px, transparent 3.8px);
   --panel-edge: 0 0 0 0 transparent;
   --joint: rgba(20, 33, 46, 0.1);
 
@@ -119,7 +114,6 @@
 .root[data-theme='dark'],
 .root [data-theme='dark'] {
   --ground: #0d1823;
-  --ground-deep: #09121b;
   --paper: #132331;
   --manila: #d9bf83;
   --ink: #efe7d4;
@@ -190,13 +184,9 @@
   --dock-down: #151d24;
   --beam-op: 0.3;
   --grid-strong: rgba(255, 179, 71, 0.05);
-  --yard-light: rgba(255, 174, 69, 0.07);
   --frame-line: #3b5268;
   --panel-light: radial-gradient(ellipse 90% 70% at 30% -20%, rgba(255, 174, 69, 0.1), transparent 70%);
-  --plate-frame: #050b11;
-  --plate-field: #0f1c28;
   --plate-rule: rgba(255, 196, 120, 0.16);
-  --plate-screw: radial-gradient(circle, #8d969c 0 2.5px, #2c353c 2.5px 3.6px, transparent 3.8px);
   --panel-edge: inset 0 1px 0 rgba(255, 196, 120, 0.28);
   --joint: rgba(255, 196, 120, 0.07);
   color-scheme: dark;
@@ -926,11 +916,6 @@
     width: 26px;
     height: 36px;
     font-size: 20px;
-  }
-  .rowFoot {
-    display: flex;
-    gap: 16px;
-    align-items: center;
   }
   .boardHead {
     padding: 14px;

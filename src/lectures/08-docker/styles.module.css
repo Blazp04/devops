@@ -841,10 +841,6 @@
 }
 
 /* ===================== small text helpers ===================== */
-.inlineCode {
-  font-family: var(--f-mono);
-  font-size: 0.86em;
-}
 
 .visuallyHidden {
   position: absolute;

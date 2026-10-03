@@ -113,9 +113,6 @@
 }
 
 /* a stage wrapper that keeps the narrow drawing centred */
-.stage {
-  width: 100%;
-}
 
 /* controls row above a small interactive drawing */
 .controlsRow {

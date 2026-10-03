@@ -160,18 +160,6 @@
 }
 
 /* „Kada nova vrijednost stigne do Poda” rows */
-.parts {
-  margin: 4px 0 0;
-  padding-left: 1.1em;
-  font-family: var(--f-body);
-  font-size: 17px;
-  line-height: 1.45;
-}
-
-.mono {
-  font-family: var(--f-mono);
-  font-size: 0.86em;
-}
 
 /* long compressed-time chips and long inline code may wrap on phones */
 .timingNote :global(.k-badge) {

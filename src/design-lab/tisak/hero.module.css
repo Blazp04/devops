@@ -189,7 +189,6 @@
   margin: 0;
   width: var(--posterW);
   --page-ink: var(--ink);
-  --page-ink-2: var(--ink-2);
 }
 
 .poster {

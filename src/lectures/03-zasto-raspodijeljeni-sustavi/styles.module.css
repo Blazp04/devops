@@ -63,11 +63,6 @@
   color: var(--ink-2);
 }
 
-.causeWrap {
-  margin-top: 18px;
-  max-width: 640px;
-}
-
 .goalsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));

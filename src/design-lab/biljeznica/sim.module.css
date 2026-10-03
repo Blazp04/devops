@@ -79,15 +79,6 @@
   border-color: var(--pen);
 }
 
-.sheetHint {
-  margin-left: 12px;
-  font-family: var(--f-mono);
-  font-size: 13px;
-  color: var(--ink-3);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
 .svg {
   display: block;
   width: 100%;
@@ -342,7 +333,6 @@
   color: var(--ink);
 }
 
-
 .breakers {
   display: flex;
   flex-wrap: wrap;
@@ -395,13 +385,6 @@
 
 .btnFix {
   color: var(--green);
-}
-
-.btnPause {
-  color: var(--ink-2);
-  font-family: var(--f-mono);
-  font-weight: 500;
-  font-size: 14px;
 }
 
 .metrics {
@@ -484,7 +467,6 @@
   background: radial-gradient(circle, var(--food) 0 4.5px, transparent 5px);
   display: inline-block;
 }
-
 
 @media (max-width: 760px) {
   .sim {

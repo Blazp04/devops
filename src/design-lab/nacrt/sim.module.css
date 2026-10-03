@@ -104,10 +104,6 @@
   stroke: var(--red);
 }
 
-.redDot {
-  fill: var(--red);
-}
-
 /* Promet: a real range input lying exactly over the drawn scale rule */
 .rate {
   position: absolute;

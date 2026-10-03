@@ -20,10 +20,6 @@
   font-weight: 600;
   fill: var(--ink);
 }
-.svgPrint {
-  font-family: var(--f-print);
-  fill: var(--ink);
-}
 .svgLabel {
   font-family: var(--f-display);
   font-weight: 800;
@@ -138,9 +134,6 @@
 }
 .bad {
   color: var(--red);
-}
-.warn {
-  color: var(--orange);
 }
 .muted {
   color: var(--ink-3);

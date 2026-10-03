@@ -116,9 +116,6 @@
 .blink {
   animation: luka-blink 0.9s steps(2, jump-none) infinite;
 }
-.blinkSlow {
-  animation: luka-blink 2.4s ease-in-out infinite;
-}
 
 @keyframes luka-blink {
   0%,
@@ -167,7 +164,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .blink,
-  .blinkSlow,
   .wave {
     animation: none;
   }

@@ -58,10 +58,6 @@
   margin: 4px 0 2px;
 }
 
-.laneBadge {
-  display: inline-flex;
-}
-
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -134,12 +130,6 @@
   font-size: 17px;
   line-height: 1.4;
   color: var(--ink-2);
-}
-
-.badgeRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
 }
 
 .statsStack {

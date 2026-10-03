@@ -103,14 +103,6 @@
   color: var(--green);
 }
 
-.stageNote {
-  margin: 0;
-  font-family: var(--f-hand);
-  font-weight: 600;
-  font-size: 18px;
-  color: var(--ink-2);
-}
-
 .controlNote {
   margin: 4px 0 0;
   font-family: var(--f-body);
@@ -190,7 +182,6 @@
   padding: 2px 4px;
   border-radius: 3px;
 }
-
 
 .partNote {
   font-family: var(--f-hand);
@@ -441,12 +432,6 @@
 
 .formula span {
   color: var(--ink-2);
-}
-
-/* ---------- deploy stepper ---------- */
-.chip {
-  display: inline-block;
-  margin-top: 8px;
 }
 
 /* ---------- symptom table ---------- */

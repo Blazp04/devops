@@ -130,12 +130,6 @@
 }
 
 /* a two-column row of drawings (incident + map) that stacks on narrow pages */
-.pair {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-  gap: 20px;
-  align-items: start;
-}
 
 .semantics {
   display: grid;

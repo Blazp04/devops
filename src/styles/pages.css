@@ -2177,10 +2177,6 @@
   overflow: hidden;
 }
 
-.nb-ref__cell--loose svg {
-  overflow: visible;
-}
-
 .nb-ref__cell figcaption {
   font-family: var(--f-mono);
   font-size: 12.5px;

@@ -55,7 +55,6 @@
   --coffee: rgba(140, 92, 40, 0.22);
   --tab-fill: #f3e6c4;
   --bezel: #3b3730;
-  --laptop: var(--ink-3);
   --torn-paper: #fdfaf2;
   --test-paper: #fffdf7;
   --rule: rgba(60, 110, 200, 0.2);
@@ -121,7 +120,6 @@
   --coffee: rgba(242, 241, 233, 0.13);
   --tab-fill: var(--paper-3);
   --bezel: #1b2420;
-  --laptop: var(--ink-3);
   --torn-paper: #34473e;
   --test-paper: #33463d;
   --rule: rgba(236, 236, 226, 0.12);
@@ -295,20 +293,6 @@
 }
 
 /* ---------- Text primitives ---------- */
-.hand {
-  font-family: var(--f-hand);
-  font-weight: 600;
-  line-height: 1.1;
-}
-
-.print {
-  font-family: var(--f-print);
-}
-
-.mono {
-  font-family: var(--f-mono);
-  font-variant-numeric: tabular-nums;
-}
 
 .svgHand {
   font-family: var(--f-hand);
@@ -856,16 +840,6 @@
   margin: 2px 0 0;
   color: var(--ink);
   text-wrap: balance;
-}
-
-.h3 {
-  font-family: var(--f-display);
-  font-weight: 750;
-  font-stretch: 90%;
-  font-size: 26px;
-  line-height: 1.12;
-  letter-spacing: -0.015em;
-  margin: 0 0 10px;
 }
 
 .lede {

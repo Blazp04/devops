@@ -51,10 +51,6 @@
   color: var(--red);
 }
 
-.ok {
-  color: var(--green);
-}
-
 .beltBox {
   margin: 1.6em 0 2em;
 }

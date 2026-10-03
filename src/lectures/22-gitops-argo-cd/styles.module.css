@@ -42,11 +42,6 @@
   font-weight: 700;
 }
 
-.warn {
-  color: var(--orange);
-  font-weight: 700;
-}
-
 .ctlNote {
   margin: 0.4rem 0 0;
   font-family: var(--f-body);
@@ -60,12 +55,6 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 0.45rem;
-}
-
-.btnRow {
-  display: flex;
-  flex-wrap: wrap;
   gap: 0.45rem;
 }
 
@@ -165,11 +154,6 @@
   color: var(--green);
 }
 
-.diffIgnored {
-  color: var(--ink-3);
-  text-decoration: line-through;
-}
-
 .stepFig {
   width: 100%;
 }
@@ -200,10 +184,6 @@
 
 .tableWrap {
   overflow-x: auto;
-}
-
-.lever {
-  padding: 0.9rem 1rem 1rem;
 }
 
 /* flagship: the drawing stays at the top of its cell (and in view) while the controls column is taller */

@@ -215,13 +215,6 @@ button.mini:focus-visible {
   align-items: center;
 }
 
-.custom {
-  display: grid;
-  gap: 8px;
-  padding: 10px 0 2px;
-  border-top: 1px dashed color-mix(in srgb, var(--ink-3) 45%, transparent);
-}
-
 /* ---------- stats area ---------- */
 .charts {
   display: grid;
@@ -294,7 +287,6 @@ button.mini:focus-visible {
   margin: 0 auto;
 }
 
-
 /* ---------- generic drawing in a figure ---------- */
 .drawing {
   display: block;
@@ -316,21 +308,7 @@ button.mini:focus-visible {
   margin-top: 12px;
 }
 
-.score {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 18px;
-  font-family: var(--f-mono);
-  font-size: 14px;
-  color: var(--ink-2);
-}
-
 /* ---------- capacity explorer ---------- */
-.capGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 16px;
-}
 
 .capControls {
   display: grid;
@@ -443,7 +421,6 @@ button.mini:focus-visible {
   display: grid;
   gap: 6px;
 }
-
 
 /* „4 GB ili 8 GB?” – the check after the prediction */
 .duel {

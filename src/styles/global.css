@@ -150,18 +150,8 @@ h4 {
 }
 
 /* what a character says (Kalam): bubbles and short story beats only */
-.k-print {
-  font-family: var(--f-print);
-  line-height: 1.35;
-}
 
 /* printed zine headings */
-.k-display {
-  font-family: var(--f-display);
-  font-weight: 800;
-  font-stretch: 88%;
-  letter-spacing: -0.015em;
-}
 
 /* ---------- Prose: long-form lecture text (Newsreader) ---------- */
 .prose {
@@ -280,19 +270,9 @@ h4 {
 }
 
 /* graph paper */
-.grid-bg {
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 22px 22px;
-}
 
 .mono {
   font-family: var(--f-mono);
-  font-variant-numeric: tabular-nums;
-}
-
-.tabular {
   font-variant-numeric: tabular-nums;
 }
 

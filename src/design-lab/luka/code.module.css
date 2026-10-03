@@ -90,40 +90,6 @@
 :global([data-theme='dark']) .codePanel {
   border-color: #000;
 }
-.fileTag {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 16px 6px 30px;
-  background: var(--manila);
-  color: #2a2010;
-  font-family: var(--f-mono);
-  font-weight: 600;
-  font-size: 14px;
-  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
-  padding-right: 26px;
-}
-.fileTag i {
-  position: absolute;
-  left: 11px;
-  top: 50%;
-  width: 9px;
-  height: 9px;
-  margin-top: -4.5px;
-  border-radius: 50%;
-  background: var(--code-bg);
-  box-shadow: 0 0 0 2px #b99a55;
-}
-.meta {
-  font-family: var(--f-label);
-  font-weight: 800;
-  font-size: 15px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  margin-right: auto;
-}
 .copy,
 .expand {
   display: inline-flex;

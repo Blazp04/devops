@@ -171,10 +171,6 @@
   color: var(--ink);
 }
 
-.rsCardNew {
-  composes: rsCard;
-}
-
 /* fence calculator */
 .calc {
   display: grid;

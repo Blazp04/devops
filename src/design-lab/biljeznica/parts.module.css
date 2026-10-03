@@ -865,15 +865,6 @@
   line-height: 1.2;
 }
 
-.srOnly {
-  position: absolute !important;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-}
-
 @media (max-width: 760px) {
   .test {
     margin: 0 -8px;

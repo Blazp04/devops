@@ -429,9 +429,6 @@
 }
 
 /* lets a numeral bleed off the section's top edge */
-.secClip {
-  overflow: clip;
-}
 
 /* §03 follows the blue centrefold: no rule, no tab — its yellow numeral rises into the bottom of the blue
    spread and overprints it (yellow × blue = a green mix), the way a riso plate would */

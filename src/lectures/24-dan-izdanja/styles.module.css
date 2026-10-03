@@ -805,13 +805,6 @@
   font-size: 17px;
 }
 
-.graphHead {
-  font-family: var(--f-ui);
-  font-weight: 800;
-  font-size: 15px;
-  color: var(--ink);
-}
-
 .graphNo {
   font-family: var(--f-mono);
   font-size: 13px;
