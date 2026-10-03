@@ -1,0 +1,401 @@
+/* ==========================================================================
+   Kit · doodles (characters, things, paper, section props, small doodles).
+   Owned by the foundation. Class prefix: k-
+   ========================================================================== */
+
+/* ---------- SVG parts ---------- */
+.k-tray-body {
+  fill: var(--tray);
+  stroke: var(--ink);
+  stroke-width: 1.1;
+  stroke-linejoin: round;
+}
+
+.k-tray-plate,
+.k-tray-cup {
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 0.8;
+}
+
+.k-tray-dot {
+  fill: var(--tray);
+  stroke: var(--ink);
+  stroke-width: 1;
+}
+
+.k-hatch-line {
+  stroke: var(--ink);
+  stroke-width: 1.1;
+  opacity: 0.75;
+}
+
+.k-eye-white {
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 1.4;
+}
+
+.k-brain-fill {
+  fill: var(--hl-pink-ink);
+  opacity: 0.55;
+}
+
+.k-plate {
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.k-plate-rim {
+  fill: none;
+  stroke: var(--ink-3);
+  stroke-width: 0.9;
+}
+
+.k-food {
+  fill: var(--food);
+}
+
+.k-seal-dot {
+  fill: none;
+  stroke: var(--paper);
+  stroke-width: 1;
+  opacity: 0.7;
+}
+
+.k-face-bg {
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 1.1;
+}
+
+.k-pending {
+  opacity: 0.72;
+}
+
+/* version tape on a lunchbox: v1 blue, v2 green */
+.k-vtape {
+  opacity: 0.9;
+}
+.k-vtape--v1 {
+  fill: var(--tape-v1);
+}
+.k-vtape--v2 {
+  fill: var(--tape-v2);
+}
+
+.k-vtape-text {
+  font-family: var(--f-mono);
+  font-weight: 600;
+  fill: var(--note-ink);
+}
+
+.k-laptop-screen {
+  fill: var(--term-bg);
+}
+
+.k-laptop-cam {
+  fill: var(--term-dim);
+}
+
+.k-laptop-sticker {
+  fill: var(--note-yellow);
+}
+
+.k-svg-stamp-bg {
+  fill: var(--paper);
+  stroke-width: 2.4;
+  opacity: 0.94;
+}
+
+.k-svg-stamp {
+  font-family: var(--f-display);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.k-coffee {
+  opacity: 0.9;
+}
+
+/* the redar's pointing arm rotates around the shoulder */
+.k-redar-arm {
+  transform-box: view-box;
+  transform-origin: 0 0;
+  transition: transform 0.16s ease-out;
+}
+
+.k-redar-arm--slow {
+  transition: transform 0.6s cubic-bezier(0.5, 0, 0.3, 1);
+}
+
+/* state you can see on a body: an impatient foot, a panicking face, a buzzing pager */
+.k-tap {
+  transform-box: fill-box;
+  transform-origin: 0% 100%;
+  animation: k-tap 0.42s ease-in-out 12 alternate; /* ~5 s, then still (WCAG 2.2.2) */
+}
+
+@keyframes k-tap {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-16deg);
+  }
+}
+
+.k-shake {
+  animation: k-shake 0.28s steps(2, jump-none) 18; /* ~5 s per state change, then still */
+}
+
+.k-buzz {
+  animation: k-shake 0.14s steps(2, jump-none) 36; /* ~5 s per event, then still */
+}
+
+@keyframes k-shake {
+  0% {
+    transform: translate(-0.8px, 0.3px);
+  }
+  100% {
+    transform: translate(0.8px, -0.3px);
+  }
+}
+
+/* ---------- Mark: highlighter swipe behind words ---------- */
+.k-mark {
+  --mw: 0%;
+  --mh: 64%;
+  background-image: linear-gradient(100deg, transparent 0.12em, var(--hl) 0.25em, var(--hl) calc(100% - 0.3em), transparent calc(100% - 0.08em));
+  background-repeat: no-repeat;
+  background-position: 0 72%;
+  background-size: var(--mw) var(--mh);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0 0.18em;
+  margin: 0 -0.08em;
+  border-radius: 0.2em 0.6em 0.3em 0.7em;
+  transition: background-size 0.65s cubic-bezier(0.5, 0, 0.3, 1) 0.15s;
+}
+
+.k-mark[data-on] {
+  --mw: 100%;
+}
+
+.k-mark[data-c='yellow'] {
+  --hl: var(--hl-yellow);
+}
+.k-mark[data-c='pink'] {
+  --hl: var(--hl-pink);
+}
+.k-mark[data-c='green'] {
+  --hl: var(--hl-green);
+}
+.k-mark[data-c='blue'] {
+  --hl: var(--hl-blue);
+}
+.k-mark[data-c='orange'] {
+  --hl: var(--hl-orange);
+}
+
+/* on the board: the side of a coloured chalk stick dragged under the word */
+:root[data-theme='dark'] .k-mark {
+  --mh: 0.34em;
+  background-image: repeating-linear-gradient(-64deg, var(--hl) 0 2.4px, transparent 2.4px 4.2px);
+  background-position: 0.1em 100%;
+  padding-bottom: 0.14em;
+}
+
+/* ---------- Tape (paper) / magnet (board) ---------- */
+.k-tape {
+  position: absolute;
+  width: 88px;
+  height: 24px;
+  background:
+    repeating-linear-gradient(45deg, var(--tape-b) 0 6px, transparent 6px 12px),
+    var(--tape-a);
+  opacity: 0.92;
+  clip-path: polygon(2% 8%, 6% 0, 12% 10%, 18% 2%, 24% 9%, 30% 1%, 36% 8%, 42% 0, 48% 9%, 54% 2%, 60% 9%, 66% 1%, 72% 8%, 78% 0, 84% 10%, 90% 2%, 96% 9%, 100% 3%, 98% 92%, 94% 100%, 88% 91%, 82% 99%, 76% 90%, 70% 100%, 64% 92%, 58% 99%, 52% 91%, 46% 100%, 40% 92%, 34% 99%, 28% 90%, 22% 100%, 16% 92%, 10% 99%, 4% 90%, 0 97%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.k-tape[data-c='blue'] {
+  --tape-a: var(--tape-c);
+}
+
+.k-tape[data-c='green'] {
+  --tape-a: var(--tape-g);
+}
+
+:root[data-theme='dark'] .k-tape {
+  width: 22px;
+  height: 22px;
+  margin-left: -11px !important;
+  border-radius: 50%;
+  clip-path: none;
+  background: radial-gradient(circle at 35% 30%, #ff9d8a, #c4402f 60%, #7d2219);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+  opacity: 1;
+  transform: none !important;
+}
+
+:root[data-theme='dark'] .k-tape[data-c='blue'] {
+  background: radial-gradient(circle at 35% 30%, #a9d4ff, #3d79c4 60%, #1f4373);
+}
+
+:root[data-theme='dark'] .k-tape[data-c='green'] {
+  background: radial-gradient(circle at 35% 30%, #b8f0c0, #3f9a55 60%, #1d5a2c);
+}
+
+/* ---------- Sticky note ---------- */
+.k-note {
+  /* a sticky note is always light paper with dark "paper" pens, in both themes */
+  --ink: #2a251a;
+  --ink-2: #4a4232;
+  --ink-3: #6a5f49;
+  --ink-4: #7d7158;
+  --pen: #1d3f9c;
+  --red: #b3271f;
+  --green: #1b6e3e;
+  /* coloured pencils on light paper (≥ 4.5:1 on every note colour) */
+  --orange: #7d3c05;
+  --violet: #5e3ca8;
+  --teal: #0a5a53;
+  --amber: #654800;
+  --rose: #962148;
+  --cyan: #0c566f;
+  --hl-yellow-ink: #e4b400;
+  --hl-pink-ink: #e2588a;
+  --hl-green-ink: #2ea866;
+  --hl-blue-ink: #3b79de;
+  --hl-orange-ink: #ee8722;
+  --hl-lilac-ink: #9a7ad8;
+  --vest-stripe: #8f9aa6;
+  --food: #d9662f;
+  --paper: var(--note-yellow);
+  /* wells on the note (inline code, insets) are the note's paper, a little darker — never the board's slate */
+  --paper-2: color-mix(in srgb, var(--paper) 86%, #6a5f49);
+  --paper-3: color-mix(in srgb, var(--paper) 78%, #6a5f49);
+  position: relative;
+  background: var(--paper);
+  color: var(--note-ink);
+  padding: 24px 24px 22px;
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.08),
+    0 12px 18px -10px var(--shadow-c),
+    inset 0 -18px 24px -22px rgba(80, 60, 0, 0.35);
+}
+
+.k-note[data-c='pink'] {
+  --paper: var(--note-pink);
+}
+.k-note[data-c='green'] {
+  --paper: var(--note-green);
+}
+.k-note[data-c='blue'] {
+  --paper: var(--note-blue);
+}
+.k-note[data-c='orange'] {
+  --paper: var(--note-orange);
+}
+.k-note[data-c='lilac'] {
+  --paper: var(--note-lilac);
+}
+
+.k-note ::selection {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* pinned on the board: above the chalk dust, stays clean */
+:root[data-theme='dark'] .k-note {
+  z-index: 5;
+}
+
+/* the board's sticky notes are dimmer paper: their pens are a little darker so they keep ≥ 5:1 */
+:root[data-theme='dark'] :is(.k-note, .k-card) {
+  --red: #921d16;
+  --green: #145a32;
+  --ink-3: #564c39;
+  --ink-4: #62583f;
+  --orange: #743704;
+  --violet: #523494;
+  --teal: #08524c;
+  --amber: #5c4200;
+  --rose: #8a1e42;
+  --cyan: #0a4f66;
+}
+
+/* ---------- Rubber stamp ---------- */
+.k-stamp {
+  --st: var(--green);
+  display: inline-block;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 13px;
+  line-height: 1.2;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--st);
+  border: 2.4px solid var(--st);
+  padding: 3px 8px 2px;
+  border-radius: 3px;
+  opacity: 0.85;
+  -webkit-mask-image: radial-gradient(circle at 30% 40%, #000 55%, rgba(0, 0, 0, 0.55) 100%);
+  mask-image: radial-gradient(circle at 30% 40%, #000 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.k-stamp[data-tone='red'] {
+  --st: var(--red);
+}
+.k-stamp[data-tone='pen'] {
+  --st: var(--pen);
+}
+.k-stamp[data-tone='ink'] {
+  --st: var(--ink);
+}
+
+/* ---------- Margin doodles ---------- */
+.k-margin-doodle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  line-height: 0;
+}
+
+.k-margin-doodle svg {
+  overflow: visible;
+}
+
+.k-margin-doodle[data-kind='coffee'] {
+  transform: rotate(18deg);
+}
+
+@media (max-width: 760px) {
+  .k-margin-doodle[data-kind='peek'],
+  .k-margin-doodle[data-kind='stars'] {
+    display: none;
+  }
+  .k-margin-doodle[data-kind='coffee'] svg {
+    width: 84px;
+    height: 84px;
+  }
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .k-shake,
+  .k-tap,
+  .k-buzz {
+    animation: none;
+  }
+  .k-mark {
+    --mw: 100%;
+    transition: none;
+  }
+  .k-redar-arm {
+    transition: none;
+  }
+}

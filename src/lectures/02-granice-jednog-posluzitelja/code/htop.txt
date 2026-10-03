@@ -1,0 +1,13 @@
+  0[|||||                       16.1%]   Tasks: 38, 52 thr; 1 running
+  1[|||||                       17.9%]   Load average: 0.36 0.29 0.22
+Mem[||||||||||||||||||||||1.74G/1.92G]   Uptime: 3 days, 02:11:48
+Swp[                           0K/0K]
+
+  PID USER   PRI NI  VIRT   RES   SHR S CPU% MEM%  Command
+  811 klopa   20  0  402M  257M 14.2M S  6.1 13.1  gunicorn: worker [klopa.wsgi]
+  812 klopa   20  0  402M  256M 14.1M S  5.4 13.0  gunicorn: worker [klopa.wsgi]
+  813 klopa   20  0  402M  256M 14.1M S  5.9 13.0  gunicorn: worker [klopa.wsgi]
+  814 klopa   20  0  401M  255M 14.0M S  5.2 12.9  gunicorn: worker [klopa.wsgi]
+  815 klopa   20  0  402M  256M 14.1M S  5.8 13.0  gunicorn: worker [klopa.wsgi]
+  816 klopa   20  0  402M  256M 14.2M R  5.6 13.0  gunicorn: worker [klopa.wsgi]
+  790 klopa   20  0 62.1M 31.0M 10.2M S  0.0  1.6  gunicorn: master [klopa.wsgi]

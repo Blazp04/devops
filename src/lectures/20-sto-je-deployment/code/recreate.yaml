@@ -1,0 +1,4 @@
+# Ugrađena strategija 2: Recreate. Isti Deployment, drukčiji je samo blok strategy.
+spec:
+  strategy:
+    type: Recreate   # najprije ugasi sve stare Podove, tek onda pokreni nove

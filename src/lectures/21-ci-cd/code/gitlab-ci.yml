@@ -1,0 +1,39 @@
+# .gitlab-ci.yml – isti pipeline: faze idu redom, poslovi u istoj fazi istodobno
+stages: [test, build]
+
+variables:
+  IMAGE: $CI_REGISTRY_IMAGE/klopa-api     # registar ovog GitLab projekta
+
+lint:
+  stage: test
+  image: python:3.13-slim
+  script:
+    - pip install -r requirements-dev.txt   # ruff prikvačen u requirements-dev.txt
+    - ruff check .
+
+pytest:
+  stage: test                             # ista faza kao lint → istodobno
+  image: python:3.13-slim
+  variables:
+    PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
+  cache:
+    key:
+      files: [requirements.txt]           # nova predmemorija tek kad se ovisnosti promijene
+    paths: [.cache/pip]
+  script:
+    - pip install -r requirements.txt
+    - pytest -q
+
+build-push:
+  stage: build                            # tek kad cijela faza test prođe
+  image: docker:29
+  services: [docker:29-dind]
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    # lozinka registra vrijedi samo dok ovaj posao radi
+    - printf '%s' "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+    - docker buildx build --push --metadata-file build.json -t "$IMAGE:$CI_COMMIT_SHORT_SHA" .
+    - grep -o '"containerimage.digest": *"[^"]*"' build.json

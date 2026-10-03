@@ -1,0 +1,14 @@
+# deployment.yaml klopa-api (isječak): bez ovoga HPA ne zna što je 50 %
+spec:
+  template:
+    spec:
+      containers:
+        - name: api
+          image: registry.klopa.example/klopa-api:1.4.0
+          resources:
+            requests:
+              cpu: 500m        # 100 % iskorištenosti za HPA (izmjereno pod opterećenjem)
+              memory: 384Mi
+            limits:
+              memory: 512Mi    # iz prošlog predavanja: zaštita od curenja
+              cpu: "1"         # novo: 1000m, Pod može do 200 %

@@ -1,0 +1,368 @@
+/*
+ * Design tokens — "Bilježnica" (src/design-lab/biljeznica/README.md is the design bible).
+ * Light = warm paper on a kraft desk; dark = a slate chalkboard on the wall (a material, not an inversion).
+ * Colours mean what the pencil case means: graphite = text, pen blue = links / interaction / health checks,
+ * red pencil = errors / myths / corrections, green = success / Running, markers = what to remember,
+ * tray orange = a request in flight.
+ *
+ * Lecture authors: use var(--…) tokens, never raw hex. The OLD names (--text, --surface, --accent, --ok, --bad,
+ * --request, --blue…) still work: they are aliases at the bottom of this file, mapped onto the new palette.
+ */
+:root {
+  /* ---------- type ---------- */
+  --f-display: 'Bricolage Grotesque Variable', 'Arial Narrow', system-ui, sans-serif; /* headings, labels in drawings */
+  --f-ui: 'Bricolage Grotesque Variable', system-ui, -apple-system, 'Segoe UI', sans-serif; /* buttons, tabs, UI */
+  --f-body: 'Newsreader Variable', Georgia, 'Times New Roman', serif; /* lecture text */
+  --f-hand: 'Caveat Variable', 'Comic Sans MS', cursive; /* margin notes, kickers, labels in drawings (≥ 17 px) */
+  --f-print: 'Kalam', 'Caveat Variable', cursive; /* what characters SAY (bubbles, story beats; ≥ 18 px) */
+  --f-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; /* code, terminal, metrics */
+
+  --radius-xs: 3px;
+  --radius-sm: 4px;
+  --radius: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  --content-width: 720px;
+  --wide-width: 1120px;
+  /* room kept free at the top when jumping to an anchor (sticky lecture bar on narrow screens) */
+  --header-height: 56px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-pen: cubic-bezier(0.4, 0, 0.3, 1);
+
+  /* ---------- textures (paper grain, kraft desk) ---------- */
+  --texture: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.36  0 0 0 0 0.27  0 0 0 0 0.12  0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  --desk-texture: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.3  0 0 0 0 0.2  0 0 0 0 0.08  0 0 0 0.28 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  --eraser: none;
+  --chalk-grain: none;
+  --chalk-mask: none;
+}
+
+/* =====================================================================
+   Paper (light)
+   ===================================================================== */
+:root,
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --desk: #c9b38c; /* kraft desk behind the sheet */
+  --frame: transparent; /* the board's wooden frame (dark only) */
+  --paper: #fbf6ea; /* the sheet */
+  --paper-2: #f4ecda; /* inserts, graph paper, wells */
+  --paper-3: #e9dcc0; /* pressed / darker paper */
+  --grid-dot: rgba(33, 72, 176, 0.2); /* dotted page */
+  --grid-line: rgba(33, 72, 176, 0.1); /* graph-paper lines */
+  --margin-line: rgba(214, 72, 64, 0.55); /* the red margin */
+  --rule: rgba(60, 110, 200, 0.2); /* ruled lines (exam sheet) */
+
+  --ink: #26231d; /* graphite: text, drawing lines (14.5:1) */
+  --ink-2: #4b4538; /* secondary text (8.8:1) */
+  --ink-3: #6f6551; /* helper lines, labels (5.3:1) */
+  --ink-4: #857a63; /* faint: hints, line numbers (3.9:1, never body text) */
+  --pen: #2148b0; /* blue ballpoint: links, selected, interaction, health checks (7.4:1) */
+  --red: #b5271f; /* red pencil: errors, myths, ✗, kickers (≥ 5:1 on paper and paper-2) */
+  --green: #176b3b; /* success, ✓, Running (≥ 5:1 on paper and paper-2) */
+
+  /* coloured pencils for text/lines (≥ 5:1 on paper) */
+  --orange: #944909; /* warnings, OutOfSync */
+  --amber: #785600; /* ochre */
+  --violet: #6a45b5;
+  --teal: #0d6d65;
+  --rose: #b42c5e;
+  --cyan: #11698a;
+
+  /* markers: translucent, swiped over words */
+  --hl-yellow: rgba(255, 219, 40, 0.62);
+  --hl-pink: rgba(255, 120, 166, 0.42);
+  --hl-green: rgba(90, 210, 128, 0.42);
+  --hl-blue: rgba(96, 176, 255, 0.38);
+  --hl-orange: rgba(255, 160, 56, 0.48);
+  /* marker ink for hatching inside drawings (shirts, boxes, bars) */
+  --hl-yellow-ink: #e4b400;
+  --hl-pink-ink: #e2588a;
+  --hl-green-ink: #2ea866;
+  --hl-blue-ink: #3b79de;
+  --hl-orange-ink: #ee8722;
+  --hl-lilac-ink: #9a7ad8;
+
+  --tray: #f3a43c; /* the tray = a request (fill) */
+  --tray-ink: #974f0e; /* request lines / dots / labels (≥ 5:1) */
+  --food: #d9662f; /* food on a plate = RAM in use */
+  --vest-stripe: #8f9aa6;
+
+  /* sticky notes (always dark text --note-ink) and module index tabs */
+  --note-yellow: #fde89c;
+  --note-pink: #fbd0dd;
+  --note-green: #d2efdb;
+  --note-blue: #d5e5fa;
+  --note-orange: #fcd6ad;
+  --note-lilac: #e4d8f6;
+  --note-ink: #2a251a;
+  --tab-fill: #f3e6c4;
+
+  /* tape: a = red washi, b = stripes, c = blue, g = green; app versions v1 = blue tape, v2 = green tape */
+  --tape-a: rgba(232, 128, 98, 0.62);
+  --tape-b: rgba(255, 236, 214, 0.5);
+  --tape-c: rgba(92, 160, 200, 0.55);
+  --tape-g: rgba(110, 180, 120, 0.6);
+  --tape-v1: #8fb6e8;
+  --tape-v2: #93d4a4;
+
+  --shadow-c: rgba(70, 48, 12, 0.22); /* shadow colour of paper on the desk */
+  --coffee: rgba(140, 92, 40, 0.22);
+  --bezel: #3b3730;
+  --torn-paper: #fdfaf2;
+  --test-paper: #fffdf7;
+
+  /* code sheet (graph paper) and Lana's laptop screen */
+  --code-paper: #fffdf6;
+  --code-fg: var(--ink);
+  --code-key: #2148b0; /* YAML keys, properties, tags */
+  --code-keyword: #6a45b5; /* keywords, instructions (FROM, RUN) */
+  --code-string: #1b7a44;
+  --code-number: #c92e26; /* numbers, constants, booleans */
+  --code-comment: #6f6551;
+  --code-punct: #6f6551;
+  --code-fn: #2148b0;
+  --code-param: #a8520b;
+  --term-bg: #1e1d1a;
+  --term-ink: #ece5d3;
+  --term-dim: #9b9482;
+  --term-prompt: #f3c76b;
+  --term-ok: #8fe0a0;
+  --term-bad: #ff8f80;
+  --term-pen: #9cc8f4;
+}
+
+/* =====================================================================
+   Chalkboard (dark) — slate, chalk, a wooden frame, eraser smears
+   ===================================================================== */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --desk: #141a17; /* the wall */
+  --frame: #7a5634; /* wooden frame */
+  --paper: #2f4138; /* slate */
+  --paper-2: #36493f;
+  --paper-3: #3f5449;
+  --grid-dot: rgba(236, 236, 226, 0.11);
+  --grid-line: rgba(236, 236, 226, 0.085);
+  --margin-line: rgba(255, 150, 130, 0.34);
+  --rule: rgba(236, 236, 226, 0.12);
+
+  --ink: #f2f1e9; /* chalk (9.6:1) */
+  --ink-2: #d7ddd4; /* (7.9:1) */
+  --ink-3: #bcc7bd; /* (≥ 4.5:1 on the smeared board) */
+  --ink-4: #a3afa5; /* faint */
+  --pen: #a8d0f7; /* blue chalk */
+  --red: #ffb09f;
+  --green: #a8e9b2;
+
+  --orange: #f9c590;
+  --amber: #f3dc6c;
+  --violet: #cdbcf3;
+  --teal: #8fe0d2;
+  --rose: #f4a3bf;
+  --cyan: #9cd6ec;
+
+  /* coloured chalk (opaque-ish), side-stroked under words */
+  --hl-yellow: rgba(244, 221, 104, 0.82);
+  --hl-pink: rgba(246, 160, 190, 0.8);
+  --hl-green: rgba(160, 226, 170, 0.78);
+  --hl-blue: rgba(156, 200, 244, 0.8);
+  --hl-orange: rgba(248, 184, 120, 0.8);
+  --hl-yellow-ink: #f3dc6c;
+  --hl-pink-ink: #f4a3bf;
+  --hl-green-ink: #9fe0aa;
+  --hl-blue-ink: #9cc8f4;
+  --hl-orange-ink: #f7b878;
+  --hl-lilac-ink: #cdbcf3;
+
+  --tray: #f2b862;
+  --tray-ink: #f6c27a;
+  --food: #f39463;
+  --vest-stripe: #eef0ea;
+
+  --note-yellow: #e8d88f;
+  --note-pink: #e9c1cf;
+  --note-green: #c2dfc9;
+  --note-blue: #c6d7ec;
+  --note-orange: #ebc9a3;
+  --note-lilac: #d3c7e6;
+  --note-ink: #252117;
+  --tab-fill: var(--paper-3);
+
+  --tape-a: rgba(214, 134, 108, 0.85);
+  --tape-b: rgba(255, 230, 210, 0.35);
+  --tape-c: rgba(120, 170, 220, 0.8);
+  --tape-g: rgba(130, 200, 140, 0.8);
+  --tape-v1: #9cc8f4;
+  --tape-v2: #9fe0aa;
+
+  --shadow-c: rgba(0, 0, 0, 0.45);
+  --coffee: rgba(242, 241, 233, 0.13);
+  --bezel: #1b2420;
+  --torn-paper: #34473e;
+  --test-paper: #33463d;
+
+  --code-paper: #2a3b33;
+  --code-fg: var(--ink);
+  --code-key: #a8d0f7;
+  --code-keyword: #cdbcf3;
+  --code-string: #a8e9b2;
+  --code-number: #ff9b87;
+  --code-comment: #aab6ac;
+  --code-punct: #aab6ac;
+  --code-fn: #a8d0f7;
+  --code-param: #f7b878;
+  --term-bg: #0f1613;
+  --term-ink: #e3e9df;
+  --term-dim: #8d998f;
+  --term-prompt: #f3c76b;
+  --term-ok: #8fe0a0;
+  --term-bad: #ff8f80;
+  --term-pen: #9cc8f4;
+
+  /* chalk: slate grain, eraser swirls, grainy lettering */
+  --texture: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.065 -0.012'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  --eraser: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1300' height='1500'><filter id='b' x='-20%25' y='-20%25' width='140%25' height='140%25'><feGaussianBlur stdDeviation='22'/></filter><g fill='none' stroke='white' stroke-linecap='round' filter='url(%23b)'><path stroke-opacity='.075' stroke-width='110' d='M60 240 C 280 90 600 120 760 280 S 1020 520 1180 360'/><path stroke-opacity='.06' stroke-width='80' d='M120 930 C 330 780 520 1040 840 880 S 1120 760 1240 900'/><path stroke-opacity='.05' stroke-width='130' d='M860 1240 C 1010 1120 1180 1260 1120 1420'/><path stroke-opacity='.045' stroke-width='60' d='M180 560 q 170 -90 340 0 t 340 0 t 300 -40'/><path stroke-opacity='.05' stroke-width='90' d='M40 1360 C 200 1260 380 1420 560 1330'/></g></svg>");
+  --chalk-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.25' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.184  0 0 0 0 0.255  0 0 0 0 0.22  10 0 0 0 -6.7'/></filter><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='1' seed='11' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 3 0 0 -2.05'/></filter><rect width='100%' height='100%' filter='url(%23n)'/><rect width='100%' height='100%' filter='url(%23d)' opacity='.09'/></svg>");
+  --chalk-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -6 0 0 0 4.5'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  --desk-texture: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* =====================================================================
+   Alias layer: the OLD token names, mapped onto the notebook palette.
+   Declared on :root AND on every element that re-pens the base tokens
+   (sticky notes `.k-note`, or any element with `.k-retone`), because a
+   custom property that references another is resolved where it is
+   declared — so the aliases follow the local ink inside a sticky note.
+   ===================================================================== */
+:root,
+.k-note,
+.k-retone {
+  --font-sans: var(--f-ui);
+  --font-mono: var(--f-mono);
+  --font-body: var(--f-body);
+
+  --bg: var(--paper); /* surfaces inside the sheet are paper (the desk is --desk) */
+  --bg-elevated: var(--paper);
+  --surface: var(--paper);
+  --surface-2: var(--paper-2);
+  --surface-3: var(--paper-3);
+  --border: color-mix(in srgb, var(--ink-3) 38%, transparent); /* light pencil line */
+  --border-strong: var(--ink-3);
+  --text: var(--ink);
+  --text-2: var(--ink-2);
+  --muted: var(--ink-3);
+  --faint: var(--ink-4);
+
+  --accent: var(--pen);
+  --accent-strong: var(--pen);
+  --accent-soft: color-mix(in srgb, var(--pen) 12%, transparent);
+  --accent-contrast: var(--paper);
+  --k8s: var(--pen);
+
+  --blue: var(--pen);
+  /* --violet --teal --amber --rose --green --cyan --orange: defined per theme above (coloured pencils) */
+  --blue-soft: color-mix(in srgb, var(--pen) 12%, transparent);
+  --violet-soft: color-mix(in srgb, var(--violet) 13%, transparent);
+  --teal-soft: color-mix(in srgb, var(--teal) 13%, transparent);
+  --amber-soft: color-mix(in srgb, var(--amber) 14%, transparent);
+  --rose-soft: color-mix(in srgb, var(--rose) 12%, transparent);
+  --green-soft: color-mix(in srgb, var(--green) 13%, transparent);
+  --cyan-soft: color-mix(in srgb, var(--cyan) 13%, transparent);
+  --orange-soft: color-mix(in srgb, var(--orange) 13%, transparent);
+
+  /* semantic simulation colours */
+  --ok: var(--green);
+  --ok-soft: var(--green-soft);
+  --warn: var(--orange);
+  --warn-soft: var(--orange-soft);
+  --bad: var(--red);
+  --bad-soft: color-mix(in srgb, var(--red) 12%, transparent);
+  --idle: var(--ink-4);
+  --request: var(--tray-ink); /* a request = the orange tray (bible); fills of the tray itself use --tray */
+  --response: var(--green);
+
+  --shadow-sm: 0 1px 2px var(--shadow-c);
+  --shadow: 0 1px 2px var(--shadow-c), 0 10px 22px -12px var(--shadow-c);
+  --shadow-lg: 0 2px 4px var(--shadow-c), 0 22px 44px -18px var(--shadow-c);
+
+  --code-bg: var(--code-paper);
+  --code-border: color-mix(in srgb, var(--ink-3) 45%, transparent);
+  --code-highlight: var(--hl-yellow);
+  --terminal-bg: var(--term-bg);
+  --terminal-text: var(--term-ink);
+
+  /* Shiki `css-variables` theme (createCssVariablesTheme) reads these */
+  --shiki-foreground: var(--code-fg);
+  --shiki-background: transparent;
+  --shiki-token-constant: var(--code-number);
+  --shiki-token-string: var(--code-string);
+  --shiki-token-string-expression: var(--code-string);
+  --shiki-token-comment: var(--code-comment);
+  --shiki-token-keyword: var(--code-keyword);
+  --shiki-token-parameter: var(--code-param);
+  --shiki-token-function: var(--code-fn);
+  --shiki-token-punctuation: var(--code-punct);
+  --shiki-token-link: var(--pen);
+  --shiki-token-inserted: var(--green);
+  --shiki-token-deleted: var(--red);
+  --shiki-token-changed: var(--orange);
+}
+
+/* =====================================================================
+   Modules: each module is a coloured index tab of the notebook.
+   <div data-module="m3"> sets --module-tab (paper colour of the tab) and
+   --module-accent (a pencil of the same hue, readable as text).
+   ===================================================================== */
+[data-module='m1'] {
+  --module-tab: var(--note-yellow);
+  --module-accent: var(--amber);
+  --module-ink: var(--hl-yellow-ink);
+}
+[data-module='m2'] {
+  --module-tab: var(--note-pink);
+  --module-accent: var(--rose);
+  --module-ink: var(--hl-pink-ink);
+}
+[data-module='m3'] {
+  --module-tab: var(--note-green);
+  --module-accent: var(--green);
+  --module-ink: var(--hl-green-ink);
+}
+[data-module='m4'] {
+  --module-tab: var(--note-blue);
+  --module-accent: var(--pen);
+  --module-ink: var(--hl-blue-ink);
+}
+[data-module='m5'] {
+  --module-tab: var(--note-orange);
+  --module-accent: var(--orange);
+  --module-ink: var(--hl-orange-ink);
+}
+[data-module='m6'] {
+  --module-tab: var(--note-lilac);
+  --module-accent: var(--violet);
+  --module-ink: var(--hl-lilac-ink);
+}
+
+/* defaults outside a module (home page, glossary) */
+:root {
+  --module-tab: var(--note-yellow);
+  --module-accent: var(--pen);
+  --module-ink: var(--hl-blue-ink);
+}

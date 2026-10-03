@@ -1,0 +1,538 @@
+/* ==========================================================================
+   The cover: title on the left, the poster (printed on yellow stock) on the right,
+   both starting on the first row so the poster's story is above the fold.
+   ========================================================================== */
+.hero {
+  /* the poster fills the viewport height (minus masthead + act strip), but never more than 44vw wide */
+  --posterH: min(calc(100svh - 262px), calc(44vw * 1.2778), 840px);
+  --posterW: calc(var(--posterH) * 0.7826);
+  --title: min(178px, calc((100vw - var(--posterW) - 2 * var(--gutter) - 72px) / 4.5));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--posterW);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'intro figure'
+    'text figure';
+  column-gap: clamp(32px, 4vw, 72px);
+  padding-top: clamp(20px, 2.2vw, 30px);
+  padding-bottom: clamp(56px, 7vw, 112px);
+}
+
+.intro {
+  grid-area: intro;
+  min-width: 0;
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 clamp(14px, 2vw, 30px);
+  font: 600 13px/1.3 var(--f-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-2);
+}
+
+.kickRule {
+  flex: 0 1 96px;
+  height: 0;
+  border-top: 2px solid var(--pink);
+}
+
+/* ---- The title: blue ink with a misregistered pink SCREEN (fixed 14° screen, not em-sized dots) ---- */
+.title {
+  margin: 0;
+  font-family: var(--f-display);
+  font-size: var(--title);
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+  font-weight: 800;
+  font-variation-settings:
+    'opsz' 144,
+    'SOFT' 40,
+    'WONK' 0;
+}
+
+.titleA,
+.titleB {
+  position: relative;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+}
+
+.titleA {
+  color: var(--blue);
+}
+
+.titleA::after,
+.titleB::after {
+  content: attr(data-text) / '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: var(--over);
+}
+
+.titleA::after {
+  color: transparent;
+  background: var(--pink);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-mask-image: var(--screen-50);
+  mask-image: var(--screen-50);
+  -webkit-mask-size: 22px 22px;
+  mask-size: 22px 22px;
+  transform: translate(0.028em, 0.022em);
+  opacity: var(--title-screen, 1);
+}
+
+.titleB {
+  color: var(--pink);
+  font-style: italic;
+  font-weight: 500;
+  font-variation-settings:
+    'opsz' 144,
+    'SOFT' 100,
+    'WONK' 1;
+  padding-left: 0.05em;
+  margin-top: 0.03em;
+}
+
+.titleB::after {
+  color: var(--yellow);
+  transform: translate(-0.03em, 0.03em);
+}
+
+/* ---- Text column ---- */
+.text {
+  grid-area: text;
+  align-self: start;
+  max-width: 600px;
+  padding-top: clamp(22px, 2.6vw, 40px);
+}
+
+.tagline {
+  margin: 0 0 18px;
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: clamp(24px, 2.3vw, 33px);
+  line-height: 1.16;
+  font-weight: 450;
+  font-variation-settings:
+    'opsz' 72,
+    'SOFT' 50,
+    'WONK' 1;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.lede {
+  margin: 0 0 30px;
+  font-size: var(--body);
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 34em;
+}
+
+/* One flat block of black drum with the arrow printed in the pink plate. On hover the pink plate slides out
+   from under the block (a second impression) and the arrow moves on; on press the plates register. */
+.cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 22px 16px 24px;
+  font: 700 18px/1 var(--f-ui);
+  letter-spacing: 0.01em;
+  color: var(--on-ink);
+  background: var(--ink);
+  text-decoration: none;
+  transition:
+    transform 0.2s var(--ease),
+    box-shadow 0.2s var(--ease);
+}
+
+.cta svg {
+  fill: none;
+  stroke: var(--pink);
+  stroke-width: 2.6;
+  transition: transform 0.25s var(--ease);
+}
+
+@media (hover: hover) {
+  .cta:hover {
+    text-decoration: none;
+    transform: translate(-3px, -3px);
+    box-shadow: 6px 6px 0 var(--pink);
+  }
+}
+
+.cta:active {
+  transform: none;
+  box-shadow: none;
+}
+
+.cta:hover svg {
+  transform: translateX(5px);
+}
+
+.cta:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 4px;
+}
+
+/* ---- The poster: its own sheet of yellow stock; inks always multiply on it ---- */
+.figure {
+  grid-area: figure;
+  margin: 0;
+  width: var(--posterW);
+  --page-ink: var(--ink);
+  --page-ink-2: var(--ink-2);
+}
+
+.poster {
+  --ink: #1d1b26;
+  --ink-2: #3b3622;
+  --pink: #ff48b0;
+  --blue: #2350c8;
+  --yellow: #ffb511;
+  --knock: #f8f3e8;
+  --paper: #f8f3e8;
+  --over: multiply;
+  --on-yellow: #1d1b26;
+  --pink-text: #b0126c;
+  --blue-text: #1d44ae;
+}
+
+.poster > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.flood {
+  fill: var(--yellow);
+}
+
+.crop {
+  fill: none;
+  stroke: var(--page-ink);
+  stroke-width: 1.2;
+}
+
+.fBlue {
+  fill: var(--blue);
+}
+.fPink {
+  fill: var(--pink);
+}
+.fInk {
+  fill: var(--ink);
+}
+.fKnock {
+  fill: var(--knock);
+}
+.over {
+  mix-blend-mode: var(--over);
+}
+
+.tick {
+  stroke: var(--ink);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.hand {
+  stroke: var(--ink);
+  stroke-width: 6;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.clockLabel {
+  font: 700 26px var(--f-mono);
+  fill: var(--ink);
+}
+
+.caps {
+  font: 700 19px var(--f-ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  fill: var(--ink);
+}
+
+.actNumeral {
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-size: 362px;
+  font-variation-settings:
+    'opsz' 144,
+    'SOFT' 100;
+  letter-spacing: -0.02em;
+  fill: var(--pink);
+}
+
+.plate {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 3;
+}
+
+.barEdge {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 2;
+}
+
+.spoke {
+  stroke: var(--ink);
+  stroke-width: 2.4;
+  stroke-dasharray: 2 8;
+  stroke-linecap: round;
+}
+
+.clusterEdge {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 4;
+}
+
+.node {
+  fill: var(--knock);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.nodeTab {
+  fill: var(--ink);
+}
+
+.nodeLabel {
+  font: 700 20px var(--f-display);
+  fill: var(--knock);
+}
+
+.bus {
+  fill: none;
+  stroke: var(--pink);
+  stroke-width: 5;
+  stroke-linejoin: round;
+  mix-blend-mode: var(--over);
+}
+
+.drop {
+  stroke: var(--pink);
+  stroke-width: 5;
+  mix-blend-mode: var(--over);
+}
+
+.dropIdle {
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-dasharray: 4 5;
+}
+
+.podPending {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 3;
+  stroke-dasharray: 7 5;
+}
+
+.cross {
+  stroke: var(--ink);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.podLabel {
+  font: 700 18px var(--f-ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  fill: var(--ink);
+}
+
+.okRing {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 3;
+}
+
+/* ---- Act strip under the poster ---- */
+.acts {
+  margin-top: 12px;
+}
+
+.actList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 12px;
+}
+
+.actBtn {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 0 10px;
+  border: 0;
+  border-top: 3px solid var(--page-ink);
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.actBtn:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.actN {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 1;
+  font-variation-settings:
+    'opsz' 144,
+    'SOFT' 100;
+  color: var(--ink-3);
+  transition: color 0.3s;
+}
+
+.actBtn[aria-pressed='true'] .actN {
+  color: var(--pink-text);
+}
+
+.actTitle {
+  font: 700 15px/1.2 var(--f-ui);
+}
+
+.actBtn:hover .actTitle {
+  text-decoration: underline;
+  text-decoration-color: var(--yellow);
+  text-decoration-thickness: 5px;
+  text-underline-offset: -1px;
+  text-decoration-skip-ink: none;
+}
+
+.actBar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -3px;
+  height: 3px;
+  overflow: hidden;
+}
+
+.actBar span {
+  display: block;
+  height: 100%;
+  background: var(--pink);
+  transform-origin: left;
+}
+
+.actText {
+  margin: 2px 0 0;
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  font-variation-settings:
+    'opsz' 24,
+    'SOFT' 60,
+    'WONK' 1;
+}
+
+.actTextN {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.pause {
+  margin-left: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: 600 14px/1.3 var(--f-ui);
+  font-style: normal;
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.pause:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* ---- narrower screens: title, then the poster, then the text ---- */
+@media (max-width: 1080px) {
+  .hero {
+    --title: min(150px, 18.5vw);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas:
+      'intro'
+      'figure'
+      'text';
+  }
+  .figure {
+    width: min(100%, 600px);
+    margin-top: clamp(24px, 4vw, 40px);
+  }
+  .text {
+    max-width: 640px;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero {
+    --title: 19.6vw;
+  }
+  .kicker {
+    font-size: 11.5px;
+    gap: 4px 10px;
+    flex-wrap: wrap;
+  }
+  .kickRule {
+    flex-basis: 24px;
+  }
+  .cta {
+    font-size: 17px;
+  }
+  .actList {
+    gap: 0 8px;
+  }
+  .actBtn {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .actTitle {
+    font-size: 14px;
+  }
+  /* the poster prints at ~0.55× on phones: counter-size its labels so they stay ≥ 11 px */
+  .caps {
+    font-size: 23px;
+    letter-spacing: 0.06em;
+  }
+  .podLabel {
+    font-size: 21px;
+    letter-spacing: 0.04em;
+  }
+  .nodeLabel {
+    font-size: 22px;
+  }
+  .clockLabel {
+    font-size: 30px;
+  }
+}

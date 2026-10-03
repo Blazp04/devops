@@ -1,0 +1,67 @@
+# Headless Service: bez ClusterIP-a, DNS vraća IP adrese Podova (db-0.db, db-1.db, …)
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  namespace: klopa
+spec:
+  clusterIP: None
+  selector:
+    app: db
+  ports:
+    - name: postgres
+      port: 5432
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: db
+  namespace: klopa
+spec:
+  serviceName: db                      # → db-0.db.klopa.svc.cluster.local
+  replicas: 1                          # bez replikacije = jedna baza; više replika tek uz operator
+  podManagementPolicy: OrderedReady    # zadano: db-0, pa db-1, pa db-2
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:18
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: klopa-db       # Secret iz 16. predavanja
+                  key: DB_PASSWORD
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "postgres"]
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              memory: 1Gi
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql   # postgres:18+ (PGDATA je <verzija>/docker unutra)
+  volumeClaimTemplates:                # svaki db-N dobiva svoj PVC: data-db-N
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: standard
+        resources:
+          requests:
+            storage: 10Gi
+  persistentVolumeClaimRetentionPolicy:  # zadane vrijednosti: PVC-ovi ostaju
+    whenDeleted: Retain
+    whenScaled: Retain

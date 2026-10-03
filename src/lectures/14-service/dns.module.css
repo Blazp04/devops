@@ -1,0 +1,107 @@
+.box {
+  /* the pencil frame is drawn by RoughBox */
+  padding: 16px 18px 12px;
+  margin: 1.4em 0;
+  background: var(--paper-2);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  margin-bottom: 14px;
+}
+
+.name {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 2px;
+  margin: 6px 0 12px;
+}
+
+.piece {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 4px 8px 3px;
+  border-radius: 3px;
+  min-width: 0;
+}
+
+.pieceText {
+  font-family: var(--f-mono);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--note-ink);
+  word-break: break-all;
+}
+
+.role {
+  font-family: var(--f-hand);
+  font-size: 18px;
+  line-height: 1.1;
+  color: var(--note-ink);
+}
+
+.typed {
+  background: var(--note-yellow);
+  border: 1.5px solid var(--note-ink);
+}
+
+.added {
+  background: var(--note-blue);
+  border: 1.5px dashed var(--note-ink);
+}
+
+.wrong {
+  background: var(--note-pink);
+  border-color: var(--red);
+}
+
+.tries {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  font-size: 17px;
+}
+
+.tries li {
+  margin: 3px 0;
+  overflow-wrap: anywhere;
+}
+
+.tries code {
+  font-size: 14px;
+}
+
+/* the page's inline code (.prose :not(pre) > code) does not wrap; a long FQDN must break on phones */
+.box .tries code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.mark {
+  display: inline-block;
+  width: 1.4em;
+  font-weight: 700;
+}
+
+.ok .mark {
+  color: var(--green);
+}
+
+.nx .mark {
+  color: var(--red);
+}
+
+.nx {
+  color: var(--ink-2);
+}
+
+.answer {
+  margin: 6px 0 0;
+}
+
+.bad {
+  color: var(--red);
+}

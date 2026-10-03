@@ -1,0 +1,293 @@
+/* Lecture 13 – local styles (tokens only; paper and chalkboard both work). */
+
+.err {
+  margin: 0.2rem 0 0.4rem;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--red);
+}
+
+.small {
+  margin: 0.4rem 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.btnRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.kubectl {
+  margin: 0.6rem 0 0;
+  padding: 0.45rem 0.6rem;
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1rem;
+  align-items: start;
+}
+
+.history {
+  margin: 0.6rem 0 0.2rem;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.historyHead {
+  font-size: 13px;
+  color: var(--ink-3);
+  margin-bottom: 0.2rem;
+}
+
+.historyTable {
+  border-collapse: collapse;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.historyTable th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--ink-2);
+  padding: 0.1rem 0.6rem 0.1rem 0;
+}
+
+.historyTable td {
+  padding: 0.1rem 0.6rem 0.1rem 0;
+  white-space: nowrap;
+}
+
+.historyTable td:last-child {
+  white-space: normal;
+}
+
+/* three words: Deployment / postavljanje / izdanje */
+.words {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+  margin: 1.2rem 0 0.4rem;
+}
+
+.word {
+  padding: 0.9rem 1rem 1rem;
+}
+
+.wordHead {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 19px;
+  font-stretch: 85%;
+  color: var(--note-ink);
+}
+
+.wordEn {
+  font-family: var(--f-hand);
+  font-size: 19px;
+  color: var(--note-ink);
+}
+
+.wordText {
+  margin: 0.35rem 0 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--note-ink);
+}
+
+/* change cards (Što stvara novi ReplicaSet?) */
+.changes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.9rem;
+  margin: 0.8rem 0;
+}
+
+.change {
+  padding: 0.7rem 0.85rem 0.85rem;
+}
+
+.changeTitle {
+  font-family: var(--f-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.changeWhat {
+  margin: 0.2rem 0 0.55rem;
+  font-family: var(--f-body);
+  font-size: 17px;
+  font-style: italic;
+  color: var(--ink-2);
+}
+
+.verdict {
+  margin: 0.5rem 0 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.ok {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.bad {
+  color: var(--red);
+  font-weight: 700;
+}
+
+.rsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0.6rem 0 0.2rem;
+}
+
+.rsCard {
+  padding: 0.45rem 0.7rem;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.rsCardNew {
+  composes: rsCard;
+}
+
+/* fence calculator */
+.calc {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem 1.4rem;
+  align-items: start;
+}
+
+.formula {
+  font-family: var(--f-mono);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.fenceTable {
+  border-collapse: collapse;
+  font-family: var(--f-mono);
+  font-size: 14px;
+  margin: 0.6rem 0;
+}
+
+.fenceTable th,
+.fenceTable td {
+  padding: 0.2rem 0.65rem;
+  text-align: center;
+  border-bottom: 1px dashed var(--ink-4);
+}
+
+.fenceTable th {
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.fenceTable td.cur {
+  outline: 2px solid var(--pen);
+  outline-offset: -2px;
+}
+
+/* controller gallery */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 0.8rem 0;
+}
+
+.galleryCard {
+  padding: 0.6rem 0.8rem 0.8rem;
+}
+
+.galleryTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.galleryText {
+  margin: 0.3rem 0 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.served {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+  margin: 0.3rem 0 0;
+}
+
+.chip {
+  display: inline-block;
+  padding: 0.05rem 0.45rem;
+  border: 1px dashed var(--ink-3);
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  white-space: normal;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.tape {
+  display: inline-block;
+  margin: 0 0.3rem 0.2rem 0;
+  padding: 0.05rem 0.5rem;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--note-ink);
+  background: var(--tape-v1);
+}
+
+.tape[data-tone='violet'] {
+  background: var(--note-lilac);
+}
+
+.calcFig {
+  max-width: 420px;
+}
+
+.wordIcon {
+  width: 46px;
+  height: 34px;
+  flex: none;
+}

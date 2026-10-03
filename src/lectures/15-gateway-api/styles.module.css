@@ -1,0 +1,442 @@
+/* Lecture 15 · Gateway API — local styles (tokens only; paper + chalkboard both work through the tokens) */
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.speech {
+  margin: 0;
+  font-family: var(--f-print);
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.note {
+  margin: 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 18px 28px;
+  margin-top: 18px;
+}
+
+/* ---------- YAML on graph paper ---------- */
+.yamlWrap {
+  min-width: 0;
+}
+
+.yamlHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 14px;
+  margin-bottom: 6px;
+}
+
+.yamlFile {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 2px 8px;
+  background: var(--note-yellow);
+  color: var(--note-ink);
+  transform: rotate(-1.2deg);
+  display: inline-block;
+}
+
+.yamlHint {
+  font-family: var(--f-hand);
+  font-size: 18px;
+  color: var(--ink-2);
+}
+
+.litSwatch {
+  display: inline-block;
+  width: 26px;
+  height: 12px;
+  margin-right: 4px;
+  vertical-align: -1px;
+  background: var(--hl-yellow);
+  border-radius: 2px;
+}
+
+/* a narrow drawing never grows past ~460 px (it would only get taller on a tablet) */
+.narrowCap {
+  width: 100%;
+  max-width: 460px;
+  margin-inline: auto;
+}
+
+.yamlBox,
+.snippetBox {
+  padding: 4px;
+  background-color: var(--paper-2);
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--pen) 9%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--pen) 9%, transparent) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+.yaml {
+  position: relative;
+  margin: 0;
+  max-height: 360px;
+  overflow: auto;
+  padding: 8px 10px;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  white-space: pre;
+}
+
+.yaml:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: 2px;
+}
+
+.yl {
+  display: block;
+  padding-left: 6px;
+  border-left: 4px solid transparent;
+  transition: background-color 0.15s linear;
+}
+
+.lit {
+  background: var(--hl-yellow);
+}
+
+/* on the board the marker is a hatched chalk stroke under the words (like the kit's Mark), never a solid fill */
+:global(:root[data-theme='dark']) .lit,
+:global(:root[data-theme='dark']) .winRow td,
+:global(:root[data-theme='dark']) .snippet mark {
+  background: repeating-linear-gradient(-64deg, var(--hl-yellow) 0 2.4px, transparent 2.4px 4.2px) 0 100% / 100% 0.38em no-repeat;
+}
+
+:global(:root[data-theme='dark']) .litSwatch {
+  height: 6px;
+  vertical-align: 1px;
+  border-radius: 0;
+  background: repeating-linear-gradient(-64deg, var(--hl-yellow) 0 2.4px, transparent 2.4px 4.2px);
+}
+
+.ybad {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.ynote {
+  color: var(--ink-2);
+  font-style: italic;
+}
+
+.own_class {
+  border-left-color: var(--hl-yellow-ink);
+}
+
+.own_gw {
+  border-left-color: var(--hl-blue-ink);
+}
+
+.own_route {
+  border-left-color: var(--hl-green-ink);
+}
+
+.own_ingress {
+  border-left-color: transparent;
+}
+
+.ownerChip {
+  display: block;
+  margin: 4px 0 2px;
+  font-family: var(--f-hand);
+  font-size: 18px;
+  line-height: 1.2;
+  white-space: normal;
+  color: var(--ink);
+}
+
+/* ---------- access log ---------- */
+.access {
+  min-width: 0;
+}
+
+.accessHead {
+  font-family: var(--f-hand);
+  font-size: 19px;
+  color: var(--ink-2);
+}
+
+.accessList {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  line-height: 1.45;
+  min-height: calc(5 * 1.45em * 2);
+}
+
+.accessItem {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 8px;
+  padding: 2px 0;
+  border-bottom: 1px dashed color-mix(in srgb, var(--ink-3) 35%, transparent);
+  overflow-wrap: anywhere;
+}
+
+.aReq {
+  color: var(--ink);
+}
+
+.aBeta {
+  color: var(--pen);
+}
+
+.aDec {
+  color: var(--ink-2);
+}
+
+.aOk {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.aWarn {
+  color: var(--orange);
+  font-weight: 600;
+}
+
+.aBad {
+  color: var(--red);
+  font-weight: 600;
+}
+
+/* ---------- rule builder ---------- */
+.builder {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ruleList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ruleCard {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 7px 9px 5px;
+  background: var(--paper);
+  font-family: var(--f-body);
+  font-size: 17px;
+}
+
+.ruleName {
+  font-family: var(--f-hand);
+  font-size: 18px;
+  line-height: 1.1;
+  color: var(--ink-2);
+}
+
+.ruleText {
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.ruleBroken .ruleText {
+  color: var(--red);
+}
+
+.ruleFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px 8px;
+}
+
+.ruleHits {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.ruleBtns {
+  display: flex;
+  gap: 2px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border: 1.5px dashed var(--pen);
+  border-radius: 4px;
+}
+
+.formTitle {
+  font-family: var(--f-hand);
+  font-size: 20px;
+  color: var(--pen);
+}
+
+.formBtns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ---------- smaller explainers ---------- */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.controlsRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 22px;
+}
+
+.readout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: 10px 16px;
+}
+
+.big {
+  font-family: var(--f-mono);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.bigLabel {
+  font-family: var(--f-hand);
+  font-size: 19px;
+  color: var(--ink-2);
+}
+
+.bad {
+  color: var(--red);
+}
+
+.good {
+  color: var(--green);
+}
+
+.matchTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--f-mono);
+  font-size: 13px;
+}
+
+.matchTable th {
+  font-family: var(--f-hand);
+  font-size: 18px;
+  font-weight: 400;
+  text-align: left;
+  color: var(--ink-2);
+  padding: 2px 6px;
+  border-bottom: 1.5px solid color-mix(in srgb, var(--ink-3) 55%, transparent);
+}
+
+.matchTable td {
+  padding: 5px 6px;
+  border-bottom: 1px dashed color-mix(in srgb, var(--ink-3) 35%, transparent);
+  vertical-align: top;
+}
+
+.matchTable td.mark {
+  text-align: center;
+  white-space: nowrap;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.markOk {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.markBad {
+  color: var(--red);
+  font-weight: 700;
+}
+
+.winRow td {
+  background: var(--hl-yellow);
+}
+
+.shadow td {
+  color: var(--ink-3);
+}
+
+.verdict {
+  font-family: var(--f-body);
+  font-size: 17.5px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.roleText {
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.roleText ul {
+  margin: 6px 0 0;
+  padding-left: 1.2em;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 16px 24px;
+  align-items: start;
+}
+
+.snippet {
+  margin: 0;
+  padding: 6px 8px;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre;
+  overflow-x: auto;
+  color: var(--ink);
+}
+
+.snippet mark {
+  background: var(--hl-yellow);
+  color: inherit;
+}

@@ -1,0 +1,367 @@
+/* ---------- Key idea: cores vs RAM (HTML, reflows) ---------- */
+.kv {
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 80px);
+}
+
+.kvCol {
+  min-width: 0;
+}
+
+.kvHead {
+  margin: 0 0 14px;
+  font: 500 15px/1.35 var(--f-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-2);
+}
+
+.kvHead b {
+  display: block;
+  margin-bottom: 2px;
+  font: 700 30px/1.05 var(--f-display);
+  text-transform: none;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  font-variation-settings:
+    'opsz' 72,
+    'SOFT' 50;
+}
+
+.kvBlue {
+  text-decoration: underline;
+  text-decoration-color: var(--blue);
+  text-decoration-thickness: 0.18em;
+  text-underline-offset: 0.1em;
+}
+
+.kvYellow {
+  text-decoration: underline;
+  text-decoration-color: var(--yellow);
+  text-decoration-thickness: 0.22em;
+  text-underline-offset: 0.08em;
+}
+
+.kvCap {
+  margin: 14px 0 0;
+  font: 700 15px/1.4 var(--f-mono);
+  color: var(--ink);
+}
+
+.lanes {
+  display: grid;
+  gap: 10px;
+}
+
+.lane {
+  position: relative;
+  height: 30px;
+  border: 2px solid var(--blue);
+  overflow: hidden;
+}
+
+/* the idle core: a blue screen */
+.lane::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--blue);
+  -webkit-mask-image: var(--screen-30);
+  mask-image: var(--screen-30);
+  -webkit-mask-size: 22px 22px;
+  mask-size: 22px 22px;
+}
+
+.laneFill {
+  position: absolute;
+  inset: 0;
+  background: var(--blue);
+  mix-blend-mode: var(--over);
+  transform-origin: left center;
+  animation: tk-fill 2.2s linear infinite;
+}
+
+.rider {
+  position: absolute;
+  inset: 0;
+  animation: tk-ride 2.2s linear infinite;
+}
+
+.dot {
+  position: absolute;
+  right: -9px;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  border-radius: 50%;
+  background: var(--pink);
+  box-shadow: 3px 2.5px 0 var(--blue);
+}
+
+@keyframes tk-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes tk-ride {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.slots {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 8px;
+  max-width: 420px;
+}
+
+.slotUsed,
+.slotFree {
+  aspect-ratio: 1;
+}
+
+.slotUsed {
+  background: var(--yellow);
+  mix-blend-mode: var(--over);
+}
+
+.slotFree {
+  border: 2px dashed var(--yellow-text);
+}
+
+/* ---------- Menza ---------- */
+.menza {
+  margin: 0;
+}
+
+.menza > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.fYellow {
+  fill: var(--yellow);
+}
+.fBlue {
+  fill: var(--blue);
+}
+.fPink {
+  fill: var(--pink);
+}
+.fInk {
+  fill: var(--ink);
+}
+.over {
+  mix-blend-mode: var(--over);
+}
+
+.wall {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 7;
+  stroke-linejoin: round;
+  stroke-linecap: square;
+}
+
+.route {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-dasharray: 2 8;
+  stroke-linecap: round;
+}
+
+.place {
+  fill: none;
+  stroke: var(--yellow-text);
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+}
+
+.placeUsed {
+  fill: var(--yellow);
+}
+
+.label {
+  font: 600 16px var(--f-ui);
+  letter-spacing: 0.02em;
+  fill: var(--ink);
+}
+
+/* the person at the door points at the counters in turn, in step with the walking students */
+.needleW,
+.needleN {
+  animation-duration: 4.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps(1, end);
+}
+
+.needleW {
+  animation-name: tk-direct-w;
+}
+
+.needleN {
+  animation-name: tk-direct-n;
+}
+
+@keyframes tk-direct-w {
+  0% {
+    rotate: -36deg;
+  }
+  33.33% {
+    rotate: 1deg;
+  }
+  66.66% {
+    rotate: 37deg;
+  }
+}
+
+@keyframes tk-direct-n {
+  0% {
+    rotate: 151deg;
+  }
+  33.33% {
+    rotate: 129deg;
+  }
+  66.66% {
+    rotate: 118deg;
+  }
+}
+
+.key {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  font: 500 15px/1.3 var(--f-ui);
+  color: var(--ink-2);
+}
+
+.key li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.key svg {
+  overflow: visible;
+}
+
+.keyPlace {
+  width: 16px;
+  height: 18px;
+  background: var(--yellow);
+}
+
+.keyBlock {
+  width: 12px;
+  height: 22px;
+  background: var(--blue);
+}
+
+.keyCook {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ink);
+}
+
+/* ---------- Lesson thumbnails ---------- */
+.thumb {
+  display: block;
+  overflow: visible;
+}
+
+.thumbSheet {
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.thumbRoute {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  stroke-dasharray: 1.5 4;
+  stroke-linecap: round;
+}
+
+.thumbBar {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 1.4;
+}
+
+.thumbBarFill {
+  fill: url(#tk-ht-blue);
+  stroke: var(--blue);
+  stroke-width: 1.4;
+}
+
+.thumbHand {
+  fill: none;
+  stroke: var(--on-yellow);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+@media (max-width: 760px) {
+  .kv {
+    grid-template-columns: 1fr;
+  }
+  .kvHead b {
+    font-size: 26px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .laneFill,
+  .rider,
+  .needleW,
+  .needleN {
+    animation: none;
+  }
+  .laneFill {
+    transform: scaleX(0.6);
+  }
+  .rider {
+    transform: translateX(-40%);
+  }
+}
+
+.thumbCeil {
+  fill: none;
+  stroke: var(--pink);
+  stroke-width: 2.4;
+  stroke-dasharray: 4 3;
+}
+
+.thumbArrow {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.thumbDb {
+  fill: var(--paper-2);
+  stroke: var(--ink);
+  stroke-width: 1.6;
+}

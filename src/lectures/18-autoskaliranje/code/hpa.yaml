@@ -1,0 +1,36 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: klopa-api
+  namespace: klopa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: klopa-api
+  minReplicas: 2
+  maxReplicas: 20
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50   # posto od requests.cpu
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      selectPolicy: Max            # veće od dva pravila
+      policies:
+        - type: Percent
+          value: 100               # najviše udvostručiti …
+          periodSeconds: 15
+        - type: Pods
+          value: 4                 # … ili dodati 4 Poda
+          periodSeconds: 15
+    scaleDown:
+      stabilizationWindowSeconds: 300   # najveća preporuka iz zadnjih 5 min
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 15

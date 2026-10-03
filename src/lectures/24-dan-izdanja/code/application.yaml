@@ -1,0 +1,23 @@
+# argocd/klopa.yaml – jedna Application za cijelu Klopu (i ona je u Gitu)
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: klopa
+  namespace: argocd
+spec:
+  project: klopa                     # AppProject: samo config repo i namespace klopa
+  source:
+    repoURL: https://git.klopa.example/klopa/klopa-config.git
+    targetRevision: main
+    path: apps
+    directory:
+      recurse: true                  # apps/klopa-api, apps/klopa-worker, apps/gateway…
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: klopa
+  syncPolicy:
+    automated:
+      prune: true                    # datoteka obrisana iz Gita → objekt obrisan
+      selfHeal: true                 # ručna promjena u klasteru → vraćena na Git
+# Webhook: Git poslužitelj javlja Argo CD-u svaki push (https://argocd.klopa.example/api/webhook),
+# pa Argo CD ne čeka redovitu provjeru Gita (120 s + do 60 s).

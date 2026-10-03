@@ -1,0 +1,199 @@
+/* Lecture 06 – local styles (tokens only; paper and chalkboard switch through the tokens) */
+
+.formula {
+  display: grid;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1.5px dashed color-mix(in srgb, var(--ink-3) 60%, transparent);
+  border-radius: 3px;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.formula p {
+  margin: 0;
+}
+
+.formulaLabel {
+  display: block;
+  font-family: var(--f-hand);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--red);
+}
+
+.bad {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 28px;
+  align-items: start;
+}
+
+.matrix {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 18px;
+  font-family: var(--f-body);
+  font-size: 17px;
+}
+
+.matrix caption {
+  text-align: left;
+  font-family: var(--f-hand);
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--ink-2);
+  padding-bottom: 6px;
+}
+
+.matrix th,
+.matrix td {
+  border: 1.5px dashed color-mix(in srgb, var(--ink-3) 55%, transparent);
+  padding: 8px 10px;
+  vertical-align: top;
+  text-align: left;
+}
+
+.matrix thead th {
+  font-family: var(--f-ui);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.matrix tbody th {
+  font-family: var(--f-ui);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.cellSub {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-3);
+  margin-top: 2px;
+}
+
+.cellEmpty {
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+.cellOk {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.cellBad {
+  color: var(--red);
+  font-weight: 700;
+  background: color-mix(in srgb, var(--hl-pink) 55%, transparent);
+}
+
+/* on the chalkboard the pink chalk fill would swallow the red lettering: the ✗ and the word carry it alone */
+:global(:root[data-theme='dark']) .cellBad {
+  background: none;
+}
+
+.expList {
+  margin: 14px 0 0;
+  padding-left: 1.1em;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.controlNote {
+  margin: 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-3);
+}
+
+.poisonLine {
+  margin: 0 0 14px;
+  font-family: var(--f-body);
+  font-size: 18px;
+  color: var(--ink);
+}
+
+/* a two-column row of drawings (incident + map) that stacks on narrow pages */
+.pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.semantics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 16px;
+  margin: 18px 0;
+}
+
+.trioCard {
+  padding: 14px 16px 16px;
+}
+
+.trioSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 6px 0 8px;
+  overflow: visible;
+}
+
+.semantics h4 {
+  margin: 0 0 6px;
+  font-family: var(--f-ui);
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.semantics p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.semKicker {
+  display: block;
+  font-family: var(--f-hand);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--red);
+  line-height: 1.1;
+}
+
+/* the drain-time formula: a double pen box in the middle of the text column */
+.formulaBox {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px 12px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 20px auto 22px;
+  padding: 14px 22px 16px;
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.formulaBox .formulaLabel {
+  font-size: 22px;
+}

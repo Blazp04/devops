@@ -1,0 +1,267 @@
+/* Luka — isometric primitive set. Colours come from tokens on the page root (see luka.module.css). */
+
+.box polygon,
+.flat {
+  stroke: var(--edge);
+  stroke-width: 1;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Faces derive from one base colour (--c) so every object re-lights itself per theme. */
+.t {
+  fill: color-mix(in oklab, var(--c), var(--top-tint) var(--top-amt));
+}
+.l {
+  fill: color-mix(in oklab, var(--c), var(--shade) var(--l-amt));
+}
+.r {
+  fill: color-mix(in oklab, var(--c), var(--shade) var(--r-amt));
+}
+.flat {
+  fill: var(--c);
+}
+
+.rib {
+  fill: none;
+  stroke: color-mix(in oklab, var(--c), var(--shade) 48%);
+  stroke-width: 0.9;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.75;
+}
+.ribLight {
+  fill: none;
+  stroke: color-mix(in oklab, var(--c), #fff 30%);
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.55;
+}
+
+.stencil {
+  font-family: 'Saira Stencil One', 'Big Shoulders Display Variable', sans-serif;
+  fill: var(--paint);
+  letter-spacing: 0.02em;
+}
+.stencilDark {
+  font-family: 'Saira Stencil One', 'Big Shoulders Display Variable', sans-serif;
+  fill: var(--ink-on-light);
+  letter-spacing: 0.02em;
+}
+.stencilSteel {
+  font-family: 'Saira Stencil One', 'Big Shoulders Display Variable', sans-serif;
+  fill: var(--steel-ink);
+  letter-spacing: 0.02em;
+}
+.label {
+  font-family: 'Big Shoulders Display Variable', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  fill: var(--ink);
+}
+
+.glass {
+  fill: var(--glass);
+  stroke: var(--edge);
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.road {
+  fill: var(--asphalt);
+  stroke: none;
+}
+.kerb {
+  fill: none;
+  stroke: var(--kerb);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+.roadLine {
+  fill: none;
+  stroke: var(--paint-line);
+  stroke-width: 1.2;
+  stroke-dasharray: 5 6;
+  vector-effect: non-scaling-stroke;
+}
+.paintLine {
+  fill: none;
+  stroke: var(--yellow);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+
+.ghost polygon {
+  fill: none !important;
+  stroke: var(--yellow);
+  stroke-dasharray: 4 3;
+  stroke-width: 1.4;
+}
+
+.lampOk {
+  fill: var(--sig-green);
+}
+.lampWarn {
+  fill: var(--yellow);
+}
+.lampErr {
+  fill: var(--sig-red);
+}
+.lampOff {
+  fill: var(--steel-2);
+}
+.halo {
+  opacity: var(--halo-op);
+}
+
+.blink {
+  animation: luka-blink 0.9s steps(2, jump-none) infinite;
+}
+.blinkSlow {
+  animation: luka-blink 2.4s ease-in-out infinite;
+}
+
+@keyframes luka-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0.15;
+  }
+}
+
+.pool {
+  fill: var(--sodium);
+  opacity: var(--pool-op);
+  mix-blend-mode: var(--pool-blend);
+}
+
+.water {
+  fill: var(--water);
+}
+.wave {
+  fill: none;
+  stroke: var(--wave);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 10 22;
+  animation: luka-wave 6s linear infinite;
+}
+@keyframes luka-wave {
+  to {
+    stroke-dashoffset: -64;
+  }
+}
+
+.cable {
+  stroke: var(--edge);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.window {
+  fill: var(--window);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blink,
+  .blinkSlow,
+  .wave {
+    animation: none;
+  }
+}
+
+.beam {
+  fill: var(--amber);
+  opacity: var(--beam-op);
+  mix-blend-mode: var(--pool-blend);
+}
+.beaconHalo {
+  fill: var(--amber);
+  opacity: 0.45;
+}
+.beaconDome {
+  fill: var(--amber);
+  stroke: var(--edge);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.beaconRed .beam,
+.beaconRed .beaconHalo,
+.beaconRed .beaconDome {
+  fill: var(--sig-red);
+}
+.signText {
+  font-family: 'Big Shoulders Display Variable', sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  fill: var(--yellow);
+}
+.drawer {
+  fill: color-mix(in oklab, var(--steel-3), var(--shade) 18%);
+  stroke: var(--edge);
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+}
+.drawerHandle {
+  fill: var(--edge);
+}
+.ledger {
+  stroke: var(--rust);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.8;
+}
+.tapeLight {
+  fill: var(--yellow);
+}
+.tapeDark {
+  fill: var(--hazard-dark);
+}
+
+/* error placard on a truck (e.g. 503) */
+.placard {
+  fill: #f6f1e4;
+  stroke: var(--edge);
+  stroke-width: 0.6;
+  vector-effect: non-scaling-stroke;
+}
+.placardText {
+  font-family: 'Big Shoulders Display Variable', sans-serif;
+  font-weight: 900;
+  fill: #b5241f;
+}
+/* hazard blinkers of a waiting truck */
+.blinker {
+  fill: var(--amber);
+  stroke: var(--edge);
+  stroke-width: 0.5;
+}
+.blinkSlowStep {
+  animation: luka-blink 1.2s steps(2, jump-none) infinite;
+}
+/* aviation light on the control tower: amber, slow and calm (red pulses are reserved for failures) */
+.aviation {
+  animation: luka-breathe 3.2s ease-in-out infinite;
+}
+.aviationLamp {
+  fill: #ffcf7a;
+}
+@keyframes luka-breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .blinkSlowStep,
+  .aviation {
+    animation: none;
+  }
+}

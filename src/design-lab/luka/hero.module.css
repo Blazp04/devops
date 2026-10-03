@@ -1,0 +1,152 @@
+.stage {
+  position: relative;
+  width: 100%;
+}
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.leader {
+  stroke: var(--ink);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+.dot {
+  fill: var(--ink);
+}
+.plate,
+.callout {
+  position: absolute;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.plate {
+  transform: translate(-50%, -50%);
+  padding: 1px 7px 2px;
+  background: var(--navy);
+  color: #f1ebdf;
+  font-family: var(--f-label);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  border-left: 4px solid var(--yellow);
+}
+.reg {
+  border-left-color: var(--orange);
+}
+:global([data-theme='dark']) .plate {
+  background: #050c13;
+  box-shadow: 0 0 0 1px #2f4256;
+}
+.callout {
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: stretch;
+  font-family: var(--f-label);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0 var(--hard-shadow);
+}
+.callout b {
+  display: grid;
+  place-items: center;
+  min-width: 26px;
+  padding: 0 4px;
+  background: var(--yellow);
+  color: #14212e;
+  font-weight: 900;
+  font-size: 17px;
+}
+.callout span {
+  display: grid;
+  padding: 4px 9px 4px 8px;
+  background: var(--marker-bg);
+  color: var(--marker-ink);
+}
+.callout small,
+.legend small {
+  font-family: var(--f-body);
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  opacity: 0.85;
+}
+:global([data-theme='dark']) .callout span {
+  background: #f1ebdf;
+  color: #14212e;
+}
+
+/* ---- phone: two framings of the same port, the callouts as a numbered list underneath ---- */
+.panels {
+  display: grid;
+  gap: 10px;
+}
+.panel {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-top: 2px solid color-mix(in oklab, var(--ink), transparent 80%);
+  border-bottom: 2px solid color-mix(in oklab, var(--ink), transparent 80%);
+}
+.panel .svg {
+  overflow: hidden;
+}
+.marker {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+}
+.marker b {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  background: var(--yellow);
+  color: #14212e;
+  border: 2px solid #14212e;
+  font-family: var(--f-label);
+  font-weight: 900;
+  font-size: 16px;
+  box-shadow: 2px 2px 0 var(--hard-shadow);
+}
+.legend {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0 16px;
+  display: grid;
+  gap: 8px;
+}
+.legend li {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  align-items: start;
+  gap: 10px;
+  font-family: var(--f-label);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.legend li span {
+  display: grid;
+  padding-top: 3px;
+}
+.legend b {
+  display: grid;
+  place-items: center;
+  height: 28px;
+  background: var(--yellow);
+  color: #14212e;
+  font-weight: 900;
+  font-size: 17px;
+}

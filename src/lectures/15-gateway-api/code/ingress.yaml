@@ -1,0 +1,43 @@
+# Za usporedbu: ista pravila zapisana kao Ingress (stariji API, i dalje radi).
+# Težine, zaglavlja i preusmjeravanja Ingress nema: za njih svaki
+# kontroler ima svoje anotacije, pa takav YAML ne radi s drugim kontrolerom.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: klopa
+  namespace: klopa
+spec:
+  ingressClassName: klopa-ingress
+  tls:
+    - hosts:
+        - klopa.example
+        - admin.klopa.example
+      secretName: klopa-tls
+  rules:
+    - host: klopa.example
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: klopa-api
+                port:
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: klopa-web
+                port:
+                  number: 80
+    - host: admin.klopa.example
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: klopa-admin
+                port:
+                  number: 80

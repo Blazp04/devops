@@ -1,0 +1,441 @@
+/* L10 Zašto Kubernetes – local styles (tokens only; paper and chalkboard both work through the token switch). */
+
+/* ===================== flagship: stage + the operator's hands ===================== */
+.stageWrap {
+  width: 100%;
+  min-width: 0;
+  margin-bottom: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+.tray {
+  position: relative;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.trayLead {
+  margin: 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.trayHand {
+  font-family: var(--f-hand);
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--pen);
+  margin-right: 4px;
+}
+
+.chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 12px;
+}
+
+.chipWrap {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  padding: 4px 4px 4px 2px;
+}
+
+.chip {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 6px 6px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.chip:active {
+  cursor: grabbing;
+}
+
+.chip:focus-visible,
+.minus:focus-visible {
+  outline: 2px dashed var(--pen);
+  outline-offset: 2px;
+}
+
+.chipOn {
+  color: var(--ink);
+}
+
+.chipText {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.chipName {
+  font-family: var(--f-ui);
+  font-weight: 800;
+  font-size: 17px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.chipCount {
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.chipBad,
+.chipWarn,
+.chipOk {
+  font-family: var(--f-ui);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.chipBad {
+  color: var(--red);
+}
+
+.chipWarn {
+  color: var(--orange);
+}
+
+.chipOk {
+  color: var(--green);
+}
+
+.minus {
+  flex: 0 0 auto;
+  align-self: center;
+  min-width: 40px;
+  min-height: 40px;
+  border: 0;
+  background: none;
+  color: var(--ink-2);
+  font-family: var(--f-mono);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.minus:hover:not(:disabled) {
+  color: var(--red);
+}
+
+.minus:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.targets {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+}
+
+.targetsLabel {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.dragGhost {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  transform: translate(-50%, -60%) rotate(-4deg);
+}
+
+.btnRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ctrlNote {
+  margin: 6px 0 0;
+  font-family: var(--f-hand);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--orange);
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+
+.badges > * {
+  max-width: 100%;
+  white-space: normal;
+}
+
+/* ---- comparison ledger ---- */
+.compare {
+  margin-top: 18px;
+}
+
+.cmpTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--f-body);
+  font-size: 17px;
+}
+
+.cmpCaption {
+  caption-side: top;
+  text-align: left;
+  font-family: var(--f-hand);
+  font-size: 23px;
+  font-weight: 700;
+  color: var(--ink);
+  padding-bottom: 4px;
+}
+
+.cmpTable th,
+.cmpTable td {
+  padding: 5px 8px;
+  border-bottom: 1px dashed var(--ink-4);
+  text-align: left;
+  vertical-align: baseline;
+}
+
+.cmpTable thead th {
+  font-family: var(--f-ui);
+  font-weight: 800;
+  font-size: 16px;
+  border-bottom: 2px solid var(--ink-3);
+}
+
+.cmpTable tbody th {
+  font-weight: 400;
+  color: var(--ink-2);
+}
+
+.cmpTable td {
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.cmpNow {
+  font-family: var(--f-hand);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--pen);
+}
+
+.cmpNote {
+  margin: 8px 0 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.statGrid {
+  container-type: inline-size;
+  display: grid;
+  gap: 22px;
+  margin-top: 22px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@container (min-width: 640px) {
+  .statGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .statGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+/* ===================== „Isplati li se?” ===================== */
+/* one figure: the cluster frame (what it does) + a red-pencil list outside it (what it does not) */
+.worth {
+  display: grid;
+  gap: 18px 28px;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  margin: 8px 0 6px;
+}
+
+@media (min-width: 1100px) {
+  .worth {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  }
+}
+
+.clusterFrame {
+  padding: 10px 18px 16px;
+}
+
+.frameHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.frameHead .colHead {
+  margin: 0;
+}
+
+.notList {
+  padding: 10px 4px 0;
+}
+
+.notList .colHead {
+  margin: 0;
+}
+
+.notHint {
+  margin: 0 0 4px;
+  font-family: var(--f-hand);
+  font-size: 21px;
+  color: var(--ink-2);
+}
+
+.kList {
+  display: grid;
+  gap: 10px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kItem {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 6px;
+  align-items: baseline;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.kMark {
+  font-family: var(--f-hand);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.kMarkYes {
+  color: var(--green);
+}
+
+.kMarkNo {
+  color: var(--red);
+}
+
+.kTitle {
+  font-family: var(--f-ui);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.kBody {
+  color: var(--ink-2);
+}
+
+.colHead {
+  font-family: var(--f-hand);
+  font-size: 26px;
+  font-weight: 700;
+  margin: 18px 0 2px;
+}
+
+.colHeadYes {
+  color: var(--green);
+}
+
+.colHeadNo {
+  color: var(--red);
+}
+
+.checklist {
+  display: grid;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checkItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 4px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 17.5px;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+}
+
+.checkItem:focus-visible {
+  outline: 2px dashed var(--pen);
+  outline-offset: 2px;
+}
+
+.checkBox {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  margin-top: 1px;
+}
+
+.verdict {
+  margin-top: 14px;
+  padding: 14px 16px;
+}
+
+.verdictTitle {
+  font-family: var(--f-hand);
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.verdictBody {
+  margin: 6px 0 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--note-ink);
+}
+
+.checkHead {
+  font-family: var(--f-ui);
+  font-weight: 800;
+  font-size: 18px;
+  margin: 0;
+}

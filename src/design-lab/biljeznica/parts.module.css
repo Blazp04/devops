@@ -1,0 +1,936 @@
+/* ---------- Step-through explainer ---------- */
+.stepper {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  gap: 34px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.stepStage {
+  min-width: 0;
+}
+
+.stepSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* the phone drawing never grows past 440 px (tablets in two-column mode) */
+.stageTall {
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.food {
+  fill: var(--food);
+}
+
+/* index card: lined, with a red header line */
+.card {
+  position: relative;
+  background-color: #fffdf7;
+  background-image:
+    linear-gradient(transparent 58px, rgba(214, 72, 64, 0.5) 58px, rgba(214, 72, 64, 0.5) 60px, transparent 60px),
+    repeating-linear-gradient(transparent 0 29px, rgba(60, 110, 200, 0.22) 29px 30px);
+  background-position: 0 0, 0 60px;
+  color: #26231d;
+  padding: 16px 24px 20px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 14px 26px -16px var(--shadow);
+  transform: rotate(0.8deg);
+  --ink: #26231d;
+  --ink-2: #4b4538;
+  --red: #c92e26;
+  --pen: #2148b0;
+}
+
+:global([data-theme='dark']) .card {
+  background-color: #3a4e44;
+  background-image:
+    linear-gradient(transparent 58px, rgba(255, 150, 130, 0.45) 58px, rgba(255, 150, 130, 0.45) 60px, transparent 60px),
+    repeating-linear-gradient(transparent 0 29px, rgba(236, 236, 226, 0.14) 29px 30px);
+  color: #f2f1e9;
+  --ink: #f2f1e9;
+  --ink-2: #d7ddd4;
+  --red: #ff9b87;
+  --pen: #a8d0f7;
+  box-shadow: 0 16px 30px -14px rgba(0, 0, 0, 0.6);
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 42px;
+  margin-bottom: 2px;
+}
+
+.stepCount {
+  font-family: var(--f-hand);
+  font-size: 27px;
+  font-weight: 700;
+  color: var(--red);
+}
+
+.dots {
+  display: flex;
+  gap: 4px;
+}
+
+.dot {
+  appearance: none;
+  border: 0;
+  background: none;
+  width: 34px;
+  height: 34px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.dot svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.stepTitle {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 90%;
+  font-size: 23px;
+  line-height: 30px;
+  padding-top: 2px;
+  letter-spacing: -0.01em;
+  margin: 0;
+  min-height: 30px;
+  color: var(--ink);
+}
+
+.stepText {
+  margin: 0;
+  font-size: 18.5px;
+  line-height: 30px;
+  min-height: 150px;
+  color: var(--ink);
+}
+
+.stepCtl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.pbtn {
+  appearance: none;
+  background: transparent;
+  border: 1.8px solid var(--ink-2);
+  color: var(--ink);
+  border-radius: 4px 9px 5px 10px / 9px 4px 10px 5px;
+  font-family: var(--f-display);
+  font-weight: 650;
+  font-size: 16.5px;
+  padding: 7px 14px 5px;
+  cursor: pointer;
+}
+
+.pbtn:hover:not(:disabled) {
+  border-color: var(--pen);
+  color: var(--pen);
+}
+
+.pbtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pbtnBack {
+  order: 1;
+}
+
+.pbtnPlay {
+  order: 2;
+}
+
+.pbtnMain {
+  order: 3;
+  background: var(--ink);
+  color: #fffdf7;
+  border-color: var(--ink);
+  font-weight: 700;
+}
+
+:global([data-theme='dark']) .pbtnMain {
+  color: #2f4138;
+}
+
+.pbtnMain:hover:not(:disabled) {
+  background: var(--pen);
+  border-color: var(--pen);
+  color: #fffdf7;
+}
+
+@media (max-width: 900px) {
+  .stepper {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .card {
+    transform: none;
+  }
+  .stepText {
+    min-height: 0;
+  }
+}
+
+/* phones: the main action first and full width */
+@media (max-width: 560px) {
+  .pbtnMain {
+    order: 0;
+    flex: 1 1 100%;
+    padding: 11px 14px 9px;
+    font-size: 19px;
+  }
+  .pbtnBack,
+  .pbtnPlay {
+    flex: 1 1 0;
+  }
+}
+
+/* ---------- Code: a squared-paper page taped in ---------- */
+.codeGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 56px;
+  margin-top: 26px;
+}
+
+.code {
+  position: relative;
+  margin: 0;
+  max-width: 980px;
+  background-color: var(--code-paper);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-position: 6px 6px;
+  transform: rotate(-0.25deg);
+}
+
+.codeHead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px 10px 20px;
+}
+
+.fileTab {
+  font-family: var(--f-mono);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--note-ink);
+  background: var(--note-yellow);
+  padding: 3px 12px 2px;
+  transform: rotate(-1.8deg);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.12);
+}
+
+.lang {
+  font-family: var(--f-hand);
+  font-size: 21px;
+  color: var(--ink-3);
+  flex: 1;
+}
+
+.copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--f-print);
+  font-size: 17px;
+  color: var(--ink);
+  padding: 7px 14px 5px 12px;
+  transform: rotate(1deg);
+}
+
+.copy svg:not([class]) {
+  width: 17px;
+  height: 19px;
+  overflow: visible;
+}
+
+.copy:hover {
+  color: var(--pen);
+}
+
+.codeBody {
+  position: relative;
+  overflow: hidden;
+}
+
+.codeClosed {
+  max-height: 250px;
+  -webkit-mask-image: linear-gradient(#000 62%, transparent 98%);
+  mask-image: linear-gradient(#000 62%, transparent 98%);
+}
+
+.pre {
+  margin: 0;
+  padding: 6px 0 14px;
+  font-family: var(--f-mono);
+  font-size: 15.5px;
+  line-height: 1.72;
+  color: var(--ink);
+  overflow-x: auto;
+  tab-size: 2;
+}
+
+.line {
+  position: relative;
+  display: block;
+  padding-right: 20px;
+  white-space: pre;
+}
+
+.lc {
+  position: relative;
+}
+
+/* pencil line numbers */
+.ln {
+  display: inline-block;
+  width: 3.4em;
+  padding-right: 1.2em;
+  text-align: right;
+  color: var(--ink-3);
+  font-family: var(--f-hand);
+  font-size: 1.15em;
+  font-weight: 600;
+  user-select: none;
+  opacity: 0.75;
+}
+
+.lineNote {
+  position: absolute;
+  line-height: 1;
+  margin-top: 0.12em;
+  font-family: var(--f-hand);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--pen);
+  margin-left: 18px;
+  white-space: nowrap;
+}
+
+/* Lana says something about a line (speech = Kalam, with her face) */
+.lineSay {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: -0.55em;
+  font-family: var(--f-print);
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.lineSay b {
+  font-weight: 400;
+  color: var(--pen);
+}
+
+.lineFace {
+  width: 34px;
+  height: 30px;
+  overflow: visible;
+  flex: none;
+}
+
+.tKey {
+  color: var(--pen);
+  font-weight: 500;
+}
+
+.tPunct {
+  color: var(--ink-3);
+}
+
+.tStr {
+  color: var(--green);
+}
+
+.tNum {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.tVal {
+  color: var(--ink);
+}
+
+.more {
+  position: relative;
+  appearance: none;
+  border: 0;
+  background: none;
+  font-family: var(--f-hand);
+  font-size: 23px;
+  font-weight: 700;
+  color: var(--pen);
+  cursor: pointer;
+  padding: 4px 22px 16px;
+}
+
+.more svg {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 10px;
+  width: calc(100% - 44px);
+  height: 10px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.more:hover svg {
+  opacity: 1;
+}
+
+/* ---------- Terminal: Lana's laptop, drawn ---------- */
+.laptop {
+  position: relative;
+  margin: 0 0 96px 4%;
+  width: min(100%, 860px);
+}
+
+.bezel {
+  padding: 16px 16px 26px;
+  transform: rotate(-0.5deg);
+}
+
+.camera {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 50%;
+  background: #6f7a74;
+}
+
+.screen {
+  position: relative;
+  z-index: 5;
+  background: var(--term-bg);
+  color: var(--term-ink);
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.sticker {
+  position: absolute;
+  left: 22px;
+  bottom: 3px;
+  font-family: var(--f-hand);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  color: #2a251a;
+  background: var(--note-yellow);
+  padding: 0 7px;
+  border-radius: 6px;
+  transform: rotate(-5deg);
+}
+
+.laptopBase {
+  height: 30px;
+  margin: -4px -3% 0;
+}
+
+.laptopBase svg {
+  display: block;
+  overflow: visible;
+}
+
+.termPre {
+  margin: 0;
+  padding: 16px 18px 18px;
+  font-family: var(--f-mono);
+  font-size: 14.5px;
+  line-height: 1.7;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.termNarrow {
+  display: none;
+}
+
+.tPrompt {
+  color: #f3c76b;
+}
+
+.tDim {
+  color: var(--term-dim);
+}
+
+.tOk {
+  color: #8fe0a0;
+}
+
+.tBad {
+  color: #ff8f80;
+  font-weight: 600;
+}
+
+/* Davor's sticky note, pointing at the crashing Pod */
+.termNote {
+  position: absolute;
+  right: -46px;
+  bottom: -128px;
+  width: 250px;
+  padding: 18px 18px 16px;
+  font-family: var(--f-print);
+  font-size: 20px;
+  line-height: 1.3;
+  transform: rotate(3deg);
+}
+
+.termNote b {
+  font-weight: 400;
+  color: #a02a22;
+}
+
+.termNoteArrow {
+  position: absolute;
+  left: -186px;
+  top: -68px;
+  width: 200px;
+  height: 90px;
+  overflow: visible;
+}
+
+@media (max-width: 1100px) {
+  .laptop {
+    margin-bottom: 0;
+  }
+  .lineNote {
+    position: static;
+    display: block;
+    white-space: normal;
+    margin: 0 0 4px 3.4em;
+    font-size: 20px;
+  }
+  .lineSay {
+    display: flex;
+    margin-top: 2px;
+  }
+  .termNote {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: auto;
+    max-width: 380px;
+    margin: 18px 0 0 auto;
+  }
+  .termNoteArrow {
+    left: 38%;
+    top: -70px;
+    width: 100px;
+    height: 60px;
+    transform: rotate(52deg);
+  }
+}
+
+@media (max-width: 760px) {
+  .pre {
+    font-size: 13.5px;
+  }
+  .codeClosed {
+    max-height: 270px;
+  }
+  .codeHead {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+  .ln {
+    width: 2.4em;
+    padding-right: 0.8em;
+  }
+  .lineNote {
+    margin-left: 2.4em;
+  }
+  .laptop {
+    margin: 0;
+  }
+  .bezel {
+    padding: 12px 10px 22px;
+  }
+}
+
+@media (max-width: 600px) {
+  .lang {
+    display: none;
+  }
+  .codeHead {
+    justify-content: space-between;
+  }
+  .termWide {
+    display: none;
+  }
+  .termNarrow {
+    display: block;
+    font-size: 13.5px;
+    padding: 14px 14px 16px;
+  }
+}
+
+/* ---------- Quiz: a test sheet with a folded corner ---------- */
+.test {
+  --sheet-edge: rgba(80, 60, 20, 0.32);
+  --sheet-fold: var(--paper-3);
+  position: relative;
+  max-width: 980px;
+  margin: 0 -10px;
+  padding: 30px 34px 30px 64px;
+  background-color: var(--test-paper);
+  background-image:
+    linear-gradient(90deg, transparent 44px, var(--margin-line) 44px, var(--margin-line) 46px, transparent 46px),
+    repeating-linear-gradient(transparent 0 33px, var(--rule) 33px 34px);
+  background-position: 0 0, 0 18px;
+  clip-path: polygon(0 0, calc(100% - 58px) 0, 100% 58px, 100% 100%, 0 100%);
+  transform: rotate(-0.4deg);
+}
+
+/* on the board the sheet is drawn in chalk: no fill, a chalk outline and a chalk fold */
+:global([data-theme='dark']) .test {
+  --sheet-edge: var(--ink);
+  --sheet-fold: rgba(242, 241, 233, 0.12);
+  background-color: transparent;
+  clip-path: none;
+}
+
+.sheetSvg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sheetSvg svg {
+  display: block;
+  overflow: visible;
+}
+
+.test > *:not(.sheetSvg) {
+  position: relative;
+}
+
+.testHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 0 30px;
+  margin-bottom: 4px;
+  padding-right: 40px;
+}
+
+.testHead > div:first-child {
+  flex: 1 1 420px;
+}
+
+.testFields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 26px;
+  font-family: var(--f-body);
+  font-size: 18px;
+  color: var(--ink-2);
+  margin-bottom: 26px;
+}
+
+.blank {
+  display: inline-block;
+  min-width: 3.4em;
+  padding: 0 6px;
+  font-style: normal;
+  font-family: var(--f-hand);
+  font-size: 23px;
+  font-weight: 600;
+  color: var(--pen);
+  border-bottom: 1.5px dotted var(--ink-3);
+  text-align: center;
+  line-height: 1.1;
+}
+
+.scoreField .blank {
+  min-width: 2.2em;
+}
+
+.score {
+  font-family: var(--f-hand);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--red);
+}
+
+.question {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 92%;
+  font-size: clamp(22px, 2.3vw, 28px);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin: 4px 0 18px;
+  max-width: 34em;
+}
+
+.question em {
+  font-family: var(--f-body);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.option {
+  appearance: none;
+  border: 0;
+  background: none;
+  width: 100%;
+  text-align: left;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) 150px;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 6px;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.option:hover .optText {
+  text-decoration: underline wavy var(--ink-3) 1px;
+  text-underline-offset: 5px;
+}
+
+.optLetter {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  font-family: var(--f-hand);
+  font-size: 27px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.optLetter svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.optText {
+  position: relative;
+  font-size: 19px;
+  line-height: 1.45;
+}
+
+.option[data-state='ok'] .optText {
+  font-weight: 600;
+}
+
+.option[data-state='bad'] .optText {
+  color: var(--ink-2);
+}
+
+/* crossed out with the red pen, line by line */
+.struck {
+  background-image: linear-gradient(177deg, transparent calc(56% - 1.5px), var(--red) calc(56% - 1.5px), var(--red) calc(56% + 1px), transparent calc(56% + 1px));
+  background-repeat: no-repeat;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  animation: strike 0.4s ease-out both;
+}
+
+@keyframes strike {
+  from {
+    background-size: 0% 100%;
+  }
+  to {
+    background-size: 100% 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .struck {
+    animation: none;
+  }
+}
+
+.optMark {
+  position: relative;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+/* the teacher's mark next to the chosen answer */
+.verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--f-hand);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--green);
+}
+
+.verdict[data-ok='false'] {
+  color: var(--red);
+}
+
+.verdict svg {
+  width: 38px;
+  height: 38px;
+  overflow: visible;
+}
+
+.quizHint {
+  margin: 14px 0 0 56px;
+  font-family: var(--f-hand);
+  font-size: 22px;
+  color: var(--ink-3);
+}
+
+/* the teacher's note sits right under the answer that was picked, with a short arrow up to it */
+.feedback {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  align-items: start;
+  max-width: 780px;
+  margin: 0 0 16px 22px;
+}
+
+.feedbackArrow {
+  width: 56px;
+  height: 42px;
+  overflow: visible;
+  margin-top: -6px;
+}
+
+.feedbackNote {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 20px 22px 18px;
+}
+
+.feedback p {
+  margin: 4px 0 0;
+  font-size: 17.5px;
+  line-height: 1.5;
+}
+
+.feedbackWho {
+  width: 80px;
+  height: auto;
+  overflow: visible;
+}
+
+.feedbackSays {
+  font-family: var(--f-print);
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.2;
+}
+
+.srOnly {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .test {
+    margin: 0 -8px;
+    padding: 26px 14px 22px 40px;
+    background-image:
+      linear-gradient(90deg, transparent 26px, var(--margin-line) 26px, var(--margin-line) 27.5px, transparent 27.5px),
+      repeating-linear-gradient(transparent 0 33px, var(--rule) 33px 34px);
+    clip-path: polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 0 100%);
+  }
+  .testHead {
+    padding-right: 20px;
+  }
+  .option {
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 6px;
+  }
+  .optMark {
+    grid-column: 2;
+    min-height: 0;
+  }
+  .optText {
+    font-size: 17.5px;
+  }
+  .quizHint {
+    margin-left: 0;
+  }
+  .feedback {
+    grid-template-columns: minmax(0, 1fr);
+    margin: 22px 0 14px;
+  }
+  .feedbackArrow {
+    position: absolute;
+    left: 2px;
+    top: -30px;
+    width: 34px;
+    height: 28px;
+    margin: 0;
+  }
+  .feedbackNote {
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 10px;
+    padding: 18px 14px 16px;
+  }
+  .feedbackWho {
+    width: 46px;
+  }
+}
+
+/* ---------- Chalkboard: things pinned on the board (paper, screens) sit above the chalk dust;
+   things drawn in chalk (the quiz sheet, diagrams) stay under it ---------- */
+:global([data-theme='dark']) .bezel,
+:global([data-theme='dark']) .code,
+:global([data-theme='dark']) .card,
+:global([data-theme='dark']) .feedback {
+  z-index: 5;
+}
+
+:global([data-theme='dark']) .test {
+  transform: none;
+}

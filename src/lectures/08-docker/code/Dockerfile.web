@@ -1,0 +1,19 @@
+# syntax=docker/dockerfile:1
+
+# ---- faza 1: izgradnja (Node.js, npm i Vite ostaju ovdje) ----
+FROM node:24-slim AS build
+WORKDIR /app
+# najprije samo popis ovisnosti: mijenja se rijetko
+COPY package*.json ./
+RUN npm ci
+# zatim kod: mijenja se stalno
+COPY . .
+RUN npm run build
+
+# ---- faza 2: posluživanje (samo nginx + gotove datoteke) ----
+FROM nginxinc/nginx-unprivileged:1.30-alpine AS runtime
+COPY --from=build /app/dist /usr/share/nginx/html
+# korisnik 101 nije root; slika je postavljena da sluša na 8080, jer portovi ispod 1024 običnom korisniku tradicionalno nisu dopušteni
+USER 101
+EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,0 +1,33 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: klopa-worker
+  namespace: klopa
+spec:
+  scaleTargetRef:
+    name: klopa-worker         # Deployment s potrošačima
+  minReplicaCount: 0           # noću nijedan Pod
+  maxReplicaCount: 10
+  pollingInterval: 30          # operator gleda red svakih 30 s
+  cooldownPeriod: 300          # 300 s bez poruka → natrag na 0
+  triggers:
+    - type: rabbitmq
+      metadata:
+        protocol: http         # HTTP API broji i nepotvrđene poruke
+        queueName: narudzbe
+        mode: QueueLength
+        value: "10"            # HPA: ⌈poruke / 10⌉ potrošača
+        activationValue: "0"   # više od 0 poruka → 0 → 1
+      authenticationRef:
+        name: klopa-rabbitmq
+---
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: klopa-rabbitmq
+  namespace: klopa
+spec:
+  secretTargetRef:
+    - parameter: host          # http://korisnik:lozinka@rabbitmq:15672/
+      name: klopa-rabbitmq     # Secret
+      key: management-url

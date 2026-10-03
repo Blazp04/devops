@@ -1,0 +1,27 @@
+# .github/workflows/ci.yaml – zadnji posao pipelinea (isječak)
+  azuriraj-config:
+    needs: build-push              # slika je izgrađena i testirana
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    env:
+      VERSION: ${{ github.ref_name }}                  # npr. 2.0.1
+      DIGEST: ${{ needs.build-push.outputs.digest }}   # sha256:…
+      CONFIG_TOKEN: ${{ secrets.KLOPA_CONFIG_TOKEN }}  # samo klopa-config
+      CI_GPG_KEY: ${{ secrets.KLOPA_CI_GPG_KEY }}      # privatni ključ ci-bota
+    steps:
+      - name: Kloniraj config repozitorij
+        run: git clone "https://ci-bot:${CONFIG_TOKEN}@git.klopa.example/klopa/klopa-config.git"
+      - name: Upiši novu sliku (digest)
+        working-directory: klopa-config/apps/klopa-api/overlays/prod
+        run: kustomize edit set image "registry.klopa.example/klopa-api@${DIGEST}"
+      - name: Potpisani commit na granu i push
+        working-directory: klopa-config
+        run: |
+          echo "$CI_GPG_KEY" | gpg --batch --import
+          git switch -c "ci/klopa-api-${VERSION}"
+          git -c user.name=ci-bot -c user.email=ci-bot@klopa.example \
+            -c user.signingkey=C1B07A5E2D9F4431 \
+            commit -S -am "ci: klopa-api ${VERSION} (${DIGEST})"
+          git push origin "ci/klopa-api-${VERSION}"
+          # pull request u main: kroz API Git poslužitelja, nakon pregleda

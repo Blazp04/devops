@@ -1,0 +1,21 @@
+# configmap.yaml – postavke koje nisu tajne; svako okruženje ima svoje
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: klopa-api-config
+  namespace: klopa-staging        # u produkciji: namespace klopa
+data:
+  DB_HOST: postgres.klopa-staging # u produkciji: postgres.klopa
+  LOG_LEVEL: info                 # u produkciji: warning
+  VEGE_MENI: "da"                 # vrijednosti su uvijek tekst
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: klopa-api-postavke
+  namespace: klopa-staging        # u produkciji: namespace klopa
+data:
+  postavke.ini: |                 # cijela datoteka kao jedan ključ
+    [narudzbe]
+    zadnja_narudzba = 11:45
+    max_po_studentu = 2

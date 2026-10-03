@@ -1,0 +1,148 @@
+/* ==========================================================================
+   Kit · sketch (pen primitives). Owned by the foundation. Class prefix: k-
+   Rough, Boil, RoughBox, RoughButton, RoughAround, RoughRule, Squiggle, CheckBox
+   ========================================================================== */
+
+/* chalk strokes skip a little on the slate (paper: solid pen) */
+:root[data-theme='dark'] .k-rs {
+  stroke-dasharray: 38 2.2 14 1.6 60 2.6 22 1.8;
+}
+
+/* line boil: three takes of the same doodle, shown in turn (~4 fps; slow ≈ 2.5 fps). It settles on the first take
+   after ~5 s (WCAG 2.2.2: no endless motion that can't be paused). */
+.k-boil > g {
+  opacity: 0;
+  animation: k-boil-show 0.78s steps(1, end) 6;
+}
+.k-boil > g:first-child {
+  opacity: 1;
+}
+.k-boil > g:nth-child(2) {
+  animation-delay: -0.26s;
+}
+.k-boil > g:nth-child(3) {
+  animation-delay: -0.52s;
+}
+.k-boil--slow > g {
+  animation-duration: 1.2s;
+  animation-iteration-count: 4;
+}
+.k-boil--slow > g:nth-child(2) {
+  animation-delay: -0.4s;
+}
+.k-boil--slow > g:nth-child(3) {
+  animation-delay: -0.8s;
+}
+
+@keyframes k-boil-show {
+  0% {
+    opacity: 1;
+  }
+  33.333% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* hand-drawn box around HTML */
+.k-rough-box {
+  position: relative;
+  isolation: isolate;
+}
+
+span.k-rough-box {
+  display: inline-block;
+}
+
+.k-rough-box__svg {
+  position: absolute;
+  inset: 0;
+  max-width: none;
+  z-index: -1;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* a button with a pen-drawn outline (label typography comes from the caller's class) */
+.k-rough-btn {
+  position: relative;
+  isolation: isolate;
+  appearance: none;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--f-ui);
+  color: inherit;
+}
+
+.k-rough-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* a pen ellipse around inline content */
+.k-around {
+  position: relative;
+  display: inline-block;
+}
+
+.k-around__svg {
+  position: absolute;
+  overflow: visible;
+  pointer-events: none;
+  max-width: none;
+}
+
+/* hand-drawn horizontal rule */
+.k-rule {
+  display: block;
+  width: 100%;
+  height: 16px;
+  overflow: visible;
+}
+
+/* ---------- lettering inside SVG drawings (≥ 12 px on screen, see the bible) ---------- */
+.k-svg-hand {
+  font-family: var(--f-hand);
+  font-weight: 600;
+  fill: var(--ink);
+}
+
+/* characters' speech (Kalam) — only in bubbles and short story beats */
+.k-svg-print {
+  font-family: var(--f-print);
+  fill: var(--ink);
+}
+
+.k-svg-mono {
+  font-family: var(--f-mono);
+  fill: var(--ink);
+}
+
+.k-svg-display {
+  font-family: var(--f-display);
+  font-weight: 800;
+  fill: var(--ink);
+}
+
+.k-ink-fill {
+  fill: var(--ink);
+}
+
+/* reduced motion: outlines are already drawn, boil stops on the first take */
+@media (prefers-reduced-motion: reduce) {
+  .k-draw {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: 1 !important;
+  }
+  .k-boil > g {
+    animation: none;
+    opacity: 0;
+  }
+  .k-boil > g:first-child {
+    opacity: 1;
+  }
+}

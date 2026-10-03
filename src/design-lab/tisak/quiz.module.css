@@ -1,0 +1,338 @@
+/* An exam sheet: ruled in a faint blue screen, with a pink double margin rule.
+   Stamps are the system's verdict; the explanation is the teacher's pen note in the margin
+   (Fraunces italic, pen-pink) — the roughjs strokes alone carry the hand-drawn quality. */
+.sheet {
+  --margin-col: minmax(260px, 0.42fr);
+  --qgap: clamp(28px, 4vw, 64px);
+  position: relative;
+  padding: clamp(22px, 3vw, 40px) 0 clamp(10px, 1.6vw, 20px);
+  border-top: 3px solid var(--ink);
+}
+
+/* ruled lines */
+.sheet::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(transparent 0 35px, color-mix(in srgb, var(--blue) 16%, transparent) 35px 36px);
+}
+
+/* one question: head, three answer rows, and a flexible last row the margin note can run into */
+.q {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--margin-col);
+  grid-template-rows: auto auto auto auto 1fr;
+  column-gap: var(--qgap);
+  padding-bottom: clamp(28px, 3.4vw, 48px);
+}
+
+.q + .q {
+  padding-top: clamp(26px, 3vw, 40px);
+  border-top: 1px solid var(--ink);
+}
+
+.qHead {
+  grid-column: 1;
+  grid-row: 1;
+  order: 0;
+  padding-bottom: 22px;
+}
+
+.kicker {
+  margin: 0 0 10px;
+  font: 700 12.5px/1.3 var(--f-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-2);
+}
+
+.question {
+  margin: 0;
+  font: 600 clamp(23px, 2.3vw, 32px) / 1.25 var(--f-display);
+  letter-spacing: -0.01em;
+  font-variation-settings:
+    'opsz' 72,
+    'SOFT' 50;
+  max-width: 30em;
+}
+
+.marginHead {
+  grid-column: 2;
+  grid-row: 1;
+  order: 1;
+  margin: 0;
+  font: italic 500 24px/1 var(--f-display);
+  font-variation-settings:
+    'opsz' 36,
+    'SOFT' 100,
+    'WONK' 1;
+  color: var(--ink-3);
+}
+
+/* the pink double margin rule, the full height of the question */
+.marginRule {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  position: relative;
+  pointer-events: none;
+}
+
+.marginRule::before {
+  content: '';
+  position: absolute;
+  top: calc(clamp(26px, 3vw, 40px) * -1);
+  bottom: calc(clamp(28px, 3.4vw, 48px) * -1);
+  left: calc(var(--qgap) * -0.5);
+  width: 5px;
+  border-left: 1.5px solid var(--pink);
+  border-right: 1.5px solid var(--pink);
+}
+
+.q:first-child .marginRule::before {
+  top: calc(clamp(22px, 3vw, 40px) * -1);
+}
+
+.options {
+  display: contents;
+  list-style: none;
+}
+
+.row {
+  grid-column: 1;
+  position: relative;
+  border-top: 1px solid var(--rule);
+}
+
+.row:first-child {
+  border-top: 2px solid var(--ink);
+}
+
+.option {
+  position: relative;
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 18px 8px 18px 2px;
+  border: 0;
+  background: none;
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .option:hover .optText {
+    text-decoration: underline;
+    text-decoration-color: var(--yellow);
+    text-decoration-thickness: 0.3em;
+    text-underline-offset: -0.08em;
+    text-decoration-skip-ink: none;
+  }
+}
+
+.option:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: -3px;
+}
+
+.letter {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  font: 700 23px/1 var(--f-display);
+}
+
+/* the reader's pen circles the chosen letter */
+.circle {
+  position: absolute;
+  left: -16px;
+  top: -11px;
+  --pen: var(--pink);
+}
+
+.optText {
+  position: relative;
+  font-size: var(--body);
+  line-height: 1.45;
+}
+
+.optInner {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.option[data-state='right'] .optText {
+  font-weight: 600;
+}
+
+.option[data-state='wrong'] .optText,
+.option[data-state='struck'] .optText {
+  color: var(--ink-2);
+}
+
+.strike {
+  position: absolute;
+  left: -1%;
+  top: 0.55em;
+  width: 102%;
+  height: 0.6em;
+  --pen: var(--pink);
+}
+
+.stamp {
+  justify-self: end;
+  padding: 5px 10px 4px;
+  border: 2.5px solid currentColor;
+  outline: 1px solid currentColor;
+  outline-offset: -6px;
+  font: 700 13px/1.2 var(--f-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  transform: rotate(-7deg);
+  animation: tk-thunk 0.34s cubic-bezier(0.2, 1.6, 0.4, 1);
+  white-space: nowrap;
+}
+
+@keyframes tk-thunk {
+  from {
+    transform: rotate(-7deg) scale(1.8);
+    opacity: 0;
+  }
+}
+
+.stampRight {
+  color: var(--blue-text);
+}
+
+.stampWrong {
+  color: var(--pink-text);
+}
+
+/* ---- the margin note ---- */
+.margin {
+  grid-column: 2;
+  position: relative;
+  min-width: 0;
+  padding: 12px 0 0;
+}
+
+.note {
+  position: relative;
+  padding-left: 6px;
+  color: var(--pink-text);
+  --pen: var(--pink);
+  animation: tk-note 0.4s var(--ease) both;
+}
+
+@keyframes tk-note {
+  from {
+    opacity: 0;
+    transform: translateX(-8px) rotate(-1deg);
+  }
+}
+
+.arrow {
+  position: absolute;
+  left: -74px;
+  top: 2px;
+}
+
+.noteHead,
+.noteText,
+.noteRetry {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-variation-settings:
+    'opsz' 24,
+    'SOFT' 100,
+    'WONK' 1;
+}
+
+.noteHead {
+  margin: 0 0 4px;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.noteText {
+  margin: 0;
+  font-size: 18.5px;
+  font-weight: 450;
+  line-height: 1.4;
+  transform: rotate(-0.5deg);
+  transform-origin: left top;
+}
+
+.noteRetry {
+  margin: 8px 0 0;
+  font-size: 17px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+/* Phones: one column; the note follows the answer it explains (flex order), with a pen rule beside it */
+@media (max-width: 760px) {
+  .q {
+    display: flex;
+    flex-direction: column;
+  }
+  .marginHead,
+  .marginRule,
+  .arrow {
+    display: none;
+  }
+  .margin {
+    padding: 0 0 14px 64px;
+  }
+  .margin:empty {
+    display: none;
+  }
+  .note {
+    padding: 10px 0 2px 14px;
+    border-left: 2px solid var(--pink);
+  }
+}
+
+@media (max-width: 560px) {
+  .option {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 12px;
+  }
+  .stamp {
+    grid-column: 2;
+    justify-self: start;
+    margin-top: 6px;
+  }
+  .letter {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  .circle {
+    left: -19px;
+    top: -14px;
+  }
+  .margin {
+    padding-left: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp,
+  .note {
+    animation: none;
+  }
+}

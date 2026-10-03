@@ -1,0 +1,27 @@
+ spec:
+   template:
+     metadata:
+       labels:
+         app: klopa-api
+         version: "1.4.1"
+     spec:
++      terminationGracePeriodSeconds: 30
+       containers:
+         - name: klopa-api
+           image: registry.klopa.example/klopa-api:1.4.1
+           ports:
+             - containerPort: 8000
+           readinessProbe:
+             httpGet:
+               path: /ready
+               port: 8000
+             periodSeconds: 10
+             failureThreshold: 3
+           resources:
+             requests:
+               cpu: 100m
+               memory: 256Mi
++          lifecycle:
++            preStop:
++              sleep:
++                seconds: 5

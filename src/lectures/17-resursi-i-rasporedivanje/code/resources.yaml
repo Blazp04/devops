@@ -1,0 +1,28 @@
+# deployment.yaml (isječak): koliko mjesta treba jednom Podu klopa-api
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: klopa-api
+  namespace: klopa
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: klopa-api
+  template:
+    metadata:
+      labels:
+        app: klopa-api
+    spec:
+      containers:
+        - name: api
+          image: registry.klopa.example/klopa-api:1.4.0
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:          # zajamčeni minimum – ovo rezervira raspoređivač
+              cpu: 250m        # četvrtina procesorske jezgre
+              memory: 384Mi    # gunicorn radnik ≈ 256 MB + rezerva
+            limits:            # gornja granica – ovo provodi jezgra OS-a
+              memory: 512Mi    # iznad: OOMKilled, izlazni kod 137
+              # cpu: namjerno bez limita – bez prigušivanja kad čvor ima slobodnog CPU-a

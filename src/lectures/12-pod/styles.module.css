@@ -1,0 +1,64 @@
+/* Lecture 12 – local styles only (tables that reflow by container width). */
+.tableWrap {
+  container-type: inline-size;
+  margin: 1.4em 0 1.6em;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.table th {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 15.5px;
+  text-align: left;
+  padding: 6px 10px 6px 0;
+  border-bottom: 2px solid var(--ink-3);
+}
+
+.table td {
+  padding: 9px 10px 9px 0;
+  vertical-align: top;
+  border-bottom: 1.5px dashed color-mix(in srgb, var(--ink-3) 55%, transparent);
+}
+
+.table code {
+  white-space: nowrap;
+}
+
+.bad {
+  color: var(--red);
+  font-weight: 700;
+}
+
+@container (max-width: 560px) {
+  .table thead {
+    display: none;
+  }
+
+  .table tr {
+    display: block;
+    padding: 10px 0;
+    border-bottom: 1.5px dashed color-mix(in srgb, var(--ink-3) 55%, transparent);
+  }
+
+  .table td {
+    display: block;
+    padding: 2px 0;
+    border: 0;
+  }
+
+  .table td::before {
+    content: attr(data-label) ' ';
+    font-family: var(--f-hand);
+    font-size: 19px;
+    color: var(--ink-3);
+    margin-right: 4px;
+  }
+}

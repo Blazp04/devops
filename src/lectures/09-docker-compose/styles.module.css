@@ -1,0 +1,329 @@
+/* Lecture 09 — local styles (tokens only; paper and chalkboard both work). */
+
+.stageWrap {
+  width: 100%;
+}
+
+.narrowStage {
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.mediumStage {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.browserRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: flex-end;
+}
+
+/* the commands sit right under the drawing */
+.cmdRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 0;
+}
+
+.cmdRow code {
+  font-size: 0.92em;
+}
+
+/* status + file note keep their place, so nothing below jumps while you work */
+.statusSlot {
+  min-height: 4.6em;
+}
+
+.fileNote {
+  margin: 4px 0 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.bang {
+  font-family: var(--f-hand);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--orange);
+}
+
+.miniLog {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  min-height: 3em;
+  font-family: var(--f-mono);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.miniLog li {
+  overflow-wrap: anywhere;
+}
+
+.miniMark {
+  display: inline-block;
+  width: 1.4em;
+  font-weight: 700;
+}
+
+.miniOk {
+  color: var(--green);
+}
+
+.statusLine {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: baseline;
+  margin: 10px 0 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.statusLine code {
+  font-size: 14px;
+}
+
+.statusOk {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.statusBad {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.yamlHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin: 18px 0 8px;
+}
+
+.yamlHead small {
+  flex: 1 1 auto;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-2);
+}
+
+/* the file name on a yellow note, like every code sheet in the notebook */
+.yamlTag {
+  display: inline-block;
+  padding: 1px 12px 2px;
+  transform: rotate(-1.5deg);
+  background: var(--note-yellow);
+  color: var(--note-ink);
+  font-family: var(--f-hand);
+  font-size: 23px;
+  line-height: 1.2;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
+}
+
+/* a pinned sheet of graph paper (stays clean above the chalk dust on the board) */
+.yamlBox {
+  position: relative;
+  z-index: 5;
+  padding: 4px;
+}
+
+.yaml {
+  max-height: 240px;
+  overflow: auto;
+  padding: 10px 0;
+  background-color: var(--code-paper, var(--paper-2));
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 22px 22px;
+  font-family: var(--f-mono);
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink);
+  position: relative;
+  z-index: 5;
+}
+
+.yamlLine {
+  display: flex;
+  gap: 0;
+  padding: 0 12px 0 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.yamlNo {
+  flex: 0 0 34px;
+  text-align: right;
+  padding-right: 10px;
+  color: var(--ink-3);
+  font-family: var(--f-hand);
+  font-size: 15px;
+  user-select: none;
+}
+
+.yamlText {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.yamlComment {
+  color: var(--ink-3);
+}
+
+.yamlSel {
+  background: var(--hl-yellow);
+  color: var(--note-ink);
+}
+
+.yamlChanged {
+  background: var(--hl-orange);
+  box-shadow: inset 4px 0 0 var(--orange);
+  color: var(--note-ink);
+}
+
+/* on a marker the text is dark in both themes (chalk on chalk-yellow would be unreadable) */
+.yamlSel .yamlNo,
+.yamlChanged .yamlNo,
+.yamlSel.yamlComment,
+.yamlChanged.yamlComment {
+  color: var(--note-ink);
+}
+
+.yamlSvc {
+  all: unset;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--pen);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.yamlSel .yamlSvc,
+.yamlChanged .yamlSvc {
+  color: var(--note-ink);
+}
+
+.yamlSvc:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: 2px;
+}
+
+.timeNote {
+  margin: 8px 0 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.explain {
+  margin: 14px 0 0;
+  padding: 12px 16px;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.explain p {
+  margin: 8px 0 0;
+}
+
+.btnGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btnGrid code {
+  font-size: 0.92em;
+}
+
+.selHint {
+  margin: 4px 0 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-2);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+  gap: 28px;
+  align-items: start;
+  margin-top: 24px;
+}
+
+/* ---------- small interactives ---------- */
+
+.labRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  align-items: flex-end;
+  margin: 12px 0 0;
+}
+
+.labOut {
+  margin: 12px 0 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.labOut code {
+  font-size: 14px;
+}
+
+.labPanel {
+  margin: 16px 0;
+  padding: 16px 18px 18px;
+}
+
+.labTitle {
+  margin: 0 0 4px;
+  font-family: var(--f-hand);
+  font-size: 23px;
+  color: var(--ink);
+}
+
+.labHint {
+  margin: 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-2);
+}
+
+/* long inline code that may wrap on phones (the global inline-code style is nowrap) */
+:global(.prose) code.wrap,
+code.wrap {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* inline code in the incident card's metric labels: the kit's dt is 14,5 px and code would shrink under 12 px */
+.metricCode.metricCode {
+  font-size: 12.5px;
+}

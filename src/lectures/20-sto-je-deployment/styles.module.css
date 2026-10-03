@@ -1,0 +1,338 @@
+/* Lecture 20 — local styles (tokens only; paper and chalkboard switch through the tokens). */
+
+/* ---------- flagship lanes ---------- */
+.lanes {
+  display: grid;
+  gap: 14px;
+}
+
+.lane {
+  padding-top: 10px;
+  border-top: 1.5px dashed color-mix(in srgb, var(--ink-3) 45%, transparent);
+}
+
+.lane:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.laneHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+  margin-bottom: 2px;
+}
+
+.laneSwatch {
+  display: inline-block;
+  width: 22px;
+  height: 5px;
+  border-radius: 3px;
+  flex: none;
+  align-self: center;
+  vertical-align: middle;
+}
+
+.laneName {
+  font-family: var(--f-display);
+  font-weight: 750;
+  font-stretch: 88%;
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.laneHow {
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-2);
+  min-width: 0;
+}
+
+.laneBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin: 4px 0 2px;
+}
+
+.laneBadge {
+  display: inline-flex;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 2px 0 0;
+}
+
+.chip {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 2px 8px 3px;
+  border: 1.5px solid color-mix(in srgb, var(--ink-3) 40%, transparent);
+  border-radius: 7px 5px 8px 6px;
+}
+
+.chip dt {
+  font-family: var(--f-ui);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.chip dd {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.chip_bad {
+  border-color: var(--red);
+}
+
+.chip_bad dd {
+  color: var(--red);
+}
+
+.chip_bad dd::before {
+  content: '✗ ';
+}
+
+.chip_ok dd {
+  color: var(--green);
+}
+
+.chip_ok dd::before {
+  content: '✓ ';
+}
+
+.chip_warn {
+  border-color: var(--orange);
+}
+
+.chip_warn dd::before {
+  content: '! ';
+  color: var(--orange);
+}
+
+.chip_neutral {
+  /* plain */
+}
+
+.controlNote {
+  margin: 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.statsStack {
+  display: grid;
+  gap: 18px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+/* ---------- small labs ---------- */
+.labStage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+
+.labRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  gap: 4px;
+}
+
+.labTitle {
+  font-family: var(--f-display);
+  font-weight: 750;
+  font-stretch: 88%;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+/* ---------- four words ---------- */
+.words {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 18px;
+  margin: 8px 0 4px;
+}
+
+.word {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  padding: 12px 14px 14px;
+}
+
+.wordTerm {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 85%;
+  font-size: 21px;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.wordEn {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.wordMenza {
+  font-family: var(--f-hand);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.1;
+  color: var(--red);
+}
+
+.wordText {
+  margin: 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.wordFriday {
+  margin: 4px 0 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.wordArt {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  margin: 2px auto 4px;
+}
+
+/* ---------- comparison table ---------- */
+.tableWrap {
+  overflow-x: auto;
+  margin: 14px 0;
+}
+
+.table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-family: var(--f-body);
+  font-size: 17px;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 7px 10px;
+  border-bottom: 1.5px dashed color-mix(in srgb, var(--ink-3) 45%, transparent);
+}
+
+.table th {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.table td:first-child {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 88%;
+  white-space: nowrap;
+}
+
+/* ---------- flagship: lane head + scoreboard ---------- */
+.hitChip {
+  font-family: var(--f-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--green);
+  padding: 1px 8px 2px;
+  border: 1.5px solid currentColor;
+  border-radius: 8px 6px 9px 6px;
+  /* the chip carries a long caption („… s krivim PDV-om · vidjelo 2.0.0: …”): let it wrap on phones */
+  white-space: normal;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.hitChip span {
+  font-family: var(--f-ui);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.hitBad {
+  color: var(--red);
+}
+
+.laneArt {
+  max-width: 640px;
+}
+
+.cell span {
+  font-family: var(--f-mono);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cell_bad span {
+  color: var(--red);
+}
+
+.cell_bad span::before {
+  content: '✗ ';
+}
+
+.cell_ok span {
+  color: var(--green);
+}
+
+.cell_ok span::before {
+  content: '✓ ';
+}
+
+.cell_warn span::before {
+  content: '! ';
+  color: var(--orange);
+}
+
+.cell_neutral span {
+  color: var(--ink);
+}

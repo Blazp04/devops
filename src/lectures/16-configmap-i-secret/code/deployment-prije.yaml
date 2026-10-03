@@ -1,0 +1,12 @@
+# deployment.yaml, isječak – ovako je izgledao prije incidenta
+    spec:
+      containers:
+        - name: api
+          image: registry.klopa.example/klopa-api:1.4.0
+          env:
+            - name: DB_HOST
+              value: postgres
+            - name: DB_PASSWORD
+              value: klopa_db          # lozinka u običnom tekstu
+            - name: SMS_API_KEY
+              value: sms-7f3a9c2e      # ključ koji je netko iskoristio

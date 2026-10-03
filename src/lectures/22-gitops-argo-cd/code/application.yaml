@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: klopa-api
+  namespace: argocd          # Application živi uz Argo CD
+spec:
+  project: klopa             # AppProject: što aplikacija smije
+  source:
+    repoURL: https://git.klopa.example/klopa/klopa-config.git
+    targetRevision: main
+    path: apps/klopa-api/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: klopa
+  syncPolicy:
+    automated:               # sinkroniziraj sam kad je OutOfSync
+      prune: true            # zadano: false
+      selfHeal: true         # zadano: false
+    retry:                   # neuspjela sinkronizacija: ponovi
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m

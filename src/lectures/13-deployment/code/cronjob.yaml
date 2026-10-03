@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: dnevni-izvjestaj-kuhinji
+  namespace: klopa
+spec:
+  schedule: "30 6 * * 1-5"        # radnim danom u 6:30
+  timeZone: "Europe/Zagreb"
+  concurrencyPolicy: Forbid       # novi se ne pokreće dok stari radi
+  jobTemplate:                    # svako pokretanje = jedan Job
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: izvjestaj
+              image: registry.klopa.example/klopa-api:1.4.0
+              command: ["python", "manage.py", "izvjestaj_kuhinji"]
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 128Mi

@@ -1,0 +1,892 @@
+/* The simulation is a sheet of the page's own stock, laid on the blue centrefold, with crop marks. */
+.sim {
+  --sim-pad: clamp(14px, 2vw, 28px);
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.controls {
+  order: 0;
+}
+.metrics {
+  order: 1;
+}
+.canvas {
+  order: 2;
+}
+.shareFig {
+  order: 3;
+}
+.legend {
+  order: 4;
+}
+
+.cropMark {
+  position: absolute;
+  fill: none;
+  stroke: var(--on-flood);
+  stroke-width: 1.4;
+  pointer-events: none;
+}
+
+.crop_tl {
+  left: -15px;
+  top: -15px;
+}
+.crop_tr {
+  right: -15px;
+  top: -15px;
+  transform: scaleX(-1);
+}
+.crop_bl {
+  left: -15px;
+  bottom: -15px;
+  transform: scaleY(-1);
+}
+.crop_br {
+  right: -15px;
+  bottom: -15px;
+  transform: scale(-1);
+}
+
+.wideOnly {
+  display: inline;
+}
+
+/* ---------- controls ---------- */
+.controls {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.25fr) minmax(250px, 1fr) minmax(300px, 1.1fr);
+  border-bottom: 3px solid var(--ink);
+}
+
+.controls > * {
+  padding: 14px var(--sim-pad) 16px;
+  min-width: 0;
+}
+
+.controls > * + * {
+  border-left: 1px solid var(--ink);
+}
+
+.ctlLabel {
+  display: block;
+  margin-bottom: 8px;
+  padding: 0;
+  font: 700 12px/1.2 var(--f-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-2);
+}
+
+.rate {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 14px;
+  align-items: center;
+}
+
+.rate .ctlLabel {
+  grid-column: 1 / -1;
+}
+
+.rateOut {
+  font: 400 14px/1 var(--f-mono);
+  white-space: nowrap;
+  color: var(--ink-2);
+}
+
+.rateOut b {
+  font-size: 26px;
+  color: var(--ink);
+  margin-right: 4px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 30px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-runnable-track {
+  height: 12px;
+  border: 2px solid var(--ink);
+  background:
+    linear-gradient(var(--pink), var(--pink)) 0 0 / var(--fill) 100% no-repeat,
+    repeating-linear-gradient(90deg, var(--ink-3) 0 1px, transparent 1px 12px),
+    var(--paper-2);
+}
+
+.slider::-moz-range-track {
+  height: 8px;
+  border: 2px solid var(--ink);
+  background:
+    linear-gradient(var(--pink), var(--pink)) 0 0 / var(--fill) 100% no-repeat,
+    repeating-linear-gradient(90deg, var(--ink-3) 0 1px, transparent 1px 12px),
+    var(--paper-2);
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  margin-top: -9px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 0 0 0 var(--pink);
+  transition: box-shadow 0.18s var(--ease);
+}
+
+.slider:hover::-webkit-slider-thumb,
+.slider:active::-webkit-slider-thumb {
+  box-shadow: 3px 3px 0 var(--pink);
+}
+
+.slider::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 4px 3px 0 var(--pink);
+}
+
+.slider:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.algoOpts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.algoOpt {
+  padding: 8px 12px;
+  border: 2px solid var(--ink);
+  font: 600 15px/1.15 var(--f-ui);
+  color: var(--ink);
+  background: var(--paper);
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    box-shadow 0.18s var(--ease),
+    transform 0.18s var(--ease);
+}
+
+.algoOpt[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--on-ink);
+}
+
+/* plates: at rest every control is one flat ink; on hover the second plate slides out from under it,
+   on press the plates register again */
+@media (hover: hover) {
+  .algoOpt:not([aria-pressed='true']):hover {
+    box-shadow: 3px 3px 0 var(--yellow);
+  }
+}
+
+.algoOpt:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .algoOpt:not([aria-pressed='true']):hover {
+    transform: translate(-1px, -1px);
+  }
+}
+
+.algoOpt:active {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.crash,
+.fix,
+.play {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font: 700 15px/1.1 var(--f-ui);
+  cursor: pointer;
+  transition:
+    transform 0.15s var(--ease),
+    box-shadow 0.15s var(--ease),
+    opacity 0.2s;
+}
+
+.crash svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+.crash {
+  padding: 9px 13px;
+  border: 2px solid var(--ink);
+  background: var(--pink);
+  color: #1d1b26;
+}
+
+.fix {
+  padding: 9px 13px;
+  border: 2px solid var(--blue);
+  background: var(--paper);
+  color: var(--blue-text);
+}
+
+@media (hover: hover) {
+  .crash:not(:disabled):hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .fix:not(:disabled):hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--blue);
+  }
+}
+
+.crash:not(:disabled):active,
+.fix:not(:disabled):active {
+  transform: none;
+  box-shadow: none;
+}
+
+.crash:disabled,
+.fix:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+  box-shadow: none;
+}
+
+.play {
+  padding: 9px 4px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+}
+
+.play svg {
+  fill: currentColor;
+}
+
+.crash:focus-visible,
+.fix:focus-visible,
+.play:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+/* ---------- metrics: 3-up row above the stage ---------- */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 1px solid var(--ink);
+}
+
+.metric {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 18px;
+  align-items: end;
+  padding: 14px var(--sim-pad) 14px;
+  min-width: 0;
+}
+
+.metric + .metric {
+  border-left: 1px solid var(--rule);
+}
+
+.mLabel {
+  grid-column: 1 / -1;
+  margin: 0 0 4px;
+  font: 700 12px/1.2 var(--f-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-2);
+}
+
+.mValue {
+  margin: 0;
+  font: 700 clamp(30px, 3.2vw, 46px) / 1 var(--f-mono);
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.mUnit {
+  margin-left: 8px;
+  font: 400 13px/1 var(--f-mono);
+  letter-spacing: 0;
+  color: var(--ink-2);
+}
+
+.metricBad .mValue {
+  color: var(--pink-text);
+}
+
+.spark {
+  display: block;
+  width: 100%;
+  height: 30px;
+}
+
+.sparkBase {
+  stroke: var(--ink);
+  stroke-width: 1;
+}
+
+.spark_ink {
+  fill: var(--ink);
+}
+.spark_blue {
+  fill: var(--blue);
+}
+.spark_pink {
+  fill: var(--pink);
+}
+
+/* ---------- stage ---------- */
+.canvas {
+  position: relative;
+  padding: var(--sim-pad);
+  min-width: 0;
+  container-type: inline-size;
+}
+
+.canvas svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* the live narration, set as a pull quote in the empty lower-left quadrant of the stage */
+.narration {
+  position: absolute;
+  left: var(--sim-pad);
+  bottom: var(--sim-pad);
+  width: 41%;
+  margin: 0;
+  padding-top: 12px;
+  border-top: 4px solid var(--pink);
+  font-family: var(--f-display);
+  font-style: italic;
+  font-weight: 450;
+  font-size: clamp(17px, 2cqw, 24px);
+  line-height: 1.3;
+  font-variation-settings:
+    'opsz' 48,
+    'SOFT' 80,
+    'WONK' 1;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* ---------- share of traffic vs share of cores ---------- */
+.shareFig {
+  margin: 0;
+  padding: 18px var(--sim-pad) 20px;
+  border-top: 3px solid var(--ink);
+}
+
+.shareHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 22px;
+  margin-bottom: 12px;
+}
+
+.shareTitle {
+  margin-right: auto;
+  font: 700 clamp(22px, 2.2vw, 30px) / 1.1 var(--f-display);
+  letter-spacing: -0.01em;
+  font-variation-settings:
+    'opsz' 72,
+    'SOFT' 50;
+}
+
+.shareKey {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 15px/1.3 var(--f-ui);
+  color: var(--ink-2);
+}
+
+.keyTraffic,
+.keyCores {
+  display: inline-block;
+  width: 26px;
+  height: 12px;
+}
+
+.keyTraffic {
+  height: 7px;
+  background: var(--pink);
+}
+
+.keyCores {
+  background: var(--blue);
+}
+
+/* the overlap chip: a blue core plate with the pink traffic plate overprinted through its middle */
+.keyMix {
+  position: relative;
+  display: inline-block;
+  width: 26px;
+  height: 14px;
+  background: var(--blue);
+}
+
+.keyMix i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 4px;
+  bottom: 4px;
+  background: var(--pink);
+  mix-blend-mode: var(--over);
+}
+
+.shareRow {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) 118px;
+  align-items: center;
+  gap: 14px;
+  margin: 8px 0;
+}
+
+.shareName {
+  font: 700 20px/1 var(--f-display);
+}
+
+.shareTrack {
+  position: relative;
+  height: 28px;
+  border-bottom: 1px solid var(--ink);
+  background-image: repeating-linear-gradient(90deg, var(--rule) 0 1px, transparent 1px 10%);
+}
+
+.shareCores,
+.shareTraffic {
+  position: absolute;
+  left: 0;
+  mix-blend-mode: var(--over);
+  transition: width 0.4s var(--ease);
+}
+
+.shareCores {
+  top: 0;
+  bottom: 0;
+  background: var(--blue);
+  mix-blend-mode: normal;
+}
+
+/* the traffic plate, misregistered a few px down so the overhang reads as a separate impression */
+.shareTraffic {
+  top: 8px;
+  bottom: 8px;
+  background: var(--pink);
+}
+
+.shareTick {
+  position: absolute;
+  top: -6px;
+  bottom: -6px;
+  width: 3px;
+  margin-left: -1.5px;
+  background: var(--ink);
+}
+
+.sharePct {
+  font: 400 14px/1 var(--f-mono);
+  color: var(--ink-2);
+  white-space: nowrap;
+  text-align: right;
+}
+
+.sharePct b {
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.sharePct b.pctOver {
+  color: var(--pink-text);
+}
+
+.shareNote {
+  margin: 12px 0 0;
+  max-width: 52em;
+  font: 400 15px/1.5 var(--f-ui);
+  color: var(--ink-2);
+}
+
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 12px var(--sim-pad) 14px;
+  border-top: 1px solid var(--ink);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  font: 500 14px/1.3 var(--f-ui);
+  color: var(--ink-2);
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend svg {
+  overflow: visible;
+}
+
+.legendBar {
+  width: 28px;
+  height: 11px;
+  background: var(--blue);
+}
+
+.legendRam {
+  width: 11px;
+  height: 11px;
+  background: var(--yellow);
+}
+
+.legendStamp {
+  padding: 1px 5px;
+  border: 2px solid var(--pink-text);
+  outline: 1px solid var(--pink-text);
+  outline-offset: -4px;
+  font: 700 11px/1.3 var(--f-ui);
+  letter-spacing: 0.1em;
+  color: var(--pink-text);
+  transform: rotate(-6deg);
+}
+
+/* ---------- SVG parts ---------- */
+.fBlue {
+  fill: var(--blue);
+}
+.over {
+  mix-blend-mode: var(--over);
+}
+
+.route {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  stroke-dasharray: 2 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.routeOut {
+  fill: none;
+  stroke: var(--pink);
+  stroke-width: 2;
+  stroke-dasharray: 10 8;
+  opacity: 0.7;
+}
+
+.routeX {
+  stroke: var(--pink);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+}
+
+.caps {
+  font: 700 13px var(--f-ui);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  fill: var(--ink-2);
+}
+
+.name {
+  font: 700 23px var(--f-display);
+  letter-spacing: -0.01em;
+  fill: var(--ink);
+}
+
+.spec {
+  font: 400 13.5px var(--f-mono);
+  fill: var(--ink-2);
+}
+
+.stats {
+  font: 400 13px var(--f-mono);
+  fill: var(--ink-2);
+}
+
+.barEdge {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 1.5;
+}
+
+.qSlot {
+  fill: var(--ink-3);
+}
+
+.ramFree {
+  fill: none;
+  stroke: var(--yellow-text);
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+}
+
+.ramUsed {
+  fill: var(--yellow);
+}
+
+.queued {
+  transition: transform 0.28s var(--ease);
+}
+
+.dimmed {
+  opacity: 0.42;
+  transition: opacity 0.4s;
+}
+
+.ruleBg {
+  fill: var(--ink);
+}
+
+.ruleText {
+  font: 700 14px var(--f-mono);
+  letter-spacing: 0.04em;
+  fill: var(--paper);
+}
+
+/* the portrait stage renders at ~0.85×: counter-size its labels so they stay ≥ 11.5 px */
+.svgN .name {
+  font-size: 22px;
+}
+.svgN .spec,
+.svgN .stats,
+.svgN .hcNote {
+  font-size: 14px;
+}
+.svgN .hcLabel {
+  font-size: 13.5px;
+}
+
+.okRing {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 2.6;
+}
+
+.hcLabel {
+  font: 700 12.5px var(--f-ui);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  fill: var(--ink-2);
+}
+
+.hcTrack {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.2;
+}
+
+.hcDetect {
+  fill: var(--pink);
+}
+
+.hcRejoin {
+  fill: var(--blue);
+}
+
+.hcNote {
+  font: 400 13px var(--f-mono);
+  fill: var(--ink-2);
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 1100px) {
+  .controls {
+    grid-template-columns: 1fr 1fr;
+  }
+  .actions {
+    grid-column: 1 / -1;
+    border-left: 0 !important;
+    border-top: 1px solid var(--ink);
+  }
+  .narration {
+    width: 44%;
+  }
+}
+
+/* Phones: numbers on top, the stage, then a compact control strip pinned to the bottom of the screen
+   while the stage is in view — slider, servers and numbers are visible together. */
+@media (max-width: 700px) {
+  .metrics {
+    order: 0;
+  }
+  .canvas {
+    order: 1;
+  }
+  .controls {
+    order: 2;
+  }
+  .metric {
+    display: block;
+    padding: 10px 10px 10px 12px;
+  }
+  .mLabel {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+  .mValue {
+    font-size: 24px;
+  }
+  .mUnit {
+    display: block;
+    margin: 4px 0 0;
+    font-size: 11px;
+  }
+  .spark {
+    display: none;
+  }
+  .narration {
+    position: static;
+    width: auto;
+    margin-top: 12px;
+    font-size: 17.5px;
+  }
+  .canvas {
+    padding: 12px 10px;
+  }
+  .controls {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+      'rate rate rate play'
+      'algo algo algo algo'
+      'crash crash fix fix';
+    gap: 8px 8px;
+    padding: 10px 12px 12px;
+    border-top: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+    background: var(--paper);
+    box-shadow: 0 -8px 0 color-mix(in srgb, var(--paper) 70%, transparent);
+  }
+  .controls > * {
+    padding: 0;
+  }
+  .controls > * + * {
+    border-left: 0 !important;
+    border-top: 0 !important;
+  }
+  .actions,
+  .actionRow {
+    display: contents;
+  }
+  .actions > .ctlLabel,
+  .algo > .ctlLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .rate {
+    grid-area: rate;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: auto;
+    column-gap: 10px;
+  }
+  .rate .ctlLabel {
+    grid-column: auto;
+    margin: 0;
+  }
+  .rateOut b {
+    font-size: 20px;
+  }
+  .algo {
+    grid-area: algo;
+  }
+  .algoOpts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .algoOpt {
+    padding: 8px 6px;
+    font-size: 14.5px;
+    white-space: nowrap;
+  }
+  .unitLong {
+    display: none;
+  }
+  .crash {
+    grid-area: crash;
+  }
+  .fix {
+    grid-area: fix;
+  }
+  .play {
+    grid-area: play;
+    justify-self: end;
+    padding: 6px 8px;
+    border: 2px solid var(--ink);
+    text-decoration: none;
+  }
+  .crash,
+  .fix {
+    justify-content: center;
+    padding: 8px 9px;
+    font-size: 14.5px;
+  }
+  .wideOnly {
+    display: none;
+  }
+  .shareRow {
+    grid-template-columns: 70px minmax(0, 1fr);
+    gap: 4px 12px;
+  }
+  .sharePct {
+    grid-column: 2;
+    text-align: left;
+  }
+  .shareName {
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: klopa
+resources:
+  - ../../base
+images:
+  - name: registry.klopa.example/klopa-api
+    # 2.0.1 – točno ona slika koju je CI izgradio i testirao
+    digest: sha256:eae9e84348e85d66eb5127e96230cda43b0ba84ff0f9da82721f94e5e49d17e0

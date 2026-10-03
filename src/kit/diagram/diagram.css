@@ -1,0 +1,418 @@
+/* ==========================================================================
+   Kit · diagrams (Diagram, DNode, Edge, Packet, DGroup, K8s shapes, StoryMap).
+   Owned by the diagram area. Class prefix: k-
+   Drawn with the notebook's pen (roughjs); lettering voices from the bible:
+   Bricolage = names in drawings, Caveat = handwritten labels, Plex Mono = specs.
+   ========================================================================== */
+
+/* ---------- Diagram canvas ---------- */
+.k-diagram {
+  display: block;
+  font-family: var(--f-ui);
+  user-select: none;
+  overflow: visible;
+}
+
+/* paper halo behind lettering that sits on pencil lines */
+.k-dlabel,
+.k-dhalo,
+.k-k8s__kind,
+.k-k8s__caption,
+.k-pod__caption {
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+.k-paper-fill {
+  fill: var(--paper);
+}
+
+/* ---------- DNode ---------- */
+.k-dnode__title {
+  font-family: var(--f-display);
+  font-size: 14px;
+  font-weight: 700;
+  font-stretch: 88%;
+  letter-spacing: -0.005em;
+  fill: var(--ink);
+}
+
+/* dim: a faint dashed outline (NodeSketch) and lighter, still readable lettering — never opacity */
+.k-dnode.is-dim .k-dnode__title,
+.k-dnode.is-dim .k-dnode__subtitle {
+  fill: var(--ink-3);
+}
+
+.k-dnode.is-dim .k-glyph,
+.k-dnode.is-dim svg {
+  opacity: 0.55;
+}
+
+/* a clickable node / Pod is a button: pen focus ring */
+.k-dnode.is-clickable:focus-visible,
+.k-pod-btn:focus-visible {
+  outline: 2px dashed var(--pen);
+  outline-offset: 4px;
+}
+
+.k-dnode.is-clickable:focus:not(:focus-visible),
+.k-pod-btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.k-dnode__subtitle {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  font-weight: 500;
+  fill: var(--ink-2);
+}
+
+.k-dnode__wreck {
+  opacity: 0.4;
+}
+
+/* ---------- DGroup ---------- */
+.k-dgroup__wash {
+  opacity: 0.55;
+}
+
+.k-dgroup__label {
+  font-family: var(--f-hand);
+  font-size: 19px;
+  font-weight: 600;
+}
+
+/* ---------- DLabel ---------- */
+.k-dlabel--hand {
+  font-family: var(--f-hand);
+}
+
+.k-dlabel--mono {
+  font-family: var(--f-mono);
+}
+
+/* ---------- Edge ---------- */
+.k-edge--flow path {
+  animation: k-flow 0.9s linear infinite;
+}
+
+@keyframes k-flow {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+
+/* ---------- Packet: the request tray (fill comes from the <use fill=…>) ---------- */
+.k-dtray-body {
+  stroke: var(--ink);
+  stroke-width: 1.1;
+  stroke-linejoin: round;
+}
+
+/* ---------- DBar: fuel bar coloured in with a marker ---------- */
+.k-dbar__fill {
+  opacity: 0.85;
+}
+
+:root[data-theme='dark'] .k-dbar__fill {
+  opacity: 0.9;
+}
+
+/* ---------- K8sIcon ---------- */
+.k-k8s__kind {
+  font-family: var(--f-mono);
+  font-weight: 600;
+  fill: var(--ink-2);
+}
+
+.k-k8s__caption {
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  fill: var(--ink-2);
+}
+
+/* ---------- PodShape: the lunchbox ---------- */
+.k-pod__face {
+  fill: var(--paper);
+  opacity: 0.95;
+}
+
+.k-pod__tape {
+  opacity: 0.94;
+}
+
+.k-pod__tape-text {
+  font-family: var(--f-mono);
+  font-weight: 600;
+  fill: var(--note-ink);
+}
+
+.k-pod__caption {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  fill: var(--ink-2);
+}
+
+.k-pod__port-off {
+  fill: var(--paper);
+  stroke: var(--orange);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 2;
+}
+
+/* Pending: the drawing is faint (dashed, sleepy), its lettering stays readable */
+.k-pod--pending .k-pod__outline {
+  opacity: 0.74;
+}
+
+/* ContainerCreating: the outline pulses while the container is being prepared (state is changing) */
+/* going away / done: the lunchbox fades, its lettering (tape, caption) stays readable */
+.k-pod--terminating .k-pod__outline {
+  opacity: 0.45;
+}
+
+.k-pod--completed .k-pod__outline {
+  opacity: 0.62;
+}
+
+.k-pod--creating .k-pod__outline {
+  animation: k-pod-pulse 1.1s ease-in-out infinite alternate;
+}
+
+@keyframes k-pod-pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.3;
+  }
+}
+
+/* ---------- NodeFrame ---------- */
+.k-nodeframe__name {
+  font-family: var(--f-display);
+  font-size: 16px;
+  font-weight: 800;
+  font-stretch: 85%;
+  fill: var(--ink);
+}
+
+.k-nodeframe__spec {
+  font-family: var(--f-hand);
+  font-size: 17px;
+  font-weight: 600;
+  font-stretch: 100%;
+  fill: var(--ink-2);
+}
+
+.k-nodeframe__bar-label {
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  fill: var(--ink-2);
+}
+
+.k-nodeframe__pct {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  fill: var(--ink-2);
+}
+
+.k-nodeframe__wreck {
+  opacity: 0.35;
+}
+
+/* ---------- StoryMap: Klopa karta ---------- */
+.k-storymap {
+  margin: 2.2em auto;
+}
+
+.k-storymap__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin-bottom: 6px;
+}
+
+.k-storymap__kicker {
+  font-family: var(--f-hand);
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--red);
+}
+
+.k-storymap__title {
+  font-family: var(--f-display);
+  font-size: 1.02rem;
+  font-weight: 700;
+  font-stretch: 90%;
+  color: var(--ink-2);
+}
+
+.k-storymap__title b {
+  font-family: var(--f-mono);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.k-storymap__stage {
+  position: relative;
+}
+
+.k-storymap__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  overflow: visible;
+  user-select: none;
+}
+
+/* the phone drawing never balloons on a tablet (bible: narrow layouts max ~460 px) */
+.k-storymap__stage[data-layout='narrow'] .k-storymap__svg {
+  max-width: 460px;
+}
+
+.k-storymap__caption {
+  margin: 10px 0 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.k-storymap__legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 0;
+  font-family: var(--f-hand);
+  font-size: 1.15rem;
+  line-height: 1.2;
+  color: var(--ink-2);
+}
+
+.k-storymap__legend b {
+  font-family: var(--f-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  color: var(--red);
+}
+
+.k-storymap__swatch {
+  flex: none;
+  width: 34px;
+  height: 14px;
+  background: var(--hl-yellow);
+  border-radius: 3px 7px 4px 8px;
+  transform: rotate(-2deg);
+}
+
+:root[data-theme='dark'] .k-storymap__swatch {
+  background: repeating-linear-gradient(-41deg, color-mix(in srgb, var(--hl-yellow-ink) 60%, transparent) 0 2.5px, transparent 2.5px 5px);
+}
+
+/* the key to the lecture tags (`tags`): a little blue-pen stamp like the ones on the map */
+.k-storymap__tagkey {
+  flex: none;
+  padding: 0 5px;
+  font-family: var(--f-display);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--pen);
+  border: 2px solid var(--pen);
+  border-radius: 3px;
+  transform: rotate(-4deg);
+}
+
+/* lettering on the map */
+.k-map__hand {
+  font-family: var(--f-hand);
+  font-size: 18px;
+  font-weight: 600;
+  fill: var(--ink-2);
+}
+
+.k-storymap__stage[data-layout='narrow'] .k-map__hand {
+  font-size: 19px;
+}
+
+/* edge labels (DLabel inside Edge) follow the map's lettering (mapFont: ≥ 17 px on screen at every width) */
+.k-storymap .k-dlabel--hand {
+  font-size: var(--map-edge, 17.4px) !important;
+}
+
+.k-map__name {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 86%;
+  fill: var(--ink);
+}
+
+.k-map__mono {
+  font-family: var(--f-mono);
+  font-weight: 500;
+  fill: var(--ink-2);
+}
+
+.k-map__wash {
+  fill: var(--paper-2);
+  opacity: 0.6;
+}
+
+.k-map__sticker {
+  fill: var(--note-orange);
+  stroke: var(--note-ink);
+  stroke-width: 1;
+}
+
+.k-map__sticker-text {
+  font-family: var(--f-mono);
+  font-weight: 700;
+  fill: var(--note-ink);
+}
+
+.k-map__note {
+  fill: var(--note-yellow);
+  filter: drop-shadow(0 3px 3px var(--shadow-c));
+}
+
+.k-map__note-tape {
+  fill: var(--tape-a);
+}
+
+.k-map__note-text {
+  font-family: var(--f-hand);
+  font-weight: 600;
+  fill: var(--note-ink);
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .k-edge--flow path,
+  .k-pod--creating .k-pod__outline {
+    animation: none;
+  }
+}
+
+/* the highlighter: a translucent marker on paper; on the chalkboard coloured chalk on its side (hatching) */
+.k-map__marker--chalk {
+  display: none;
+}
+
+:root[data-theme='dark'] .k-map__marker--paper {
+  display: none;
+}
+
+:root[data-theme='dark'] .k-map__marker--chalk {
+  display: inline;
+  opacity: 0.5;
+}

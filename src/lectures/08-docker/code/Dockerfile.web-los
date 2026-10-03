@@ -1,0 +1,10 @@
+# Ivin prvi Dockerfile za klopa-web: radi, ali je spor, golem i nesiguran
+FROM node:24
+WORKDIR /app
+# kopira SVE iz konteksta: kod, node_modules, .git i .env
+COPY . .
+# zato se instalacija ponavlja nakon svake promjene koda
+RUN npm ci
+RUN npm run build
+# nema USER: proces u kontejneru radi kao root
+CMD ["npm", "start"]

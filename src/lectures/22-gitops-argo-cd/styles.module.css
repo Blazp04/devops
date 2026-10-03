@@ -1,0 +1,231 @@
+/* Lecture 22 — local styles (tokens only; paper and chalkboard both work through the tokens). */
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1rem;
+  align-items: start;
+}
+
+.paths {
+  margin-top: 0.9rem;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.paths ul {
+  margin: 0.3rem 0 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.paths li {
+  margin: 0.25rem 0;
+}
+
+.pathsTitle {
+  margin: 0;
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.ok {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.bad {
+  color: var(--red);
+  font-weight: 700;
+}
+
+.warn {
+  color: var(--orange);
+  font-weight: 700;
+}
+
+.ctlNote {
+  margin: 0.4rem 0 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  font-style: italic;
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.btnCol {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.45rem;
+}
+
+.btnRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+/* four principle cards (OpenGitOps) */
+.principles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 1.4rem 0;
+}
+
+.principle {
+  padding: 0.9rem 1rem 1rem;
+}
+
+.principleHead {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--f-ui);
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.principleIcon {
+  width: 48px;
+  height: 36px;
+  flex: none;
+}
+
+.principleNo {
+  font-family: var(--f-hand);
+  font-size: 24px;
+  color: var(--red);
+  font-weight: 700;
+}
+
+.principleText {
+  margin: 0.4rem 0 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+/* sync / health readout under a stage */
+.readout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.8rem;
+  margin: 0.6rem 0 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.note {
+  margin: 0.5rem 0 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.diff {
+  margin: 0.6rem 0 0;
+  padding: 0.6rem 0.8rem;
+  border-left: 3px solid var(--orange);
+  background: var(--paper-2);
+  font-family: var(--f-mono);
+  font-size: 14px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.diffEmpty {
+  border-left-color: var(--green);
+  font-family: var(--f-body);
+  font-size: 17px;
+  font-style: italic;
+}
+
+.diffTitle {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.diffMinus {
+  color: var(--red);
+}
+
+.diffPlus {
+  color: var(--green);
+}
+
+.diffIgnored {
+  color: var(--ink-3);
+  text-decoration: line-through;
+}
+
+.stepFig {
+  width: 100%;
+}
+
+/* tables inside the text */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+.table th,
+.table td {
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px dashed var(--ink-4);
+  text-align: left;
+  vertical-align: top;
+}
+
+.table th {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.lever {
+  padding: 0.9rem 1rem 1rem;
+}
+
+/* flagship: the drawing stays at the top of its cell (and in view) while the controls column is taller */
+.stageTop {
+  margin-bottom: auto;
+  position: sticky;
+  top: 60px; /* below the page's top bar where it exists */
+  z-index: 1;
+}
+
+/* break-it buttons right under the drawing */
+.breakRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.7rem;
+}
+
+.breakLabel {
+  font-family: var(--f-hand);
+  font-size: 22px;
+  color: var(--red);
+  margin-right: 0.2rem;
+}

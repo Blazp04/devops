@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: klopa-migracija-1-4-0
+  namespace: klopa
+spec:
+  backoffLimit: 3                 # najviše tri ponovna pokušaja
+  ttlSecondsAfterFinished: 3600   # obriši gotov Job nakon sat vremena
+  template:
+    spec:
+      restartPolicy: Never        # Job: posao do kraja, a ne vječni proces
+      containers:
+        - name: migracija
+          image: registry.klopa.example/klopa-api:1.4.0
+          command: ["python", "manage.py", "migrate", "--noinput"]
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi

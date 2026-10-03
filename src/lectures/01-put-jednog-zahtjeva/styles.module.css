@@ -1,0 +1,586 @@
+/* Lecture 01 · local styles (tokens only; paper and chalkboard switch through the tokens) */
+
+/* ---------- the stage of the route drawing ---------- */
+.stageWrap {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: 12px;
+  min-width: 0;
+}
+
+.urlbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  padding: 7px 14px;
+  max-width: 100%;
+}
+
+.urlwho {
+  font-family: var(--f-hand);
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--ink-2);
+  line-height: 1.1;
+}
+
+.urlbar .url {
+  white-space: normal;
+  font-family: var(--f-mono);
+  font-size: 15px;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+  background: none;
+  padding: 0;
+}
+
+.ticker,
+.result {
+  min-height: 92px;
+}
+
+.tickerNote,
+.resultText {
+  margin: 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.tickerHeader {
+  margin: 6px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: baseline;
+}
+
+.tickerHeader span {
+  font-family: var(--f-hand);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--pen);
+}
+
+.ticker .tickerHeader code {
+  white-space: normal;
+  font-family: var(--f-mono);
+  font-size: 14px;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+  background: none;
+  padding: 0;
+}
+
+.resultHead {
+  margin: 0 0 4px;
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.result .resultHead code {
+  white-space: normal;
+  color: inherit;
+  background: color-mix(in srgb, var(--note-ink) 9%, transparent);
+  font-family: var(--f-mono);
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.resultHead[data-tone='bad'] span {
+  color: var(--red);
+}
+
+.resultHead[data-tone='ok'] span {
+  color: var(--green);
+}
+
+.stageNote {
+  margin: 0;
+  font-family: var(--f-hand);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--ink-2);
+}
+
+.controlNote {
+  margin: 4px 0 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.buttonRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+  gap: 28px;
+  align-items: start;
+  margin-top: 24px;
+}
+
+/* ---------- waterfall ---------- */
+.waterfall {
+  margin-top: 18px;
+  min-width: 0;
+}
+
+.waterfall svg {
+  display: block;
+  overflow: visible;
+}
+
+.wfLabel {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.wfValue {
+  font-family: var(--f-mono);
+  font-size: 13px;
+}
+
+.wfTick {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  fill: var(--ink-3);
+}
+
+.wfCaption {
+  margin: 6px 0 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+/* ---------- stepper extras (URL anatomy, status codes) ---------- */
+.anatomy {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+  font-family: var(--f-mono);
+  font-size: 17px;
+  margin: 2px 0 10px;
+}
+
+.part {
+  display: inline-grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+
+.partNote {
+  font-family: var(--f-hand);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--pen);
+  line-height: 1;
+}
+
+.codes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: 8px 14px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.codes li {
+  font-family: var(--f-body);
+  font-size: 16.5px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.codes b {
+  font-family: var(--f-mono);
+  font-size: 15px;
+}
+
+/* ---------- diagnosis challenge ---------- */
+.tickets {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+
+@container (min-width: 420px) {
+  .tickets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.ticketNote {
+  padding: 0 !important;
+}
+
+.ticket {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px 14px;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  border-radius: 2px;
+}
+
+.ticket[aria-pressed='true'] {
+  outline: 3px solid var(--pen);
+  outline-offset: 3px;
+}
+
+.ticket:focus-visible {
+  outline: 3px dashed var(--pen);
+  outline-offset: 3px;
+}
+
+.ticketSays {
+  font-family: var(--f-print);
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.ticketWhen {
+  font-family: var(--f-hand);
+  font-weight: 700;
+  font-size: 19px;
+}
+
+.ticketUrl {
+  font-family: var(--f-mono);
+  font-size: 13.5px;
+  overflow-wrap: anywhere;
+}
+
+.phoneRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+@container (min-width: 640px) {
+  .phoneRow {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+}
+
+.phone {
+  justify-self: center;
+  width: min(100%, 260px);
+  padding: 22px 16px 28px;
+  display: grid;
+  gap: 10px;
+}
+
+.phoneUrl {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  padding: 6px 10px;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+}
+
+.phoneScreen {
+  min-height: 150px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
+  text-align: center;
+  padding: 10px 6px;
+  border-radius: 6px;
+  background: var(--paper);
+}
+
+.phoneTitle {
+  margin: 0;
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.phoneCode {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+
+.phoneWait {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 15px;
+  color: var(--ink);
+}
+
+/* the curl clue: a terminal screen drawn with the pen (fills the column, wraps on phones) */
+.clue {
+  display: grid;
+  gap: 2px;
+  padding: 10px 14px 12px;
+  font-family: var(--f-mono);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--term-ink);
+  overflow-wrap: anywhere;
+}
+
+.clueTitle {
+  font-family: var(--f-hand);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--term-dim);
+}
+
+.cluePrompt {
+  color: var(--term-ink);
+}
+
+.cluePrompt b {
+  color: var(--term-prompt);
+}
+
+.clueOk {
+  color: var(--term-ok);
+}
+
+.clueBad {
+  color: var(--term-bad);
+}
+
+.answers {
+  display: grid;
+  gap: 8px;
+}
+
+.feedback {
+  margin: 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.feedbackNote .feedback code {
+  font-size: 14px;
+  color: inherit;
+  background: color-mix(in srgb, var(--note-ink) 9%, transparent);
+}
+
+.challengeWrap {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+/* ---------- doors lab ---------- */
+.doorsResult {
+  margin: 0;
+  min-height: 76px;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+  padding: 10px 14px;
+  border-left: 3px solid var(--ink-3);
+}
+
+.doorsResult[data-tone='ok'] {
+  border-left-color: var(--green);
+  background: color-mix(in srgb, var(--paper) 82%, var(--note-green));
+}
+
+.doorsResult[data-tone='bad'] {
+  border-left-color: var(--red);
+  background: color-mix(in srgb, var(--paper) 84%, var(--note-pink));
+}
+
+.doorsResult b {
+  font-family: var(--f-ui);
+}
+
+/* ---------- distance ruler ---------- */
+.formula {
+  margin: 8px 0 0;
+  font-family: var(--f-mono);
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.formula span {
+  color: var(--ink-2);
+}
+
+/* ---------- deploy stepper ---------- */
+.chip {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+/* ---------- symptom table ---------- */
+.symptoms {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.35;
+  margin: 0.6em 0 0;
+}
+
+.symptoms th {
+  font-family: var(--f-ui);
+  font-size: 15px;
+  text-align: left;
+  color: var(--ink-2);
+  border-bottom: 1.5px solid var(--ink-3);
+  padding: 6px 8px 6px 0;
+}
+
+.symptoms td {
+  padding: 8px 8px 8px 0;
+  border-bottom: 1px dashed var(--ink-4);
+  vertical-align: top;
+}
+
+.symptoms code {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+  .symptoms thead {
+    display: none;
+  }
+
+  .symptoms tr {
+    display: grid;
+    gap: 2px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--ink-4);
+  }
+
+  .symptoms td {
+    border: none;
+    padding: 0;
+  }
+
+  .symptoms td:first-child {
+    font-family: var(--f-ui);
+    font-weight: 700;
+  }
+}
+
+/* ---------- explainer player line ---------- */
+.playerLine {
+  margin: 0;
+  min-height: 28px;
+  align-content: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+/* narrow: the packet header wraps to up to three lines; reserve them so the step card never moves */
+.playerLine[data-geo='narrow'] {
+  min-height: calc(3 * 1.5em);
+}
+
+.playerLine[data-tone='ok'] > span:first-child {
+  color: var(--green);
+}
+
+.playerLine[data-tone='bad'] {
+  color: var(--red);
+}
+
+.stageWrap .playerLine code {
+  white-space: normal;
+  font-family: var(--f-mono);
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+  background: none;
+  padding: 0;
+}
+
+.playerTag {
+  font-family: var(--f-hand);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--pen);
+}
+
+.playerMs {
+  font-family: var(--f-mono);
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+/* ---------- course trailer: the Klopa map rewound ---------- */
+/* block flow on purpose: the StoryMap figure centres itself with auto margins and must keep the full width */
+.rewind {
+  margin: 28px 0 8px;
+}
+
+.rewindBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px 20px;
+  margin-bottom: 12px;
+}
+
+.rewindText {
+  margin: 0;
+  max-width: min(var(--content-width), 66ch);
+  min-height: 3.2em;
+  font-family: var(--f-body);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.rewindText b {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 17px;
+}

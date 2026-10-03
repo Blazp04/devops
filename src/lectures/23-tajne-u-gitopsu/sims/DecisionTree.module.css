@@ -1,0 +1,104 @@
+.tree {
+  container-type: inline-size;
+  margin: 18px 0 8px;
+}
+
+.q,
+.a {
+  display: block;
+  padding: 12px 14px;
+  font-family: var(--f-body);
+  font-size: 17.5px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.q {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.qMark {
+  margin-right: 8px;
+  font-family: var(--f-hand);
+  font-size: 26px;
+  line-height: 0;
+  color: var(--pen);
+}
+
+.a {
+  position: relative;
+}
+
+.aTitle {
+  display: block;
+  font-family: var(--f-ui);
+  font-weight: 800;
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+
+.aBody {
+  display: block;
+  color: var(--ink-2);
+}
+
+.tag {
+  position: absolute;
+  top: -14px;
+  right: 10px;
+  padding: 0 6px;
+  font-family: var(--f-hand);
+  font-size: 20px;
+  color: var(--green);
+  background: var(--paper);
+}
+
+.branches {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 18px;
+  display: grid;
+  gap: 10px;
+}
+
+.branch {
+  position: relative;
+  padding-top: 34px;
+}
+
+.edge {
+  position: absolute;
+  top: 1px;
+  left: 12px;
+  overflow: visible;
+}
+
+.edgeLabel {
+  position: absolute;
+  top: 4px;
+  left: 38px;
+  font-family: var(--f-hand);
+  font-size: 21px;
+  line-height: 1;
+  color: var(--pen);
+}
+
+.notes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-top: 22px;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+@container (min-width: 620px) {
+  .branches {
+    grid-template-columns: 1fr 1fr;
+    padding-left: 0;
+    gap: 18px;
+  }
+}

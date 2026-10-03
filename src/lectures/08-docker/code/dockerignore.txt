@@ -1,0 +1,8 @@
+# .dockerignore: ono što NE šaljemo u kontekst izgradnje
+node_modules/
+dist/
+.git/
+.env
+.env.*
+.npmrc
+*.log

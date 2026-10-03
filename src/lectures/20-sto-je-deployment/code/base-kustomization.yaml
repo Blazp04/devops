@@ -1,0 +1,7 @@
+# base/kustomization.yaml – zajedničko svim okruženjima
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: klopa                # staging ga u svom sloju mijenja u klopa-staging
+resources:
+  - deployment.yaml             # replicas: 2, LOG_LEVEL: info
+  - service.yaml

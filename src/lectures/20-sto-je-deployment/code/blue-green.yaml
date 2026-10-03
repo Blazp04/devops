@@ -1,0 +1,56 @@
+# Plavo-zeleno „ručno”: dva Deploymenta i jedan Service koji bira track.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: klopa-api-blue
+  namespace: klopa
+spec:
+  replicas: 4
+  selector:
+    matchLabels: { app: klopa-api, track: blue }
+  template:
+    metadata:
+      labels: { app: klopa-api, track: blue }
+    spec:
+      containers:
+        - name: klopa-api
+          image: registry.klopa.example/klopa-api:1.4.1
+          ports:
+            - containerPort: 8000
+          resources:
+            requests: { cpu: 100m, memory: 256Mi }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: klopa-api-green
+  namespace: klopa
+spec:
+  replicas: 4                   # dvostruko Podova dok traje prijelaz
+  selector:
+    matchLabels: { app: klopa-api, track: green }
+  template:
+    metadata:
+      labels: { app: klopa-api, track: green }
+    spec:
+      containers:
+        - name: klopa-api
+          image: registry.klopa.example/klopa-api:2.0.0
+          ports:
+            - containerPort: 8000
+          resources:
+            requests: { cpu: 100m, memory: 256Mi }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: klopa-api
+  namespace: klopa
+spec:
+  selector:
+    app: klopa-api
+    track: blue                 # prekidač: blue → green (i natrag)
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8000

@@ -1,0 +1,317 @@
+.sheet {
+  position: relative;
+  border: 2.5px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding: 8px 14px 7px;
+  border-bottom: 1.5px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.status {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.status[data-tone='ok'] {
+  color: var(--pencil);
+}
+
+.status[data-tone='bad'] {
+  color: var(--red);
+}
+
+.body {
+  padding: 18px 24px 24px;
+}
+
+.cond {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 16px;
+  border: 1.5px solid var(--line);
+  width: fit-content;
+  max-width: 100%;
+}
+
+.cond div {
+  padding: 5px 12px 6px;
+  border-right: 1px solid var(--line);
+}
+
+.cond div:last-child {
+  border-right: 0;
+}
+
+.cond dt {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.cond dd {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.stem {
+  margin: 0 0 10px;
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: clamp(28px, 2.8vw, 36px);
+  line-height: 1.1;
+}
+
+.opts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1.5px solid var(--line);
+}
+
+.opts li {
+  border-bottom: 1px solid var(--line-2);
+}
+
+.opt {
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr) minmax(70px, auto);
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 4px 10px 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  font-family: var(--f-body);
+  font-size: 18px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.opt:hover[data-state='idle']:not([aria-disabled='true']) {
+  background: linear-gradient(90deg, var(--pencil-soft), transparent 70%);
+}
+
+.opt[aria-disabled='true'] {
+  cursor: default;
+  color: var(--ink-2);
+}
+
+.letter {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-left: 8px;
+  border: 1.5px solid var(--line);
+  border-radius: 50%;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1;
+}
+
+.letter svg {
+  position: absolute;
+  left: -9px;
+  top: -6px;
+  width: 50px;
+  max-width: none;
+  height: 44px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.letter svg path {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.opt[data-state='right'] .letter {
+  color: var(--pencil);
+  border-color: var(--pencil);
+}
+
+.opt[data-state='right'] .letter svg path {
+  stroke: var(--pencil);
+}
+
+.opt[data-state='wrong'] .letter {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+.opt[data-state='wrong'] .letter svg path {
+  stroke: var(--red);
+}
+
+.text {
+  position: relative;
+  width: fit-content;
+}
+
+.opt[data-state='wrong'] .text {
+  color: var(--ink-2);
+}
+
+.strike {
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  top: calc(50% - 11px);
+  width: calc(100% + 8px);
+  max-width: none;
+  height: 12px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.strike path {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.mark {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 8px;
+}
+
+.ne {
+  font-family: var(--f-hand);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1;
+  color: var(--red);
+  transform: rotate(-8deg);
+}
+
+/* the explanation is a revision note attached under the answer it is about: triangle + letter, leader up to the circled letter */
+.rev {
+  position: relative;
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr);
+  gap: 12px;
+  overflow: hidden;
+  color: var(--pencil);
+}
+
+.rev[data-tone='bad'] {
+  color: var(--red);
+}
+
+.revLead {
+  position: absolute;
+  left: 24.5px;
+  top: 0;
+  height: 10px;
+  border-left: 1.4px solid currentColor;
+}
+
+.rev > .tri {
+  justify-self: center;
+  margin-top: 10px;
+}
+
+.revBody {
+  padding: 8px 4px 16px 0;
+  color: var(--ink);
+}
+
+.revBody p {
+  margin: 4px 0 0;
+  max-width: 72ch;
+}
+
+.revBody button {
+  margin-top: 12px;
+}
+
+.revHead {
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pencil);
+}
+
+.rev[data-tone='bad'] .revHead {
+  color: var(--red);
+}
+
+.tri {
+  width: 26px;
+  height: 24px;
+  overflow: visible;
+}
+
+.tri path {
+  fill: var(--paper);
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.tri text {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 11px;
+  fill: currentColor;
+}
+
+.hint {
+  margin: 16px 0 0;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+@media (max-width: 760px) {
+  .body {
+    padding: 14px 14px 18px;
+  }
+
+  .opt {
+    grid-template-columns: 46px minmax(0, 1fr);
+    font-size: 17px;
+  }
+
+  .mark {
+    grid-column: 2;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .mark:empty {
+    display: none;
+  }
+
+  .rev {
+    grid-template-columns: 46px minmax(0, 1fr);
+  }
+
+  .revLead {
+    left: 25px;
+  }
+}

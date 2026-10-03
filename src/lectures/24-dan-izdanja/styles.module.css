@@ -1,0 +1,932 @@
+/* L24 Dan izdanja – local styles (tokens only; paper and chalkboard both work through the tokens) */
+
+.pagers {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 10px;
+}
+
+.pager {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 4px 12px;
+  align-items: baseline;
+  padding: 8px 12px;
+  border: 1.6px solid var(--red);
+  border-radius: 4px;
+  background: var(--paper);
+  font-family: var(--f-ui);
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.pager[data-done='true'] {
+  border-color: var(--green);
+  border-style: dashed;
+}
+
+.pagerNo {
+  font-family: var(--f-mono);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--red);
+}
+
+.pager[data-done='true'] .pagerNo {
+  color: var(--green);
+}
+
+.pagerState {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.pagerQuiet {
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-2);
+  margin: 0 0 10px;
+}
+
+.panelArea {
+  min-height: 660px;
+}
+
+.panelHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 14px 0 8px;
+}
+
+/* ── console: Lana's laptop screen ── */
+.console {
+  background: var(--term-bg);
+  color: var(--term-ink);
+  border-radius: 8px;
+  border: 2px solid var(--ink-2);
+  padding: 10px 12px;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.consoleOut {
+  height: 300px;
+  overflow: auto;
+  white-space: pre;
+  margin: 0;
+  padding-bottom: 4px;
+}
+
+.consoleOut:focus-visible {
+  outline: 2px solid var(--term-pen);
+  outline-offset: 2px;
+}
+
+.lcmd {
+  color: var(--term-prompt);
+}
+
+.lcmd::before {
+  content: '$ ';
+}
+
+.lerr {
+  color: var(--term-bad);
+}
+
+.lnote {
+  color: var(--term-dim);
+  font-style: italic;
+}
+
+.consoleIn {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border-top: 1px dashed var(--term-dim);
+  padding-top: 8px;
+  margin-top: 6px;
+}
+
+.consoleIn label {
+  color: var(--term-prompt);
+}
+
+.consoleIn input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--term-dim);
+  color: var(--term-ink);
+  font: inherit;
+  font-size: 14px;
+  padding: 4px 2px;
+}
+
+.consoleIn input:focus-visible {
+  outline: 2px solid var(--term-pen);
+  outline-offset: 2px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 0;
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 0 4px 4px 0;
+}
+
+.chipsLabel {
+  width: 100%;
+  font-family: var(--f-ui);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-top: 6px;
+}
+
+.chip {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1.4px dashed var(--ink-3);
+  border-radius: 3px;
+  padding: 4px 8px;
+  cursor: pointer;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.chip:hover {
+  border-color: var(--pen);
+  color: var(--pen);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: 2px;
+}
+
+.chipWrite {
+  border-color: var(--red);
+  border-style: dotted;
+}
+
+/* ── RED panel ── */
+.red {
+  display: grid;
+  gap: 10px;
+}
+
+.redRow {
+  border: 1.4px solid var(--ink-3);
+  border-radius: 4px;
+  padding: 8px 10px 10px;
+}
+
+.redName {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px;
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.redBtns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.redSplit {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-top: 4px;
+}
+
+/* ── trace waterfall ── */
+.trace {
+  padding: 12px;
+}
+
+.traceHead {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+  overflow-wrap: anywhere;
+}
+
+.span {
+  display: grid;
+  grid-template-columns: minmax(120px, 42%) 1fr;
+  gap: 8px;
+  align-items: center;
+  min-height: 30px;
+}
+
+.spanName {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.spanNote {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.spanNote[data-err='true'] {
+  color: var(--red);
+}
+
+.spanTrack {
+  position: relative;
+  height: 16px;
+  border-bottom: 1px dotted var(--ink-4);
+}
+
+.spanBar {
+  position: absolute;
+  top: 2px;
+  height: 12px;
+  min-width: 3px;
+  border: 1.4px solid var(--pen);
+  background: repeating-linear-gradient(-41deg, var(--hl-blue) 0 3px, transparent 3px 6px);
+  border-radius: 2px;
+}
+
+.spanBar[data-err='true'] {
+  border-color: var(--red);
+  background: repeating-linear-gradient(41deg, var(--hl-pink) 0 3px, transparent 3px 6px);
+}
+
+/* ── config repo editor ── */
+.repo {
+  display: grid;
+  grid-template-columns: minmax(180px, 230px) 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 720px) {
+  .repo {
+    grid-template-columns: 1fr;
+  }
+}
+
+.files {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.files li {
+  display: flex;
+}
+
+.file {
+  flex: 1 1 auto;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  text-align: left;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-left: 3px solid transparent;
+  padding: 4px 8px;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.file[aria-pressed='true'] {
+  border-left-color: var(--pen);
+  color: var(--pen);
+  font-weight: 700;
+}
+
+.file:focus-visible {
+  outline: 2px solid var(--pen);
+}
+
+.fields {
+  display: grid;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 8px;
+  align-items: center;
+}
+
+@media (max-width: 520px) {
+  .field {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
+.fieldLabel {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+
+.fieldInput {
+  font-family: var(--f-mono);
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--paper);
+  border: none;
+  border-bottom: 1.6px solid var(--ink-3);
+  padding: 4px 2px;
+  min-width: 0;
+  width: 100%;
+}
+
+.fieldInput[data-changed='true'] {
+  border-bottom-color: var(--pen);
+  background: var(--hl-blue);
+}
+
+.fieldInput:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: 1px;
+}
+
+.commitRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.commitRow input {
+  flex: 1 1 220px;
+}
+
+.result {
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-2);
+  margin: 6px 0 0;
+}
+
+.history {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.history li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  align-items: center;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.sha {
+  color: var(--pen);
+  font-weight: 700;
+}
+
+.who {
+  color: var(--ink-2);
+}
+
+/* ── hypothesis + debrief ── */
+.hyp {
+  display: grid;
+  gap: 8px;
+}
+
+.hypNote {
+  font-family: var(--f-body);
+  font-size: 17px;
+  color: var(--ink-2);
+  margin: 0;
+}
+
+.debrief {
+  border-top: 1.4px dashed var(--ink-3);
+  padding-top: 8px;
+  margin-top: 4px;
+  font-family: var(--f-body);
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.debrief p {
+  margin: 4px 0;
+}
+
+.verdict {
+  font-family: var(--f-mono);
+  font-size: 13px;
+}
+
+.verdict[data-ok='true'] {
+  color: var(--green);
+}
+
+.verdict[data-ok='false'] {
+  color: var(--red);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.btnRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.small {
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-2);
+  margin: 6px 0 0;
+}
+
+/* ── Put jednog commita ── */
+.journeyCtl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+  margin: 12px 0 8px;
+}
+
+.journeySlider {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.stationCard {
+  border: 1.6px solid var(--ink-3);
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+  background: var(--paper);
+}
+
+.stationCard p {
+  margin: 6px 0;
+}
+
+.stationHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  align-items: baseline;
+  font-family: var(--f-ui);
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.stationClock {
+  font-family: var(--f-mono);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--pen);
+}
+
+.stationNo {
+  margin-left: auto;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.stationRisk {
+  color: var(--ink);
+  border-left: 3px solid var(--red);
+  padding-left: 10px;
+}
+
+.stationRisk strong {
+  color: var(--red);
+  font-family: var(--f-ui);
+}
+
+.stationLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  font-family: var(--f-ui);
+  font-size: 16px;
+}
+
+/* ── Što ako ovdje pukne? ── */
+.hopGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.hopCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  padding: 6px 8px 8px;
+  border: 1.4px dashed var(--ink-3);
+  border-radius: 4px;
+}
+
+.hopCard[data-broken='true'] {
+  border: 1.8px solid var(--red);
+}
+
+.hopName {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.hopIcon {
+  display: block;
+  width: 46px;
+  flex: none;
+}
+
+.mechanism {
+  border-left: 3px solid var(--green);
+  padding: 4px 0 4px 12px;
+  min-height: 80px;
+}
+
+.mechanism p {
+  margin: 4px 0;
+}
+
+.mechFail {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.mechSave strong {
+  color: var(--green);
+}
+
+.mechEvidence {
+  font-family: var(--f-mono);
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+/* ── Tri signala ── */
+.signals {
+  display: grid;
+  gap: 10px;
+}
+
+.sigStep {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: baseline;
+  font-family: var(--f-body);
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.sigNo {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1.8px solid var(--red);
+  border-radius: 50%;
+  font-family: var(--f-hand);
+  font-size: 20px;
+  color: var(--red);
+}
+
+.redChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 140px;
+  border-bottom: 1.6px solid var(--ink-2);
+  border-left: 1.6px solid var(--ink-2);
+  padding: 0 2px;
+}
+
+.redBar {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.redBar:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: 1px;
+}
+
+.redBar[aria-pressed='true'] {
+  background: var(--hl-yellow);
+}
+
+.redBarTotal {
+  position: relative;
+  display: block;
+  width: 100%;
+  border: 1.2px solid var(--pen);
+  border-bottom: none;
+  background: repeating-linear-gradient(-41deg, var(--hl-blue) 0 3px, transparent 3px 7px);
+}
+
+.redBarErr {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(41deg, var(--red) 0 2px, transparent 2px 5px);
+  border-top: 1.6px solid var(--red);
+}
+
+.redPlot {
+  position: relative;
+  padding-top: 26px;
+}
+
+.redMarker {
+  position: absolute;
+  top: 4px;
+  bottom: 0;
+  border-left: 1.6px dashed var(--ink-2);
+  pointer-events: none;
+}
+
+.redMarker span {
+  position: absolute;
+  top: -4px;
+  left: 4px;
+  font-family: var(--f-hand);
+  font-size: 19px;
+  line-height: 1;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.redAxis {
+  position: relative;
+  height: 20px;
+  margin-top: 2px;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.redAxis span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.redAxis span[data-edge='start'] {
+  transform: none;
+}
+
+.redAxis span[data-edge='end'] {
+  transform: translateX(-100%);
+}
+
+.p95Row {
+  display: grid;
+  gap: 2px;
+  margin-top: 4px;
+}
+
+.p95Label {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.logList {
+  display: grid;
+  gap: 2px;
+}
+
+.logLine {
+  font: inherit;
+  text-align: left;
+  color: var(--term-ink);
+  background: transparent;
+  border: none;
+  padding: 2px 4px;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.logLine[aria-pressed='true'] {
+  outline: 1.6px dashed var(--term-prompt);
+}
+
+.logLine:focus-visible {
+  outline: 2px solid var(--term-pen);
+}
+
+.logApp {
+  border-top: 1px dashed var(--term-dim);
+  margin-top: 8px;
+  padding-top: 6px;
+  overflow-wrap: anywhere;
+}
+
+.logLine.lerr {
+  color: var(--term-bad);
+}
+
+/* ── Mapa tečaja ── */
+.graphList {
+  list-style: none;
+  margin: 10px auto 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  max-width: 640px;
+  font-family: var(--f-body);
+  font-size: 17px;
+}
+
+.graphHead {
+  font-family: var(--f-ui);
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.graphNo {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.graphAdded {
+  font-style: italic;
+  color: var(--ink-2);
+}
+
+.nextList {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.nextList li {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 8px;
+  align-items: start;
+  font-family: var(--f-body);
+  font-size: 17px;
+}
+
+.nextList svg {
+  width: 52px;
+  height: 40px;
+}
+
+.kcna {
+  display: grid;
+  gap: 8px;
+  max-width: 520px;
+}
+
+/* ── Davorov priručnik ── */
+.handbook {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.tableWrap:focus-visible {
+  outline: 2px solid var(--pen);
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 560px;
+  font-family: var(--f-body);
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.table th {
+  text-align: left;
+  font-family: var(--f-ui);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ink-2);
+  border-bottom: 1.6px solid var(--ink-2);
+  padding: 6px 8px;
+}
+
+.table td {
+  border-bottom: 1px dashed var(--ink-4);
+  padding: 6px 8px;
+  vertical-align: top;
+}
+
+.table code {
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.subhead {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--ink);
+  margin: 28px 0 8px;
+}
+
+.zoneRow {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 0 0 6px;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.zoneRow span[data-on='true'] {
+  color: var(--red);
+  font-weight: 700;
+  text-decoration: underline wavy var(--red);
+}
+
+@media (max-width: 520px) {
+  .span {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    margin-bottom: 4px;
+  }
+}

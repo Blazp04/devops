@@ -1,0 +1,30 @@
+# Pravila za Namespace klopa-staging: zadane vrijednosti i ukupni strop
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: zadani-resursi
+  namespace: klopa-staging
+spec:
+  limits:
+    - type: Container
+      defaultRequest:          # ako kontejner ne navede requests
+        cpu: 100m
+        memory: 128Mi
+      default:                 # ako kontejner ne navede limits
+        cpu: 500m
+        memory: 256Mi
+      max:                     # nitko ne smije tražiti više od ovoga
+        cpu: "1"
+        memory: 1Gi
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: strop-za-staging
+  namespace: klopa-staging
+spec:
+  hard:
+    requests.cpu: "2"          # svi Podovi u klopa-staging zajedno
+    requests.memory: 4Gi
+    limits.memory: 6Gi
+    pods: "20"

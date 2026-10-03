@@ -1,0 +1,2782 @@
+/* ==========================================================================
+   Kit · text & structure — "Bilježnica" (see src/design-lab/biljeznica/README.md).
+   Section (heading system), Callout / Analogy / Myth / DeepDive / KeyIdea, Term,
+   Figure / Compare / Tabs / Recap / Badge / Legend / Kbd / ScrollX / MarginNote,
+   Quiz (exam sheet), Predict / MythOrFact, Goals / EventLog.
+   Owned by the text area. Class prefix: k-
+
+   Selectors inside the lecture column start with the component's root class
+   (e.g. `.k-quiz .k-quiz__list`) so they beat `.prose ul/ol/p` from global.css.
+   ========================================================================== */
+
+/* ---------- local paper (things pinned on the board stay paper-coloured) ---------- */
+:root {
+  --k-card: #fffdf7; /* index card, clipping */
+  --k-sheet-edge: rgba(80, 60, 20, 0.32); /* exam sheet edge */
+  --k-sheet-fold: var(--paper-3);
+}
+
+:root[data-theme='dark'] {
+  --k-card: #ebe6d6; /* a white card pinned on the slate */
+  --k-sheet-edge: var(--ink); /* the exam sheet is drawn in chalk */
+  --k-sheet-fold: rgba(242, 241, 233, 0.12);
+}
+
+/* an index card / clipping: light paper with dark "paper" pens in both themes (like .k-note) */
+.k-card {
+  --ink: #2a251a;
+  --ink-2: #4a4232;
+  --ink-3: #6a5f49;
+  --ink-4: #7d7158;
+  --pen: #1d3f9c;
+  --red: #b3271f;
+  --green: #1b6e3e;
+  --orange: #9a4a08;
+  --violet: #5e3ca8;
+  --teal: #0a5a53;
+  --amber: #654800;
+  --rose: #962148;
+  --cyan: #0c566f;
+  --hl-yellow: rgba(255, 219, 40, 0.62);
+  --hl-pink: rgba(255, 120, 166, 0.42);
+  --hl-green: rgba(90, 210, 128, 0.42);
+  --hl-blue: rgba(96, 176, 255, 0.38);
+  --hl-orange: rgba(255, 160, 56, 0.48);
+  --hl-yellow-ink: #e4b400;
+  --hl-pink-ink: #e2588a;
+  --hl-green-ink: #2ea866;
+  --hl-blue-ink: #3b79de;
+  --hl-orange-ink: #ee8722;
+  --margin-line: rgba(214, 72, 64, 0.55);
+  --rule: rgba(60, 110, 200, 0.2);
+  --paper: var(--k-card);
+  --paper-2: #f4ecda;
+  position: relative;
+  background-color: var(--paper);
+  color: var(--ink);
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.08),
+    0 12px 18px -10px var(--shadow-c);
+}
+
+.k-card ::selection {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* inline code and other "paper-2" wells inside a note follow the note's own paper (also on the board): every
+   .k-note re-defines --paper-2 / --paper-3 (doodles.css); .k-card has its own --paper-2 above */
+
+/* ---------- tone helpers (Compare columns) ---------- */
+.k-tone-blue {
+  --tone: var(--pen);
+  --tone-hl: var(--hl-blue);
+}
+.k-tone-violet {
+  --tone: var(--violet);
+  --tone-hl: color-mix(in srgb, var(--hl-lilac-ink) 40%, transparent);
+}
+.k-tone-teal {
+  --tone: var(--teal);
+  --tone-hl: color-mix(in srgb, var(--teal) 28%, transparent);
+}
+.k-tone-amber {
+  --tone: var(--amber);
+  --tone-hl: var(--hl-yellow);
+}
+.k-tone-rose {
+  --tone: var(--rose);
+  --tone-hl: var(--hl-pink);
+}
+.k-tone-green {
+  --tone: var(--green);
+  --tone-hl: var(--hl-green);
+}
+.k-tone-cyan {
+  --tone: var(--cyan);
+  --tone-hl: var(--hl-blue);
+}
+
+/* ==========================================================================
+   Section: one heading system — red Caveat kicker „N · oznaka”, printed title,
+   a drawn prop beside it. Numbered by a CSS counter in document order.
+   ========================================================================== */
+.k-section {
+  position: relative;
+  padding: 64px 0 6px;
+  scroll-margin-top: calc(var(--header-height) + 12px);
+  counter-increment: k-section;
+}
+
+.k-section__header {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px 26px;
+  max-width: var(--wide-width);
+  margin: 0 0 14px;
+}
+
+.k-section__heading {
+  min-width: 0;
+}
+
+.k-section__kicker {
+  margin: 0;
+  font-family: var(--f-hand);
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--red);
+}
+
+.k-section__no {
+  font-weight: 700;
+  font-size: 1.18em;
+}
+
+.k-section__no::before {
+  content: counter(k-section);
+}
+
+.k-section__title {
+  position: relative;
+  margin: 2px 0 0;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 88%;
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.k-section__titlerow {
+  position: relative;
+}
+
+/* a sibling of the h2 (outside the chalk mask on the board, so its focus ring stays visible) */
+.k-section__anchor {
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 0.35em;
+  font-family: var(--f-hand);
+  font-weight: 700;
+  font-size: calc(0.62 * clamp(32px, 4vw, 52px));
+  line-height: 1;
+  color: var(--red);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.k-section__titlerow:hover .k-section__anchor,
+.k-section__anchor:focus-visible {
+  opacity: 0.9;
+  text-decoration: none;
+}
+
+/* the doodled prop next to every heading (decoration only) */
+.k-section__prop {
+  flex: none;
+  width: 96px;
+  height: 72px;
+  margin-bottom: 4px;
+  transform: rotate(-4deg);
+}
+
+.k-section__prop svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.k-section__lead {
+  max-width: var(--content-width);
+  margin: 0 0 22px;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: clamp(19.5px, 1.55vw, 22px);
+  line-height: 1.45;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+/* the reading column starts at the margin; the right side stays free for margin notes */
+.k-section .k-section__body > * {
+  max-width: var(--content-width);
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* running text keeps a comfortable measure (~66 characters); figures still use the 720 px column */
+.k-section .k-section__body > :is(p, ul, ol) {
+  max-width: min(var(--content-width), 66ch);
+}
+
+.k-section .k-section__body > .k-wide {
+  max-width: var(--wide-width);
+  clear: right;
+}
+
+.k-section .k-section__body > .k-wide-soft {
+  max-width: 900px;
+  clear: right;
+}
+
+@media (max-width: 760px) {
+  .k-section {
+    padding-top: 46px;
+  }
+  /* the prop shrinks and sits right of the kicker so the title keeps the full width */
+  .k-section__header {
+    position: relative;
+    display: block;
+  }
+  .k-section__prop {
+    position: absolute;
+    right: 0;
+    top: -18px;
+    width: 58px;
+    height: 44px;
+    margin: 0;
+  }
+  .k-section__kicker {
+    padding-right: 66px;
+  }
+  .k-section__anchor {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Margin note (author's handwriting in the right margin)
+   ========================================================================== */
+.k-margin-note {
+  position: relative;
+  display: block;
+  margin: 0.2em 0 1em;
+  padding: 2px 0 2px 14px;
+  border-left: 2px solid color-mix(in srgb, currentColor 45%, transparent);
+  font-family: var(--f-hand);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.12;
+  color: var(--pen);
+  text-wrap: pretty;
+}
+
+.k-margin-note[data-tone='red'] {
+  color: var(--red);
+}
+.k-margin-note[data-tone='green'] {
+  color: var(--green);
+}
+.k-margin-note[data-tone='ink'] {
+  color: var(--ink-2);
+}
+
+.k-margin-note__arrow {
+  display: none;
+}
+
+@media (min-width: 1260px) {
+  .k-section .k-section__body > .k-margin-note {
+    float: right;
+    clear: right;
+    width: min(280px, calc(100% - var(--content-width) - 80px));
+    max-width: none;
+    margin: 0.3em 0 1.2em;
+    padding: 0;
+    border: 0;
+  }
+  .k-section .k-section__body > .k-margin-note .k-margin-note__arrow {
+    display: block;
+    position: absolute;
+    left: -48px;
+    top: 0;
+    width: 40px;
+    height: 34px;
+    overflow: visible;
+  }
+}
+
+/* ==========================================================================
+   Callouts: every kind is a different piece of paper or pen
+   ========================================================================== */
+.k-callout {
+  margin: 1.8em 0;
+  max-width: 680px;
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.k-section .k-section__body > .k-callout {
+  max-width: 680px;
+}
+
+.k-callout__head {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 12px;
+  margin-bottom: 6px;
+  padding-right: 46px;
+}
+
+.k-callout__label {
+  font-family: var(--f-hand);
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--k-label, var(--ink-3));
+}
+
+.k-callout__title {
+  flex-basis: 100%;
+  display: block;
+  font-family: var(--f-display);
+  font-weight: 750;
+  font-stretch: 92%;
+  font-size: 20px;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.k-callout__glyph {
+  position: absolute;
+  right: -8px;
+  top: -12px;
+  width: 44px;
+  height: 44px;
+  overflow: visible;
+}
+
+.k-callout__content {
+  color: var(--ink);
+}
+
+.k-callout .k-callout__content p {
+  margin: 0 0 0.7em;
+}
+
+.k-callout .k-callout__content ul,
+.k-callout .k-callout__content ol {
+  margin: 0.3em 0 0.7em;
+  padding-left: 1.2em;
+}
+
+.k-callout .k-callout__content li {
+  margin: 0.3em 0;
+}
+
+.k-callout__content > :last-child {
+  margin-bottom: 0 !important;
+}
+
+/* info: blue sticky note */
+.k-callout--info {
+  --k-label: var(--pen);
+  padding: 24px 26px 22px;
+}
+
+/* tip: green sticky note, taped at the corner */
+.k-callout--tip {
+  --k-label: var(--green);
+  padding: 24px 26px 22px;
+}
+
+/* analogy (as a plain callout): yellow note */
+.k-callout--analogy {
+  --k-label: var(--red);
+  padding: 26px 26px 22px;
+}
+
+/* warn: a taped index card with a red head line, orange pencil */
+.k-callout--warn {
+  --k-label: var(--orange);
+  padding: 0 24px 16px;
+  border-radius: 2px;
+  transform: rotate(-0.35deg);
+}
+
+/* the text sits on the card's ruled lines (one rule per 28 px line) */
+.k-callout--warn .k-callout__content {
+  line-height: 28px;
+  background-image: repeating-linear-gradient(transparent 0 27px, var(--rule) 27px 28px);
+}
+
+.k-callout.k-callout--warn .k-callout__content :is(p, ul, ol, li) {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.k-callout.k-callout--warn .k-callout__content p + p {
+  margin-top: 28px;
+}
+
+.k-callout--warn .k-callout__head {
+  margin: 0 -24px 12px;
+  padding: 18px 70px 8px 24px;
+  background: var(--paper);
+  border-bottom: 1.5px solid var(--margin-line);
+}
+
+.k-callout--warn .k-callout__glyph {
+  right: 18px;
+  top: 10px;
+}
+
+/* fact: a clipping with torn edges, taped in, with a date stamp */
+.k-callout--fact {
+  position: relative;
+  max-width: 640px;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.08)) drop-shadow(0 8px 9px var(--shadow-c));
+}
+
+.k-section .k-section__body > .k-callout--fact {
+  max-width: 640px;
+}
+
+.k-clip {
+  --k-label: var(--pen);
+  padding: 24px 26px 26px;
+  box-shadow: none;
+  -webkit-mask:
+    conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) top / 12px 51% repeat-x,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 12px 51% repeat-x;
+  mask:
+    conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) top / 12px 51% repeat-x,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 12px 51% repeat-x;
+}
+
+.k-clip .k-callout__head {
+  padding-right: 0;
+}
+
+.k-callout__stamp {
+  margin-left: auto;
+  align-self: center;
+}
+
+/* danger and key: drawn straight onto the page, with a handwritten tag breaking the top line */
+.k-callout--danger,
+.k-callout--key {
+  margin-top: 2.3em;
+  padding: 28px 28px 22px;
+}
+
+.k-callout--danger .k-callout__title {
+  margin-bottom: 6px;
+}
+
+.k-callout__tag {
+  position: absolute;
+  top: -17px;
+  left: 20px;
+  padding: 0 10px;
+  background: var(--paper);
+  font-family: var(--f-hand);
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--red);
+  transform: rotate(-2deg);
+}
+
+.k-callout__glyph--corner {
+  right: -18px;
+  top: -24px;
+  width: 48px;
+  height: 48px;
+  transform: rotate(8deg);
+}
+
+/* on phones the page has no margin to spare: keep the corner glyph inside the box (no sideways scroll) */
+@media (max-width: 760px) {
+  .k-callout__glyph--corner {
+    right: -4px;
+    top: -26px;
+    width: 42px;
+    height: 42px;
+  }
+}
+
+/* ==========================================================================
+   Analogy: a yellow note with teta Mira; "where it breaks" in red pencil
+   ========================================================================== */
+.k-section .k-section__body > .k-analogy,
+.k-analogy {
+  max-width: 680px;
+}
+
+.k-analogy {
+  display: grid;
+  grid-template-columns: minmax(0, 680px);
+  gap: 18px 44px;
+  align-items: start;
+  margin: 2.2em 0;
+}
+
+.k-analogy__note {
+  --k-label: var(--red);
+  padding: 26px 26px 22px;
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.k-analogy__who {
+  float: right;
+  width: 74px;
+  height: auto;
+  margin: -8px -6px 6px 14px;
+  overflow: visible;
+}
+
+.k-analogy__head {
+  margin-bottom: 8px;
+}
+
+.k-analogy__head .k-callout__label {
+  display: block;
+}
+
+.k-analogy__title {
+  display: block;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 90%;
+  font-size: 22px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.k-analogy__limits {
+  position: relative;
+  margin-left: 30px;
+  transform: rotate(-0.5deg);
+}
+
+.k-analogy__arrow {
+  display: none;
+}
+
+.k-analogy__limitsbox {
+  padding: 14px 18px 14px;
+}
+
+.k-analogy__limitslabel {
+  display: block;
+  margin-bottom: 2px;
+  font-family: var(--f-hand);
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--red);
+}
+
+.k-analogy__limitstext {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+@media (min-width: 1260px) {
+  .k-section .k-section__body > .k-analogy.has-limits {
+    max-width: var(--wide-width);
+    grid-template-columns: minmax(0, 680px) minmax(0, 300px);
+  }
+  .k-analogy.has-limits .k-analogy__limits {
+    margin: 64px 0 0;
+  }
+  .k-analogy.has-limits .k-analogy__arrow {
+    display: block;
+    position: absolute;
+    left: -56px;
+    top: -30px;
+    width: 64px;
+    height: 54px;
+    overflow: visible;
+  }
+}
+
+/* ==========================================================================
+   Myth: crumpled pink note → wavy red strike → „NE!” → the fact
+   ========================================================================== */
+.k-myth {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) 96px minmax(0, 1.15fr);
+  gap: 0 6px;
+  align-items: start;
+  margin: 2.4em 0;
+}
+
+.k-section .k-section__body > .k-myth {
+  max-width: 760px;
+}
+
+/* the note's text stays straight (so the strike can be measured); only the paper is tilted and crumpled */
+.k-myth__note.k-note {
+  isolation: isolate;
+  margin-top: 10px;
+  padding: 20px 22px 26px;
+  background: none;
+  box-shadow: none;
+}
+
+.k-myth__note::before,
+.k-myth__note::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: rotate(-2.6deg);
+}
+
+.k-myth__note::before {
+  z-index: -1;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(118deg, transparent 38%, rgba(0, 0, 0, 0.05) 39%, transparent 46%),
+    linear-gradient(203deg, transparent 52%, rgba(255, 255, 255, 0.35) 53%, transparent 58%),
+    linear-gradient(64deg, transparent 63%, rgba(0, 0, 0, 0.045) 64%, transparent 70%);
+  clip-path: polygon(1% 2%, 30% 0, 62% 2.5%, 99% 0.5%, 100% 38%, 98.5% 70%, 99.5% 99%, 64% 97.5%, 31% 100%, 0.5% 98%, 1.5% 61%, 0 30%);
+}
+
+.k-myth__note::after {
+  z-index: -2;
+  inset: 10% 5% 3% 6%;
+  box-shadow: 0 14px 20px -6px var(--shadow-c);
+}
+
+.k-myth__label {
+  display: block;
+  margin-bottom: 2px;
+  font-family: var(--f-hand);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--red);
+}
+
+.k-myth__label--fact {
+  color: var(--green);
+}
+
+.k-myth .k-myth__text {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 90%;
+  font-size: clamp(20px, 2vw, 24px);
+  line-height: 1.2;
+  color: var(--ink-2);
+}
+
+/* each line struck by its own wavy red pen line (an overlay SVG measured from the text) */
+.k-struck {
+  position: relative;
+  display: block;
+}
+
+.k-struck__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.k-myth__ne {
+  position: relative;
+  padding-top: 18px;
+  text-align: center;
+}
+
+.k-myth__no {
+  display: inline-block;
+  font-family: var(--f-hand);
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--red);
+}
+
+.k-myth__arrow {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.k-myth__arrow--down {
+  display: none;
+}
+
+.k-myth__fact {
+  padding-top: 8px;
+}
+
+.k-myth__facttext {
+  font-size: 18.5px;
+  line-height: 1.55;
+}
+
+.k-myth__facttext > :last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+  .k-myth {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .k-myth__note.k-note {
+    max-width: 420px;
+  }
+  .k-myth__ne {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0 0 28px;
+    text-align: left;
+  }
+  .k-myth__arrow--side {
+    display: none;
+  }
+  .k-myth__arrow--down {
+    display: block;
+    width: 64px;
+  }
+}
+
+/* ==========================================================================
+   Deep dive: an extra page of graph paper clipped in, folded shut
+   ========================================================================== */
+.k-deep {
+  position: relative;
+  margin: 2em 0;
+  background-color: var(--paper-2);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 22px 22px;
+  box-shadow:
+    0 1px 2px var(--shadow-c),
+    0 10px 18px -12px var(--shadow-c);
+  border-radius: 2px;
+}
+
+.k-section .k-section__body > .k-deep {
+  max-width: 700px;
+}
+
+/* the dog-ear at the bottom right */
+.k-deep::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(to top left, var(--paper) 50%, var(--paper-3) 50%);
+  box-shadow: -2px -2px 3px -2px var(--shadow-c);
+  pointer-events: none;
+}
+
+.k-deep__clip {
+  position: absolute;
+  left: 20px;
+  top: -20px;
+  width: 20px;
+  height: 50px;
+  overflow: visible;
+  transform: rotate(-8deg);
+  z-index: 1;
+}
+
+.k-deep__toggle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'label more'
+    'title more';
+  align-items: center;
+  gap: 0 16px;
+  width: 100%;
+  padding: 14px 20px 15px 56px;
+  appearance: none;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--ink);
+}
+
+.k-deep__label {
+  grid-area: label;
+  font-family: var(--f-hand);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--violet);
+}
+
+.k-deep__title {
+  grid-area: title;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 94%;
+  font-size: 19px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.k-deep__more {
+  grid-area: more;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--f-hand);
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--pen);
+  white-space: nowrap;
+}
+
+.k-deep__chev {
+  width: 18px;
+  height: 18px;
+  overflow: visible;
+  transition: transform 0.25s var(--ease-out);
+}
+
+.k-deep.is-open .k-deep__chev {
+  transform: rotate(180deg);
+}
+
+.k-deep__toggle:hover .k-deep__title {
+  text-decoration: underline wavy var(--ink-3) 1px;
+  text-underline-offset: 5px;
+}
+
+.k-deep__content {
+  overflow: hidden;
+}
+
+.k-deep .k-deep__inner {
+  margin: 0 20px 0 56px;
+  padding: 12px 0 26px;
+  border-top: 1.5px dashed color-mix(in srgb, var(--ink-3) 45%, transparent);
+  font-size: 17.5px;
+  line-height: 1.58;
+}
+
+.k-deep__inner > :last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 560px) {
+  .k-deep__toggle {
+    padding: 16px 14px 14px 44px;
+    gap: 0 8px;
+  }
+  .k-deep__clip {
+    left: 14px;
+  }
+  .k-deep .k-deep__inner {
+    margin: 0 14px 0 18px;
+  }
+}
+
+/* ==========================================================================
+   Key idea: the one big statement, in a double ink box
+   ========================================================================== */
+.k-keyidea-wrap {
+  margin: 2.6em 0 2.2em;
+}
+
+.k-section .k-section__body > .k-keyidea-wrap {
+  max-width: 780px;
+}
+
+.k-keyidea {
+  padding: 34px 32px 28px;
+}
+
+.k-keyidea__text {
+  font-family: var(--f-display);
+  font-weight: 750;
+  font-stretch: 90%;
+  font-size: clamp(23px, 2.3vw, 31px);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.k-keyidea__text strong {
+  --mw: 0%;
+  font-weight: 800;
+  background-image: linear-gradient(100deg, transparent 0.12em, var(--hl-yellow) 0.25em, var(--hl-yellow) calc(100% - 0.3em), transparent calc(100% - 0.08em));
+  background-repeat: no-repeat;
+  background-position: 0 78%;
+  background-size: var(--mw) 58%;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0 0.12em;
+  margin: 0 -0.06em;
+  transition: background-size 0.65s var(--ease-pen) 0.5s;
+}
+
+.k-keyidea__text[data-on] strong {
+  --mw: 100%;
+}
+
+:root[data-theme='dark'] .k-keyidea__text strong {
+  background-image: repeating-linear-gradient(-64deg, var(--hl-yellow) 0 2.4px, transparent 2.4px 4.2px);
+  background-position: 0.1em 100%;
+  background-size: var(--mw) 0.3em;
+  padding-bottom: 0.12em;
+}
+
+@media (max-width: 760px) {
+  .k-keyidea {
+    padding: 30px 20px 22px;
+  }
+  .k-callout--danger,
+  .k-callout--key {
+    padding: 28px 20px 20px;
+  }
+}
+
+/* ==========================================================================
+   Term: dotted pencil underline; the definition on a small taped index card
+   ========================================================================== */
+.k-term {
+  cursor: help;
+  color: inherit;
+  text-decoration: underline dotted var(--ink-3);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.22em;
+  text-decoration-skip-ink: none;
+  border-radius: 2px;
+  transition: color 0.15s;
+}
+
+.k-term:hover,
+.k-term:focus-visible {
+  color: var(--pen);
+  text-decoration-color: var(--pen);
+}
+
+.k-term:focus-visible {
+  outline: 2px dashed var(--pen);
+  outline-offset: 2px;
+}
+
+.k-term__anchor {
+  position: fixed;
+  z-index: 1000;
+  /* hoverable: the pointer may move from the word onto the card (WCAG 1.4.13) */
+  pointer-events: auto;
+}
+
+.k-term__tip.k-note {
+  display: block;
+  padding: 20px 20px 16px;
+  font-family: var(--f-body);
+  font-size: 17px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.45;
+  text-align: left;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.12),
+    0 16px 26px -12px var(--shadow-c);
+}
+
+.k-term__tape.k-tape {
+  top: -12px;
+  left: 50%;
+  margin-left: -38px;
+  width: 76px;
+  height: 22px;
+  transform: rotate(2.5deg);
+}
+
+.k-term__label {
+  display: block;
+  font-family: var(--f-hand);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--pen);
+}
+
+.k-term__name {
+  display: block;
+  margin: 3px 0 2px;
+  font-family: var(--f-display);
+  font-weight: 750;
+  font-stretch: 92%;
+  font-size: 18.5px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.k-term__hr {
+  font-weight: 500;
+  color: var(--ink-3);
+}
+
+.k-term__menza {
+  display: block;
+  margin: 0 0 3px;
+  font-family: var(--f-hand);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--red);
+}
+
+.k-term__def {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink-2);
+}
+
+/* ==========================================================================
+   Figure
+   ========================================================================== */
+.k-figure {
+  margin: 2em 0;
+}
+
+.k-figure.is-framed .k-figure__stage {
+  padding: clamp(12px, 2.4vw, 26px);
+}
+
+/* framed figures without the kit's pen box (e.g. the story map) still get a pencil frame */
+.k-figure.is-framed .k-figure__stage:not(.k-rough-box) {
+  border: 1.5px solid var(--border);
+  border-radius: 3px 7px 4px 6px;
+}
+
+.k-figure__caption {
+  max-width: 62ch;
+  margin: 10px auto 0;
+  font-style: italic;
+  font-size: 16.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  text-align: center;
+  text-wrap: pretty;
+}
+
+/* ==========================================================================
+   Compare: two pages in coloured pencil, "vs." circled between them
+   ========================================================================== */
+.k-compare {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 44px;
+  margin: 2.2em 0;
+}
+
+.k-compare__col {
+  padding: 20px 22px 18px;
+}
+
+.k-compare__title {
+  font-family: var(--f-display);
+  font-weight: 750;
+  font-stretch: 92%;
+  font-size: 21px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--tone-hl);
+  text-decoration-thickness: 0.42em;
+  text-underline-offset: -0.18em;
+  text-decoration-skip-ink: none;
+}
+
+.k-compare__visual {
+  margin-top: 12px;
+}
+
+.k-compare .k-compare__col ul {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.k-compare .k-compare__col li {
+  position: relative;
+  margin: 0.45em 0;
+  padding-left: 22px;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.k-compare .k-compare__col li::before {
+  content: '–';
+  position: absolute;
+  left: 2px;
+  top: -0.08em;
+  font-family: var(--f-hand);
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--tone);
+}
+
+.k-compare__vs {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-6deg);
+  font-family: var(--f-hand);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--red);
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .k-compare {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  .k-compare__col:nth-child(2) {
+    order: 2;
+  }
+  .k-compare__vs {
+    position: static;
+    order: 1;
+    justify-self: center;
+    transform: rotate(-6deg);
+    padding: 6px 0;
+  }
+}
+
+/* ==========================================================================
+   Tabs: coloured index tabs standing on the page's pencil line
+   ========================================================================== */
+.k-tabs {
+  margin: 1.8em 0;
+}
+
+.k-tabs__list {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin-bottom: -10px;
+  padding: 6px 4px 0 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.k-tabs__list::-webkit-scrollbar {
+  display: none;
+}
+
+.k-tabs__tab {
+  --tab-paper: var(--note-yellow);
+  flex: none;
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  padding: 8px 16px 14px;
+  border-radius: 9px 9px 0 0;
+  background: var(--tab-paper);
+  color: var(--note-ink);
+  font-family: var(--f-ui);
+  font-weight: 650;
+  font-size: 15.5px;
+  line-height: 1.2;
+  box-shadow:
+    inset 0 -10px 8px -9px rgba(0, 0, 0, 0.2),
+    0 -1px 2px rgba(0, 0, 0, 0.07);
+  transform: translateY(7px);
+  transition: transform 0.15s var(--ease-out);
+}
+
+/* the list scrolls sideways (overflow clips vertically): keep the focus ring inside the tab */
+.k-tabs__tab:focus-visible {
+  outline-offset: -5px;
+}
+
+@media (max-width: 480px) {
+  .k-tabs__list {
+    gap: 4px;
+    padding: 6px 2px 0 4px;
+  }
+  .k-tabs__tab {
+    padding: 8px 12px 14px;
+  }
+}
+
+.k-tabs__tab[data-c='pink'] {
+  --tab-paper: var(--note-pink);
+}
+.k-tabs__tab[data-c='green'] {
+  --tab-paper: var(--note-green);
+}
+.k-tabs__tab[data-c='blue'] {
+  --tab-paper: var(--note-blue);
+}
+.k-tabs__tab[data-c='orange'] {
+  --tab-paper: var(--note-orange);
+}
+.k-tabs__tab[data-c='lilac'] {
+  --tab-paper: var(--note-lilac);
+}
+
+.k-tabs__tab:hover {
+  transform: translateY(3px);
+}
+
+.k-tabs__tab.is-active {
+  transform: none;
+  padding-bottom: 16px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.k-tabs__tab.is-active .k-tabs__label {
+  text-decoration: underline wavy #b3271f 1.3px;
+  text-underline-offset: 5px;
+  text-decoration-skip-ink: none;
+}
+
+.k-tabs__tab:focus-visible {
+  outline: 2.5px dashed var(--pen);
+  outline-offset: 2px;
+}
+
+.k-tabs__rule {
+  position: relative;
+  z-index: 2;
+}
+
+.k-tabs__panel {
+  padding-top: 8px;
+}
+
+.k-tabs__panel > .k-code,
+.k-tabs__panel > .k-term-win {
+  margin-top: 6px;
+}
+
+/* ==========================================================================
+   Recap: "Zapamtite!" in the objectives' double blue-pen box, ticked boxes
+   ========================================================================== */
+.k-recap {
+  margin: 2.2em 0;
+  padding: 24px 28px 22px;
+}
+
+.k-section .k-section__body > .k-recap {
+  max-width: 720px;
+}
+
+.k-recap__title {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  margin-bottom: 12px;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 90%;
+  font-size: 24px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.k-recap__mark {
+  order: 2;
+  font-family: var(--f-hand);
+  font-size: 34px;
+  line-height: 0.8;
+  color: var(--red);
+}
+
+.k-recap ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.k-recap li {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 10px;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.k-recap__box {
+  width: 25px;
+  height: 25px;
+  margin-top: 2px;
+  overflow: visible;
+}
+
+/* ==========================================================================
+   Badge (a luggage tag) · Legend · Kbd · ScrollX
+   ========================================================================== */
+.k-badge {
+  --tone: var(--pen);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 0.04em 0.55em 0.02em 1.25em;
+  font-family: var(--f-mono);
+  /* never under 12 px (a status chip in 15 px UI text, a compressed-time note in a 292 px controls column) */
+  font-size: max(0.72em, 12px);
+  font-weight: 600;
+  font-style: normal;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  /* a long compressed-time note („10 s (sim) · stvarno: 5 min + do 6 min”) wraps inside its tag */
+  white-space: normal;
+  overflow-wrap: anywhere;
+  vertical-align: 0.14em;
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) 8%, var(--paper));
+  border: 1.5px solid currentColor;
+  border-radius: 3px 8px 8px 3px;
+  transform: rotate(-1.2deg);
+}
+
+.k-badge::before {
+  content: '';
+  position: absolute;
+  left: 0.42em;
+  top: 50%;
+  width: 0.42em;
+  height: 0.42em;
+  margin-top: -0.21em;
+  border-radius: 50%;
+  border: 1.3px solid currentColor;
+  background: var(--paper);
+}
+
+.k-badge--violet {
+  --tone: var(--violet);
+}
+.k-badge--teal {
+  --tone: var(--teal);
+}
+.k-badge--amber {
+  --tone: var(--amber);
+}
+.k-badge--rose {
+  --tone: var(--rose);
+}
+.k-badge--green,
+.k-badge--ok {
+  --tone: var(--green);
+}
+.k-badge--warn {
+  --tone: var(--orange);
+}
+.k-badge--bad {
+  --tone: var(--red);
+}
+.k-badge--neutral {
+  --tone: var(--ink-3);
+}
+
+.k-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px 18px;
+  margin-top: 10px;
+  font-family: var(--f-hand);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink-2);
+}
+
+.k-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.k-legend__swatch {
+  flex: none;
+  width: 24px;
+  height: 16px;
+  overflow: visible;
+}
+
+.k-kbd {
+  display: inline-block;
+  padding: 0.04em 0.45em 0.08em;
+  font-family: var(--f-mono);
+  font-size: 0.78em;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1.5px solid var(--ink-3);
+  border-bottom-width: 3px;
+  border-radius: 5px 4px 6px 4px;
+  vertical-align: 0.08em;
+}
+
+.k-scrollx__inner {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.k-scrollx__hint {
+  display: none;
+  margin-top: 4px;
+  text-align: center;
+  font-family: var(--f-hand);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--red);
+}
+
+@media (max-width: 640px) {
+  .k-scrollx__hint {
+    display: block;
+  }
+}
+
+/* ==========================================================================
+   Shared bits of the checks: pen buttons, red strike, circled answers
+   ========================================================================== */
+.k-pen-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px 8px;
+  border-radius: 6px;
+  font-family: var(--f-ui);
+  font-weight: 650;
+  font-size: 16px;
+  line-height: 1.2;
+  color: var(--pen);
+  transition: background-color 0.15s;
+}
+
+.k-pen-btn--red {
+  color: var(--red);
+}
+
+.k-pen-btn--green {
+  color: var(--green);
+}
+
+.k-pen-btn:hover:not(:disabled) {
+  background-color: color-mix(in srgb, currentColor 9%, transparent);
+}
+
+.k-pen-btn__icon {
+  width: 18px;
+  height: 18px;
+  overflow: visible;
+}
+
+/* crossed out with the red pen, line by line */
+.k-strike {
+  background-image: linear-gradient(177deg, transparent calc(56% - 1.5px), var(--red) calc(56% - 1.5px), var(--red) calc(56% + 1px), transparent calc(56% + 1px));
+  background-repeat: no-repeat;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  animation: k-strike 0.4s ease-out both;
+}
+
+@keyframes k-strike {
+  from {
+    background-size: 0% 100%;
+  }
+  to {
+    background-size: 100% 100%;
+  }
+}
+
+/* ==========================================================================
+   Predict: a sticky note with circled choices
+   ========================================================================== */
+.k-predict.k-note {
+  margin: 2em 0;
+  padding: 24px 24px 20px;
+}
+
+.k-section .k-section__body > .k-predict {
+  max-width: 680px;
+}
+
+/* Predict `after`: the evidence, shown under the note once the answer is revealed */
+.k-predict__after {
+  margin: -0.8em 0 2em;
+}
+
+.k-predict__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.k-predict__label {
+  font-family: var(--f-hand);
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--red);
+}
+
+.k-predict__q-doodle {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  margin: -14px -6px -6px 0;
+  overflow: visible;
+  transform: rotate(8deg);
+}
+
+.k-predict__q {
+  margin-bottom: 10px;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 92%;
+  font-size: clamp(19px, 1.7vw, 21.5px);
+  line-height: 1.27;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.k-predict .k-pick {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+
+.k-predict .k-pick > li {
+  margin: 0;
+}
+
+.k-pick__opt {
+  appearance: none;
+  border: 0;
+  background: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) 30px;
+  gap: 8px;
+  align-items: center;
+  padding: 3px 2px;
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.k-pick__opt[aria-disabled='true'] {
+  cursor: default;
+}
+
+.k-pick__opt:not([aria-disabled='true']):hover .k-pick__text {
+  text-decoration: underline wavy var(--ink-3) 1px;
+  text-underline-offset: 5px;
+}
+
+.k-pick__letter {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  font-family: var(--f-hand);
+  font-size: 25px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.k-pick__circle {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.k-pick__text {
+  font-size: 17.5px;
+  line-height: 1.42;
+}
+
+.k-pick__opt[data-state='ok'] .k-pick__text {
+  font-weight: 650;
+}
+
+/* not chosen: lighter graphite, still readable (≥ 4.5:1) — no opacity */
+.k-pick__opt[data-state='faded'] {
+  color: var(--ink-3);
+}
+
+.k-pick__mark {
+  width: 30px;
+  height: 30px;
+  overflow: visible;
+}
+
+.k-predict__then {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+  margin-top: 12px;
+}
+
+.k-predict__thentext {
+  font-family: var(--f-hand);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--pen);
+}
+
+.k-predict__explain {
+  overflow: hidden;
+}
+
+.k-predict__verdict {
+  display: block;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1.5px dashed rgba(42, 37, 26, 0.35);
+  font-family: var(--f-hand);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--green);
+}
+
+.k-predict__verdict[data-ok='false'] {
+  color: var(--red);
+}
+
+.k-predict__explaintext {
+  margin-top: 4px;
+  font-size: 17px;
+  line-height: 1.52;
+}
+
+/* ==========================================================================
+   Myth or fact: notes that flip over; the answer is stamped on the back
+   ========================================================================== */
+.k-mof {
+  margin: 2.4em 0;
+}
+
+.k-mof__title {
+  margin-bottom: 18px;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 90%;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.k-mof .k-mof__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0 4px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 236px), 1fr));
+  gap: 26px 24px;
+}
+
+.k-mof .k-mof__slot {
+  margin: 0;
+  perspective: 1400px;
+}
+
+.k-mof__card {
+  display: grid;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.k-mof__face.k-note {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 196px;
+  padding: 20px 20px 18px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.k-mof__back.k-note {
+  transform: rotateY(180deg);
+  gap: 8px;
+}
+
+.k-mof__statement {
+  font-family: var(--f-display);
+  font-weight: 650;
+  font-stretch: 94%;
+  font-size: 19px;
+  line-height: 1.3;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.k-mof__btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.k-mof__backhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.k-mof__stamp.k-stamp {
+  font-size: 17px;
+  padding: 3px 10px 2px;
+  /* the stamp IS the answer: full strength */
+  opacity: 1;
+}
+
+.k-mof__verdict {
+  font-family: var(--f-hand);
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--green);
+}
+
+.k-mof__verdict[data-ok='false'] {
+  color: var(--red);
+}
+
+.k-mof__small {
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--ink-3);
+}
+
+.k-mof__explain {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+/* ==========================================================================
+   Quiz: the exam sheet (red margin, ruled lines, folded corner)
+   ========================================================================== */
+.k-quiz {
+  position: relative;
+  margin: 2.6em 0;
+  padding: 30px 34px 30px 66px;
+  background-color: var(--test-paper);
+  background-image:
+    linear-gradient(90deg, transparent 44px, var(--margin-line) 44px, var(--margin-line) 46px, transparent 46px),
+    repeating-linear-gradient(transparent 0 33px, var(--rule) 33px 34px);
+  background-position:
+    0 0,
+    0 18px;
+  clip-path: polygon(0 0, calc(100% - 58px) 0, 100% 58px, 100% 100%, 0 100%);
+  transform: rotate(-0.3deg);
+}
+
+.k-section .k-section__body > .k-quiz {
+  max-width: 940px;
+}
+
+.k-quiz[data-narrow] {
+  padding: 26px 14px 22px 40px;
+  background-image:
+    linear-gradient(90deg, transparent 26px, var(--margin-line) 26px, var(--margin-line) 27.5px, transparent 27.5px),
+    repeating-linear-gradient(transparent 0 33px, var(--rule) 33px 34px);
+  clip-path: polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 0 100%);
+}
+
+.k-quiz__sheet {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: none;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.k-quiz > :not(.k-quiz__sheet) {
+  position: relative;
+}
+
+.k-quiz__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6px 30px;
+  margin-bottom: 20px;
+  padding-right: 48px;
+}
+
+.k-quiz[data-narrow] .k-quiz__head {
+  padding-right: 24px;
+}
+
+.k-quiz__title {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 88%;
+  font-size: clamp(26px, 3vw, 36px);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.k-quiz__fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 24px;
+  padding-bottom: 4px;
+  font-size: 17px;
+  color: var(--ink-2);
+}
+
+.k-quiz__blank {
+  display: inline-block;
+  min-width: 3.4em;
+  padding: 0 6px;
+  font-style: normal;
+  font-family: var(--f-hand);
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 1.1;
+  text-align: center;
+  color: var(--pen);
+  border-bottom: 1.5px dotted var(--ink-3);
+}
+
+.k-quiz__blank--score {
+  min-width: 2.2em;
+}
+
+.k-quiz__score {
+  font-family: var(--f-hand);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--red);
+}
+
+.k-quiz .k-quiz__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 28px;
+}
+
+.k-quiz .k-quiz__q {
+  margin: 0;
+}
+
+.k-quiz__qtext {
+  max-width: 36em;
+  margin-bottom: 8px;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 92%;
+  font-size: clamp(19px, 1.9vw, 22px);
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.k-quiz__qno {
+  margin-right: 4px;
+  font-family: var(--f-hand);
+  font-size: 1.25em;
+  font-weight: 700;
+  color: var(--red);
+}
+
+.k-quiz .k-quiz__options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+
+.k-quiz .k-quiz__options > li {
+  margin: 0;
+}
+
+.k-quiz__opt {
+  appearance: none;
+  border: 0;
+  background: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 150px;
+  gap: 10px;
+  align-items: center;
+  padding: 4px 6px;
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.k-quiz__opt[aria-disabled='true'] {
+  cursor: default;
+}
+
+.k-quiz__opt:not([aria-disabled='true']):hover .k-quiz__opttext {
+  text-decoration: underline wavy var(--ink-3) 1px;
+  text-underline-offset: 5px;
+}
+
+.k-quiz__letter {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  font-family: var(--f-hand);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.k-quiz__circle {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.k-quiz__opttext {
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.k-quiz__opt[data-state='ok'] .k-quiz__opttext,
+.k-quiz__opt[data-state='right'] .k-quiz__opttext {
+  font-weight: 600;
+}
+
+.k-quiz__opt[data-state='bad'] .k-quiz__opttext {
+  color: var(--ink-2);
+}
+
+.k-quiz__opt[data-state='faded'] {
+  color: var(--ink-3);
+}
+
+.k-quiz__mark {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+}
+
+/* the teacher's mark next to the picked answer */
+.k-quiz__verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--f-hand);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--green);
+}
+
+.k-quiz__verdict[data-ok='false'] {
+  color: var(--red);
+}
+
+.k-quiz__verdict svg {
+  width: 34px;
+  height: 34px;
+  overflow: visible;
+}
+
+.k-quiz__fix {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--f-hand);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--green);
+}
+
+.k-quiz__fix svg {
+  width: 26px;
+  height: 26px;
+  overflow: visible;
+}
+
+/* the reacting character's note sits right under the picked answer, a short arrow up to it */
+.k-quiz__feedback {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  align-items: start;
+  max-width: 760px;
+  margin: 0 0 14px 22px;
+}
+
+.k-quiz__farrow {
+  width: 56px;
+  height: 42px;
+  margin-top: -6px;
+  overflow: visible;
+}
+
+.k-quiz__fnote.k-note {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 20px 22px 18px;
+}
+
+.k-quiz__fwho {
+  width: 74px;
+  height: auto;
+  overflow: visible;
+}
+
+.k-quiz__fsays {
+  display: block;
+  font-family: var(--f-print);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.k-quiz__fexplain {
+  margin-top: 4px;
+  font-size: 17.5px;
+  line-height: 1.5;
+}
+
+.k-quiz__done {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 26px;
+  padding-top: 14px;
+  border-top: 1.5px dashed var(--border);
+  font-size: 17.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.k-quiz__result strong {
+  font-family: var(--f-hand);
+  font-size: 1.5em;
+  color: var(--red);
+}
+
+.k-quiz .k-quiz__hint {
+  margin: 20px 0 0;
+  font-family: var(--f-hand);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--ink-3);
+}
+
+.k-quiz[data-narrow] .k-quiz__opt {
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 6px;
+  padding: 4px 0;
+}
+
+.k-quiz[data-narrow] .k-quiz__letter {
+  width: 36px;
+  height: 36px;
+}
+
+.k-quiz[data-narrow] .k-quiz__mark {
+  grid-column: 2;
+  min-height: 0;
+}
+
+.k-quiz[data-narrow] .k-quiz__opttext {
+  font-size: 17px;
+}
+
+.k-quiz[data-narrow] .k-quiz__feedback {
+  grid-template-columns: minmax(0, 1fr);
+  margin: 26px 0 14px;
+}
+
+.k-quiz[data-narrow] .k-quiz__farrow {
+  position: absolute;
+  left: 4px;
+  top: -30px;
+  width: 34px;
+  height: 28px;
+  margin: 0;
+}
+
+.k-quiz[data-narrow] .k-quiz__fnote.k-note {
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 10px;
+  padding: 18px 14px 16px;
+}
+
+.k-quiz[data-narrow] .k-quiz__fwho {
+  width: 46px;
+}
+
+/* ==========================================================================
+   Goals: a taped index card "zadaci" with pencil tick boxes
+   ========================================================================== */
+.k-goals {
+  margin-top: 10px;
+  padding: 0 14px 14px;
+  border-radius: 2px;
+}
+
+.k-goals__head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 -14px 10px;
+  padding: 12px 14px 4px;
+  border-bottom: 1.5px solid var(--margin-line);
+}
+
+.k-goals__title {
+  font-family: var(--f-hand);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--red);
+}
+
+.k-goals__count {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.k-goals ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 9px;
+}
+
+.k-goals li {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 8px;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.k-goals li.is-done {
+  color: var(--ink);
+}
+
+.k-goals__box {
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  overflow: visible;
+}
+
+/* ==========================================================================
+   Event log: margin notes with timestamps
+   ========================================================================== */
+.k-events {
+  position: relative;
+  min-width: 0;
+  padding: 2px 0 2px 16px;
+}
+
+.k-events::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 2px;
+  border-left: 1.5px solid var(--margin-line);
+  border-right: 1px solid var(--margin-line);
+  width: 3px;
+}
+
+.k-events__title {
+  margin-bottom: 4px;
+  font-family: var(--f-hand);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ink-3);
+}
+
+.k-events > ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.k-events > ol > li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+}
+
+.k-events__t {
+  min-width: 3.6em;
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+
+.k-events__text {
+  font-family: var(--f-hand);
+  font-size: 19.5px;
+  font-weight: 600;
+  line-height: 1.12;
+  color: var(--ink-2);
+}
+
+.k-events__glyph {
+  display: inline-block;
+  min-width: 0.7em;
+  font-family: var(--f-display);
+  font-weight: 800;
+  text-align: center;
+}
+
+.k-events li[data-tone='ok'] .k-events__text {
+  color: var(--green);
+}
+.k-events li[data-tone='warn'] .k-events__text {
+  color: var(--orange);
+}
+.k-events li[data-tone='bad'] .k-events__text {
+  color: var(--red);
+}
+.k-events li[data-tone='info'] .k-events__text {
+  color: var(--pen);
+}
+
+.k-events .k-events__empty {
+  display: block;
+  font-family: var(--f-hand);
+  font-size: 19.5px;
+  font-weight: 600;
+  color: var(--ink-3);
+}
+
+/* ==========================================================================
+   Chalkboard: paper pinned on the board sits above the chalk dust (z 5);
+   things drawn in chalk (boxes, the exam sheet) stay under it.
+   ========================================================================== */
+:root[data-theme='dark'] .k-card,
+:root[data-theme='dark'] .k-callout--fact,
+:root[data-theme='dark'] .k-mof__slot,
+:root[data-theme='dark'] .k-quiz__feedback {
+  position: relative;
+  z-index: 5;
+}
+
+:root[data-theme='dark'] .k-tabs__list {
+  z-index: 5;
+}
+
+:root[data-theme='dark'] .k-tabs__rule {
+  z-index: 6;
+}
+
+/* the exam sheet on the board is drawn in chalk: no fill, no clip, no tilt */
+:root[data-theme='dark'] .k-quiz {
+  background-color: transparent;
+  clip-path: none;
+  transform: none;
+}
+
+/* big chalk lettering gets the grain mask */
+:root[data-theme='dark'] :is(.k-section__title, .k-keyidea__text, .k-quiz__title, .k-mof__title) {
+  -webkit-mask-image: var(--chalk-mask);
+  mask-image: var(--chalk-mask);
+  -webkit-mask-size: 200px 200px;
+  mask-size: 200px 200px;
+}
+
+/* ---------- reduced motion: everything is already drawn ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .k-strike {
+    animation: none;
+  }
+  .k-keyidea__text strong {
+    --mw: 100%;
+    transition: none;
+  }
+  .k-tabs__tab,
+  .k-deep__chev {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   IncidentCard: the pager alert torn off and taped in at the start of a lecture.
+   Paper: a white ticket with a perforated top edge. Board: drawn in chalk (no paper), held by magnets.
+   ========================================================================== */
+.k-incident {
+  --k-ticket: #fffdf5;
+  container-type: inline-size;
+  margin: 2.2em 0 2.6em;
+}
+
+.k-incident__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 188px;
+  align-items: end;
+  gap: 6px 18px;
+}
+
+.k-section .k-section__body > .k-incident,
+.k-section .k-section__body > .k-cost {
+  max-width: 900px;
+}
+
+.k-incident__ticket {
+  min-width: 0;
+  transform: rotate(-0.5deg);
+}
+
+.k-incident__box {
+  padding: 22px 26px 16px;
+}
+
+/* the ticket paper sits under the pen outline; its top edge is perforated (torn off a pad) */
+.k-incident__box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: var(--k-ticket);
+  -webkit-mask: radial-gradient(circle 4.5px at 9px 0, transparent 96%, #000 100%) 0 0 / 18px 100% repeat-x;
+  mask: radial-gradient(circle 4.5px at 9px 0, transparent 96%, #000 100%) 0 0 / 18px 100% repeat-x;
+  filter: drop-shadow(0 10px 14px var(--shadow-c));
+}
+
+:root[data-theme='dark'] .k-incident__box::before {
+  background: transparent;
+  filter: none;
+}
+
+.k-incident__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 16px;
+}
+
+.k-incident__alert {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.k-incident__alert b {
+  font-size: 1.35em;
+  letter-spacing: 0.02em;
+}
+
+.k-incident__pager {
+  width: 34px;
+  height: 25px;
+  overflow: visible;
+}
+
+.k-incident__pagerbody {
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 1.6;
+}
+
+.k-incident__pagerscreen {
+  fill: var(--red);
+}
+
+.k-incident__pagerbuzz {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.k-incident__when {
+  font-family: var(--f-mono);
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.k-incident__title {
+  margin: 10px 0 4px;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 88%;
+  font-size: clamp(25px, 3vw, 32px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.k-incident__body {
+  max-width: 62ch;
+  margin: 6px 0 2px;
+  font-family: var(--f-body);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.k-incident__body > p {
+  margin: 0 0 0.5em;
+}
+
+.k-incident__metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: 10px 18px;
+  margin: 14px 0 4px;
+}
+
+.k-incident__metric {
+  min-width: 0;
+}
+
+.k-incident__metric dt {
+  font-family: var(--f-ui);
+  font-weight: 650;
+  font-size: 14.5px;
+  line-height: 1.2;
+  color: var(--ink-3);
+}
+
+.k-incident__metric dd {
+  /* room for the red pencil ring around a bad reading, so it never crosses the label above */
+  margin: 7px 0 0;
+  font-family: var(--f-mono);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.25;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.k-incident__metric[data-tone='bad'] dd {
+  color: var(--red);
+}
+.k-incident__metric[data-tone='warn'] dd {
+  color: var(--orange);
+}
+.k-incident__metric[data-tone='ok'] dd {
+  color: var(--green);
+}
+
+.k-incident__mark {
+  margin-right: 0.25em;
+  font-family: var(--f-display);
+  font-weight: 800;
+}
+
+.k-incident__repro {
+  margin: 12px 0 0;
+  padding-top: 7px;
+  border-top: 1.5px dashed color-mix(in srgb, var(--ink-3) 45%, transparent);
+  font-family: var(--f-mono);
+  font-size: 13.5px;
+  color: var(--ink-3);
+}
+
+.k-incident__side {
+  display: flex;
+  justify-content: center;
+}
+
+.k-incident__who {
+  display: block;
+  width: 188px;
+  height: auto;
+  overflow: visible;
+}
+
+@container (max-width: 600px) {
+  .k-incident__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .k-incident__side {
+    order: -1;
+    justify-content: flex-end;
+    margin: 0 4px 8px 0;
+  }
+  .k-incident__box {
+    padding: 20px 18px 14px;
+  }
+}
+
+/* ==========================================================================
+   CostNote ("Cijena rješenja"): a ledger page — dobili smo | platili smo — and the next incident on a sticky
+   note pointing to the next page. Board: the ledger is drawn in chalk, the note is pinned above the dust.
+   ========================================================================== */
+.k-cost {
+  container-type: inline-size;
+  margin: 2.4em 0 2.8em;
+}
+
+.k-cost__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px 26px;
+  align-items: start;
+}
+
+.k-cost__ledger {
+  padding: 18px 24px 20px;
+  background-color: var(--paper-2);
+}
+
+:root[data-theme='dark'] .k-cost__ledger {
+  background-color: transparent;
+}
+
+.k-cost__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 14px;
+}
+
+.k-cost__kicker {
+  font-family: var(--f-hand);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--red);
+}
+
+.k-cost__title {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 88%;
+  font-size: clamp(25px, 2.8vw, 30px);
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.k-cost__headrule {
+  margin: 8px 0 12px;
+}
+
+.k-cost__cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 7px minmax(0, 1fr);
+  gap: 0 22px;
+}
+
+/* the ledger's double pencil rule between the columns */
+.k-cost__rule {
+  border-left: 1.5px solid color-mix(in srgb, var(--ink-3) 70%, transparent);
+  border-right: 1.5px solid color-mix(in srgb, var(--ink-3) 70%, transparent);
+}
+
+.k-cost__colhead {
+  margin: 0 0 6px;
+  font-family: var(--f-hand);
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 1.1;
+}
+
+.k-cost__col[data-side='gained'] .k-cost__colhead {
+  color: var(--green);
+}
+
+.k-cost__col[data-side='paid'] .k-cost__colhead {
+  color: var(--red);
+}
+
+.k-cost__col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+/* ledger rows: a faint ruled line under each entry */
+.k-cost__col li {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px solid var(--rule);
+  font-family: var(--f-body);
+  font-size: 17.5px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.k-cost__mark {
+  width: 24px;
+  height: 24px;
+  margin-top: 1px;
+  overflow: visible;
+}
+
+.k-cost__minus {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 1;
+  text-align: center;
+  color: var(--red);
+}
+
+.k-cost__nextwrap {
+  position: relative;
+  max-width: 400px;
+  justify-self: end;
+  margin-right: 8px;
+}
+
+.k-cost__next.k-note {
+  padding: 22px 22px 18px;
+}
+
+.k-cost__nextlabel {
+  display: block;
+  font-family: var(--f-hand);
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.1;
+  color: var(--red);
+}
+
+.k-cost__nexttext {
+  margin: 6px 0 10px;
+  font-family: var(--f-body);
+  font-size: 17.5px;
+  line-height: 1.45;
+}
+
+.k-cost__nextlink {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 16.5px;
+  color: var(--pen);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--pen) 45%, transparent);
+  text-underline-offset: 3px;
+}
+
+.k-cost__nextarrow {
+  position: absolute;
+  right: -14px;
+  bottom: -52px;
+  width: 90px;
+  height: 60px;
+  overflow: visible;
+}
+
+/* wide pages: ledger and note side by side */
+@container (min-width: 820px) {
+  .k-cost__grid.has-next {
+    grid-template-columns: minmax(0, 1fr) 280px;
+  }
+  .k-cost__nextwrap {
+    margin: 40px 6px 0 0;
+  }
+}
+
+/* narrow pages: the columns stack, the double rule turns horizontal */
+@container (max-width: 560px) {
+  .k-cost__cols {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .k-cost__rule {
+    height: 7px;
+    border: 0;
+    border-top: 1.5px solid color-mix(in srgb, var(--ink-3) 70%, transparent);
+    border-bottom: 1.5px solid color-mix(in srgb, var(--ink-3) 70%, transparent);
+  }
+  .k-cost__ledger {
+    padding: 16px 16px 18px;
+  }
+  .k-cost__nextarrow {
+    display: none;
+  }
+}

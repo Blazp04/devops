@@ -1,0 +1,15 @@
+--- a/klopa/settings.py
++++ b/klopa/settings.py
+@@ -40,10 +40,10 @@
+ # Košarica i prijava žive u sesiji, a sesija u predmemoriji.
+ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+ 
+ CACHES = {
+     "default": {
+         "BACKEND": "django.core.cache.backends.redis.RedisCache",
+-        # Redis na ovom poslužitelju: vide ga svi radnici, ali ne i drugi poslužitelji
+-        "LOCATION": "redis://127.0.0.1:6379/0",
++        # jedan zajednički Redis: svi poslužitelji vide iste sesije
++        "LOCATION": "redis://10.0.0.20:6379/0",
+     }
+ }

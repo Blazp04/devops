@@ -1,0 +1,65 @@
+# .github/workflows/ci.yaml – svaki commit: lint, testovi, slika označena hashom commita
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read                     # zadano za sve poslove: samo čitanje koda
+
+env:
+  # Klopin registar (u priči registry.klopa.example); ovdje Amazon ECR
+  REGISTRY: 111122223333.dkr.ecr.eu-central-1.amazonaws.com
+  IMAGE: klopa-api
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+      - run: pip install -r requirements-dev.txt && ruff check .   # ruff prikvačen u requirements-dev.txt
+
+  test:                              # nema needs: radi istodobno s lintom
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+          cache: pip                 # predmemorija ovisnosti
+      - run: pip install -r requirements.txt
+      - run: pytest -q
+
+  build-push:
+    needs: [lint, test]              # kreće tek kad oba posla prođu
+    if: github.event_name == 'push'  # pull request samo provjerava
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write                # smije zatražiti OIDC token
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: arn:aws:iam::111122223333:role/klopa-ci-push
+          aws-region: eu-central-1
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ${{ env.REGISTRY }}
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - id: build
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - run: echo "digest ${{ steps.build.outputs.digest }}" >> "$GITHUB_STEP_SUMMARY"

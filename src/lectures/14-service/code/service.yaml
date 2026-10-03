@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: klopa-api
+  namespace: klopa
+spec:
+  type: ClusterIP
+  selector:
+    app: klopa-api
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8000

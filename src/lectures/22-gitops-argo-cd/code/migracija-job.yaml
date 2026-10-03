@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: klopa-migracija
+  annotations:
+    argocd.argoproj.io/hook: Sync          # novi Job pri svakoj sinkronizaciji
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+    argocd.argoproj.io/sync-wave: "-1"     # prije Deploymenta (val 0)
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: migracija
+          image: registry.klopa.example/klopa-api:2.0.1
+          command: ["python", "manage.py", "migrate", "--noinput"]

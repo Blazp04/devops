@@ -1,0 +1,181 @@
+.sheet {
+  position: relative;
+  border: 2.5px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+  padding: 7px 10px 7px 14px;
+  border-bottom: 1.5px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.headL {
+  flex: 1 1 auto;
+}
+
+.count {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.ctrls {
+  display: flex;
+  gap: 10px;
+}
+
+.details {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transition: grid-template-columns 0.45s cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+.detail {
+  position: relative;
+  min-width: 0;
+  padding: 14px 18px 18px;
+  border-right: 1px solid var(--line);
+}
+
+.detail:last-child {
+  border-right: 0;
+}
+
+/* the current detail is drawn in full line weight inside a solid frame;
+   the others keep full-ink text, their small drawing is in faint construction line inside a dashed frame */
+.fig {
+  position: relative;
+  cursor: pointer;
+  padding: 6px 6px 4px;
+  border: 1px dashed var(--line-2);
+  transition: border-color 0.3s;
+}
+
+.fig svg {
+  transition: opacity 0.3s;
+}
+
+.detail:not([data-active='true']) .fig svg {
+  opacity: 0.58;
+}
+
+.detail:not([data-active='true']) .fig:hover svg {
+  opacity: 0.85;
+}
+
+.detail[data-active='true'] .fig {
+  cursor: default;
+  border: 1.5px solid var(--line);
+}
+
+.scale {
+  position: absolute;
+  right: 6px;
+  top: 4px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--ink-2);
+}
+
+.noteHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  text-align: left;
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.1;
+  cursor: pointer;
+}
+
+.noteHead:hover span:last-child {
+  text-decoration: underline;
+  text-decoration-color: var(--pencil);
+  text-underline-offset: 4px;
+}
+
+.bal {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border: 1.6px solid var(--pencil);
+  border-radius: 50%;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--pencil);
+}
+
+.detail[data-active='true'] .bal {
+  background: var(--pencil);
+  color: var(--paper);
+}
+
+.noteText {
+  margin: 0;
+  font-size: 16.5px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+@media (max-width: 760px) {
+  .details {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .detail {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 10px 12px 12px;
+  }
+
+  .detail:last-child {
+    border-bottom: 0;
+  }
+
+  .detail:not([data-active='true']) .fig,
+  .detail:not([data-active='true']) .noteText {
+    display: none;
+  }
+
+  .detail:not([data-active='true']) .noteHead {
+    margin: 0;
+    font-size: 19px;
+    color: var(--ink-2);
+  }
+
+  .detail[data-active='true'] .noteHead {
+    margin-top: 10px;
+  }
+
+  .ctrls {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .details,
+  .fig,
+  .fig svg {
+    transition: none;
+  }
+}

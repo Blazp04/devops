@@ -1,0 +1,141 @@
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+  padding: 7px 10px 7px 14px;
+  border-bottom: 1.5px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.headL {
+  flex: 1 1 auto;
+}
+
+.clock {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+.stage {
+  margin: 14px 14px 8px;
+}
+
+/* control traffic (api-server ↔ kubelet): an instrument signal line, so it never reads as a traffic pipe */
+.ctl,
+.ctlMark {
+  fill: none;
+  stroke: var(--line-2);
+  stroke-width: 1;
+}
+
+.ctlMark {
+  stroke: var(--line);
+  stroke-width: 1.1;
+}
+
+.ctlLabel {
+  font-family: var(--f-mono);
+  font-style: italic;
+  fill: var(--ink-2);
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 3.5px;
+}
+
+.msg {
+  fill: var(--pencil);
+  stroke: var(--paper);
+  stroke-width: 1.5;
+}
+
+.kubelet,
+.kubeletBusy {
+  fill: var(--paper);
+  stroke: var(--line);
+  stroke-width: 1.2;
+}
+
+.kubeletBusy {
+  stroke: var(--pencil);
+  stroke-width: 2;
+  fill: var(--pencil-soft);
+}
+
+.pendBox {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.2;
+  stroke-dasharray: 6 4;
+}
+
+.plate {
+  fill: var(--paper);
+  stroke: none;
+}
+
+.dropOn {
+  fill: none;
+  stroke: var(--pencil);
+  stroke-width: 2;
+}
+
+.dropOff {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.3;
+  stroke-dasharray: 11 3.5 2.5 3.5;
+}
+
+.events {
+  list-style: none;
+  margin: 0;
+  padding: 10px 14px 12px;
+  display: grid;
+  gap: 4px;
+  border-top: 1.5px solid var(--line);
+}
+
+.events li {
+  display: grid;
+  grid-template-columns: 78px 150px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.evKind {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.events li[data-tone='red'] .evKind {
+  color: var(--red);
+}
+
+.events li[data-tone='pencil'] .evKind {
+  color: var(--pencil);
+}
+
+@media (max-width: 760px) {
+  .stage {
+    margin: 12px 6px 6px;
+  }
+
+  .events li {
+    grid-template-columns: 70px minmax(0, 1fr);
+  }
+
+  .events li > span:last-child {
+    grid-column: 1 / -1;
+  }
+}

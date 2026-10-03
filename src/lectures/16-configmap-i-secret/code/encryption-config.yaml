@@ -1,0 +1,20 @@
+# encryption-config.yaml – čita ga kube-apiserver
+# (--encryption-provider-config); na upravljanim klasterima
+# ovo postavlja pružatelj usluge
+apiVersion: apiserver.config.k8s.io/v1
+kind: EncryptionConfiguration
+resources:
+  - resources:
+      - secrets            # ConfigMape samo ako ih dodate
+    providers:
+      - kms:               # preporučeno: ključ (KEK) je u vanjskom KMS-u
+          apiVersion: v2
+          name: klopa-kms
+          endpoint: unix:///var/run/kmsplugin/socket.sock
+          timeout: 3s
+      # za vlastiti laboratorijski klaster umjesto kms:
+      # - secretbox:
+      #     keys:
+      #       - name: kljuc1
+      #         secret: <32 nasumična bajta u base64>
+      - identity: {}       # zadnji: čita stare, nešifrirane zapise

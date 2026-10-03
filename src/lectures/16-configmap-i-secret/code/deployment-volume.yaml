@@ -1,0 +1,21 @@
+# isječak iz deployment.yaml: vrijednosti kao datoteke
+    spec:
+      containers:
+        - name: api
+          image: registry.klopa.example/klopa-api:1.4.0
+          resources:
+            requests: { cpu: 250m, memory: 384Mi }
+          volumeMounts:
+            - name: tajne
+              mountPath: /etc/klopa/tajne   # datoteka DB_PASSWORD
+              readOnly: true
+            - name: postavke
+              mountPath: /etc/klopa/postavke.ini
+              subPath: postavke.ini         # subPath: nikad se ne osvježava
+      volumes:
+        - name: tajne
+          secret:
+            secretName: klopa-db
+        - name: postavke
+          configMap:
+            name: klopa-api-postavke

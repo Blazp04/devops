@@ -1,0 +1,13 @@
+# syntax=docker/dockerfile:1
+FROM python:3.13-slim
+WORKDIR /app
+# ovisnosti prije koda: pip install se ponavlja samo kad se promijeni requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+# korisnik bez ovlasti roota
+USER 10001
+# EXPOSE je samo dokumentacija; port objavljuje docker run -p
+EXPOSE 8000
+# 0.0.0.0 = sluša na mrežnom sučelju kontejnera, ne samo na njegovom 127.0.0.1
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "klopa.wsgi"]

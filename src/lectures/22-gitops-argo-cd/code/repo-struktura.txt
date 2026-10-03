@@ -1,0 +1,17 @@
+klopa-config/              samo željeno stanje
+├── apps/
+│   └── klopa-api/
+│       ├── base/          zajedničko svim okruženjima
+│       │   ├── kustomization.yaml
+│       │   ├── deployment.yaml
+│       │   ├── service.yaml
+│       │   └── configmap-promo.yaml
+│       └── overlays/
+│           ├── staging/
+│           │   └── kustomization.yaml
+│           └── prod/
+│               └── kustomization.yaml   ← CI bot
+└── argocd/
+    ├── appproject-klopa.yaml
+    ├── klopa-api-staging.yaml   → overlays/staging
+    └── klopa-api-prod.yaml      → overlays/prod

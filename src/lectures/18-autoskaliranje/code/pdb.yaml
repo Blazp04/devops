@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: klopa-api
+  namespace: klopa
+spec:
+  maxUnavailable: 1            # drain izbacuje najviše jedan Pod klopa-api odjednom
+  selector:
+    matchLabels:
+      app: klopa-api

@@ -1,0 +1,102 @@
+/* Lecture 07 — local layout helpers (tokens only; drawings live in SVG). */
+
+.addGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 28px;
+  align-items: start;
+  margin-top: 24px;
+}
+
+.legend {
+  margin-top: 10px;
+}
+
+/* a small interactive under a drawing: the controls in one wrapping row */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 22px;
+  align-items: flex-end;
+  margin: 14px 0 4px;
+}
+
+.readout {
+  font-family: var(--f-body);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin: 10px 0 0;
+  max-width: 66ch;
+}
+
+.readout strong {
+  color: var(--ink);
+}
+
+.bad {
+  color: var(--red);
+}
+
+.ok {
+  color: var(--green);
+}
+
+.beltBox {
+  margin: 1.6em 0 2em;
+}
+
+.spectrumCard {
+  margin-top: 12px;
+  padding: 12px 16px;
+  font-family: var(--f-body);
+  font-size: 17.5px;
+  line-height: 1.5;
+}
+
+.spectrumCard p {
+  margin: 0 0 6px;
+}
+
+.spectrumTitle {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 19px;
+  font-stretch: 88%;
+}
+
+.nsList {
+  columns: 2 300px;
+  column-gap: 28px;
+}
+
+.nsList li {
+  break-inside: avoid;
+}
+
+/* The kit Terminal switches its narrow layout at a 540 px screen; between ~570 and ~605 px of figure width (dark
+   theme, e.g. a 768 px window) the switch changes its own padding and flips every frame. Below 640 px of column we
+   keep the laptop at 520 px, so it settles in the narrow layout. */
+.termGuard {
+  container-type: inline-size;
+}
+
+@container (max-width: 640px) {
+  .termGuard :global(.k-term-win) {
+    max-width: 520px;
+    margin-inline: auto;
+  }
+}

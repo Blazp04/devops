@@ -1,0 +1,14 @@
+# namespace.yaml – dvije odvojene „mape” za Klopu
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: klopa
+  labels:
+    env: prod
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: klopa-staging
+  labels:
+    env: staging

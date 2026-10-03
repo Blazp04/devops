@@ -1,0 +1,17 @@
+# iptables (zadani način): nasumičan izbor kroz niz vjerojatnosti 1/4, 1/3, 1/2, 1
+$ sudo iptables-save | grep klopa-api
+-A KUBE-SERVICES -d 10.96.12.7/32 -p tcp -m comment --comment "klopa/klopa-api:http cluster IP" -m tcp --dport 80 -j KUBE-SVC-7QK3JZ2W5HM4XN6P
+-A KUBE-SVC-7QK3JZ2W5HM4XN6P -m comment --comment "klopa/klopa-api:http -> 10.244.2.2:8000" -m statistic --mode random --probability 0.25000000000 -j KUBE-SEP-A3D6LQ2Y7VNO4KXB
+-A KUBE-SVC-7QK3JZ2W5HM4XN6P -m comment --comment "klopa/klopa-api:http -> 10.244.2.3:8000" -m statistic --mode random --probability 0.33333333349 -j KUBE-SEP-H5TQ1MZ8RW3CJE6U
+-A KUBE-SVC-7QK3JZ2W5HM4XN6P -m comment --comment "klopa/klopa-api:http -> 10.244.3.2:8000" -m statistic --mode random --probability 0.50000000000 -j KUBE-SEP-PX2V9GNC4D7LYF1S
+-A KUBE-SVC-7QK3JZ2W5HM4XN6P -m comment --comment "klopa/klopa-api:http -> 10.244.3.3:8000" -j KUBE-SEP-W8B5KJ3R6ZQT2MHA
+-A KUBE-SEP-A3D6LQ2Y7VNO4KXB -p tcp -m comment --comment "klopa/klopa-api:http" -m tcp -j DNAT --to-destination 10.244.2.2:8000
+
+# nftables (nasljednik): isti izbor, zapisan kao „slučajan broj mod 4”
+$ sudo nft list chain ip kube-proxy service-7QK3JZ2W-klopa/klopa-api/tcp/http
+table ip kube-proxy {
+	chain service-7QK3JZ2W-klopa/klopa-api/tcp/http {
+		ip daddr 10.96.12.7 tcp dport 80 ip saddr != 10.244.0.0/16 jump mark-for-masquerade
+		numgen random mod 4 vmap { 0 : goto endpoint-A3D6LQ2Y-klopa/klopa-api/tcp/http__10.244.2.2/8000, 1 : goto endpoint-H5TQ1MZ8-klopa/klopa-api/tcp/http__10.244.2.3/8000, 2 : goto endpoint-PX2V9GNC-klopa/klopa-api/tcp/http__10.244.3.2/8000, 3 : goto endpoint-W8B5KJ3R-klopa/klopa-api/tcp/http__10.244.3.3/8000 }
+	}
+}

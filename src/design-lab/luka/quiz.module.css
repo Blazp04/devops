@@ -1,0 +1,361 @@
+/* Quiz: a customs inspection ticket — stub + perforation + form */
+.ticket {
+  --t-paper: #f3ead3;
+  --t-stub: #e9d9b0;
+  --t-ink: #2a2214;
+  --t-rule: rgba(42, 34, 20, 0.28);
+  position: relative;
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  max-width: 760px;
+  color: var(--t-ink);
+  filter: drop-shadow(0 2px 0 rgba(20, 33, 46, 0.25));
+}
+:global([data-theme='dark']) .ticket {
+  --t-paper: #1b2a37;
+  --t-stub: #22374a;
+  --t-ink: #efe7d4;
+  --t-rule: rgba(255, 220, 160, 0.22);
+  filter: drop-shadow(0 0 0 transparent);
+}
+/* the stub: notched corners, perforated edge on the right */
+.stub {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px 20px 20px 22px;
+  background:
+    radial-gradient(circle at 100% 0, transparent 11px, var(--t-stub) 12px) top right / 51% 51% no-repeat,
+    radial-gradient(circle at 100% 100%, transparent 11px, var(--t-stub) 12px) bottom right / 51% 51% no-repeat,
+    radial-gradient(circle at 0 0, transparent 9px, var(--t-stub) 10px) top left / 51% 51% no-repeat,
+    radial-gradient(circle at 0 100%, transparent 9px, var(--t-stub) 10px) bottom left / 51% 51% no-repeat;
+}
+.stub::after {
+  content: '';
+  position: absolute;
+  top: 16px;
+  bottom: 16px;
+  right: -1px;
+  border-right: 3px dotted var(--t-rule);
+}
+.stubLabel {
+  font-family: var(--f-label);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.stubNo {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--f-display);
+  line-height: 0.9;
+}
+.stubNo b {
+  font-weight: 400;
+  font-size: 58px;
+  color: var(--orange-ink);
+}
+.stubNo small {
+  font-family: var(--f-mono);
+  font-size: 13px;
+}
+.stubState {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--f-body);
+  font-weight: 650;
+  font-size: 15px;
+  line-height: 1.25;
+}
+.stubState i {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--t-ink);
+  background: var(--amber);
+}
+.ticket[data-state='open'] .stubState i {
+  animation: quizBlink 1.2s steps(2, jump-none) infinite;
+}
+.ticket[data-state='ok'] .stubState i {
+  background: var(--sig-green);
+}
+.ticket[data-state='bad'] .stubState i {
+  background: var(--sig-red);
+}
+@keyframes quizBlink {
+  50% {
+    background: transparent;
+  }
+}
+.barcode {
+  margin-top: auto;
+  width: 100%;
+  height: 26px;
+  fill: var(--t-ink);
+  opacity: 0.8;
+}
+
+/* the form */
+.form {
+  min-width: 0;
+  padding: 24px 26px 24px 30px;
+  background:
+    radial-gradient(circle at 0 0, transparent 11px, var(--t-paper) 12px) top left / 51% 51% no-repeat,
+    radial-gradient(circle at 0 100%, transparent 11px, var(--t-paper) 12px) bottom left / 51% 51% no-repeat,
+    radial-gradient(circle at 100% 0, transparent 9px, var(--t-paper) 10px) top right / 51% 51% no-repeat,
+    radial-gradient(circle at 100% 100%, transparent 9px, var(--t-paper) 10px) bottom right / 51% 51% no-repeat;
+}
+.question {
+  margin: 0 0 16px;
+  font-family: var(--f-body);
+  font-stretch: 94%;
+  font-weight: 620;
+  font-size: 21px;
+  line-height: 1.38;
+}
+.options {
+  display: grid;
+  border-top: 1.5px solid var(--t-rule);
+}
+.option {
+  position: relative;
+  display: grid;
+  grid-template-columns: 26px 26px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 58px;
+  padding: 10px 8px 10px 4px;
+  text-align: left;
+  border: 0;
+  border-bottom: 1.5px solid var(--t-rule);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 17px;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+.option:hover:not([data-locked]) {
+  background: color-mix(in oklab, var(--yellow), transparent 80%);
+}
+.option[data-locked] {
+  cursor: default;
+  opacity: 0.55;
+}
+.option:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: -3px;
+}
+.box {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--t-ink);
+  background: color-mix(in oklab, var(--t-paper), #fff 30%);
+}
+:global([data-theme='dark']) .box {
+  background: #0f1b26;
+}
+.box svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.option[data-state='ok'] .box svg {
+  stroke: var(--sig-green);
+}
+.option[data-state='bad'] .box svg {
+  stroke: var(--sig-red);
+}
+.letter {
+  font-family: var(--f-display);
+  font-size: 22px;
+  line-height: 1;
+}
+.optText {
+  padding-right: 4px;
+}
+.option[data-state='ok'] .optText,
+.option[data-state='bad'] .optText {
+  font-weight: 650;
+}
+.option[data-state='bad'] .optText {
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in oklab, var(--sig-red), transparent 30%);
+  text-decoration-thickness: 2px;
+}
+/* the inspector's stamp lands on the chosen line */
+.stamp {
+  justify-self: end;
+  margin-left: 8px;
+  padding: 3px 10px 1px;
+  font-family: var(--f-display);
+  font-size: 22px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 4px double currentColor;
+  transform: rotate(-7deg);
+  background: color-mix(in oklab, var(--t-paper), transparent 20%);
+  pointer-events: none;
+  animation: stampIn 0.32s cubic-bezier(0.2, 1.6, 0.4, 1) both;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.3 1.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.3 1.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.option[data-state='ok'] .stamp {
+  color: var(--sig-green);
+}
+.option[data-state='bad'] .stamp {
+  color: var(--sig-red);
+}
+@keyframes stampIn {
+  from {
+    opacity: 0;
+    transform: rotate(-7deg) scale(1.8);
+  }
+}
+
+/* the explanation folds down like the flap of a form */
+.flapWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease;
+}
+.flapWrap[data-open] {
+  grid-template-rows: 1fr;
+}
+.flapInner {
+  overflow: hidden;
+  perspective: 700px;
+}
+.flap {
+  margin-top: 16px;
+  padding: 14px 18px 16px;
+  background: color-mix(in oklab, var(--t-paper), var(--t-ink) 6%);
+  border-top: 3px solid var(--sig-green);
+  transform-origin: top center;
+  transform: rotateX(-80deg);
+  opacity: 0;
+  transition:
+    transform 0.45s cubic-bezier(0.3, 1.3, 0.5, 1) 0.08s,
+    opacity 0.2s ease 0.08s;
+}
+.flapWrap[data-open] .flap {
+  transform: none;
+  opacity: 1;
+}
+.flap[data-ok='0'] {
+  border-top-color: var(--sig-red);
+}
+.flap b {
+  display: block;
+  font-family: var(--f-label);
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.flap p {
+  margin: 0 0 12px;
+  font-size: 17px;
+  line-height: 1.55;
+}
+.reset {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 6px 14px;
+  border: 2px solid var(--t-ink);
+  background: transparent;
+  color: inherit;
+  font-family: var(--f-label);
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.reset:hover {
+  background: var(--yellow);
+  color: #14212e;
+  border-color: #14212e;
+}
+
+@media (max-width: 640px) {
+  .ticket {
+    grid-template-columns: 1fr;
+  }
+  .stub {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 14px;
+    padding: 16px 18px 18px;
+    background:
+      radial-gradient(circle at 0 100%, transparent 11px, var(--t-stub) 12px) bottom left / 51% 51% no-repeat,
+      radial-gradient(circle at 100% 100%, transparent 11px, var(--t-stub) 12px) bottom right / 51% 51% no-repeat,
+      radial-gradient(circle at 0 0, transparent 9px, var(--t-stub) 10px) top left / 51% 51% no-repeat,
+      radial-gradient(circle at 100% 0, transparent 9px, var(--t-stub) 10px) top right / 51% 51% no-repeat;
+  }
+  .stub::after {
+    top: auto;
+    bottom: -1px;
+    left: 16px;
+    right: 16px;
+    border-right: 0;
+    border-bottom: 3px dotted var(--t-rule);
+  }
+  .stubLabel {
+    flex-basis: 100%;
+  }
+  .stubNo b {
+    font-size: 40px;
+  }
+  .barcode {
+    margin: 0 0 0 auto;
+    width: 64px;
+  }
+  .form {
+    padding: 18px 16px 20px;
+    background:
+      radial-gradient(circle at 0 0, transparent 11px, var(--t-paper) 12px) top left / 51% 51% no-repeat,
+      radial-gradient(circle at 100% 0, transparent 11px, var(--t-paper) 12px) top right / 51% 51% no-repeat,
+      radial-gradient(circle at 0 100%, transparent 9px, var(--t-paper) 10px) bottom left / 51% 51% no-repeat,
+      radial-gradient(circle at 100% 100%, transparent 9px, var(--t-paper) 10px) bottom right / 51% 51% no-repeat;
+  }
+  .question {
+    font-size: 19px;
+  }
+  .option {
+    grid-template-columns: 24px 20px minmax(0, 1fr);
+    gap: 4px 10px;
+    padding-right: 4px;
+  }
+  .stamp {
+    grid-column: 3;
+    justify-self: start;
+    margin: 4px 0 2px;
+    font-size: 17px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flapWrap,
+  .flap,
+  .stamp,
+  .ticket[data-state='open'] .stubState i {
+    transition: none;
+    animation: none;
+  }
+}

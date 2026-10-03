@@ -1,0 +1,356 @@
+/* L03 local styles. Tokens only (paper and chalkboard switch them). */
+
+.stage {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+  /* the kit centres the stage vertically next to a tall controls panel; keep the drawing at the top */
+  margin-bottom: auto;
+}
+
+.buttonRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ---------- flagship: formula vs year vs average ---------- */
+
+.formulaStrip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 10px 22px;
+  padding: 12px 14px;
+  border-top: 1.5px dashed var(--ink-3);
+  border-bottom: 1.5px dashed var(--ink-3);
+}
+
+.formulaCell {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  min-width: 0;
+}
+
+.formulaLabel {
+  font-family: var(--f-hand);
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.1;
+  color: var(--red);
+}
+
+.formulaExpr {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+
+.formulaBig {
+  font-family: var(--f-mono);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.formulaSub {
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--ink-2);
+}
+
+.causeWrap {
+  margin-top: 18px;
+  max-width: 640px;
+}
+
+.goalsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 28px;
+  align-items: start;
+  margin-top: 24px;
+}
+
+/* ---------- reason cards ---------- */
+
+.reasons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 20px;
+  margin: 1.6em 0;
+}
+
+.reason {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 14px 16px 16px;
+  min-width: 0;
+}
+
+/* one card per row on tablets: the drawing on the left, the words on the right */
+.reasonRow {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  grid-template-areas:
+    'title title'
+    'pic text'
+    'pic klopa';
+  align-content: start;
+  gap: 6px 20px;
+  padding: 14px 16px 16px;
+  min-width: 0;
+}
+
+.reasonRow > h3 {
+  grid-area: title;
+}
+
+.reasonRow > .reasonPic {
+  grid-area: pic;
+  align-self: center;
+}
+
+.reasonRow > .reasonText {
+  grid-area: text;
+}
+
+.reasonRow > .reasonKlopa {
+  grid-area: klopa;
+}
+
+.reasonPic {
+  width: 100%;
+  max-width: 280px;
+  min-width: 0;
+}
+
+.reasonNo {
+  font-family: var(--f-hand);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--red);
+  line-height: 1;
+}
+
+.reasonTitle {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 85%;
+  font-size: 21px;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.reasonText {
+  margin: 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.reasonKlopa {
+  margin: 4px 0 0;
+  font-family: var(--f-hand);
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.15;
+}
+
+.yes {
+  color: var(--green);
+}
+
+.no {
+  color: var(--ink-3);
+}
+
+/* ---------- checklist ---------- */
+
+.checklist {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checkItem {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 8px 4px;
+  cursor: pointer;
+  font-family: var(--f-body);
+  font-size: 17.5px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.checkItem input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.checkItem:has(input:focus-visible) {
+  outline: 2px solid var(--pen);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.checkBox {
+  width: 26px;
+  height: 26px;
+  margin-top: 1px;
+}
+
+.checkTag {
+  display: inline-block;
+  margin-left: 6px;
+  font-family: var(--f-hand);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+.verdict {
+  margin-top: 14px;
+  padding: 14px 16px;
+}
+
+.verdictTitle {
+  margin: 0 0 6px;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 85%;
+  font-size: 20px;
+  line-height: 1.15;
+}
+
+.verdict p {
+  margin: 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.checkWrap {
+  margin: 1.6em 0;
+  display: grid;
+  gap: 10px;
+}
+
+.checkHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.checkHeadTitle {
+  font-family: var(--f-hand);
+  font-weight: 700;
+  font-size: 23px;
+  color: var(--red);
+}
+
+/* ---------- small widgets ---------- */
+
+.widget {
+  margin: 1.6em 0;
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.widgetControls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 14px 26px;
+  align-items: start;
+}
+
+.readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  align-items: baseline;
+  font-family: var(--f-mono);
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.readout strong {
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.formulaLine {
+  font-family: var(--f-mono);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.formulaLine b {
+  font-size: 18px;
+}
+
+.handNote {
+  font-family: var(--f-hand);
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.2;
+  color: var(--ink-2);
+}
+
+.tally {
+  font-family: var(--f-mono);
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.tally sup {
+  font-size: 0.86em;
+}
+
+.tally strong {
+  color: var(--ink);
+  font-size: 17px;
+}
+
+.ninesTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--f-mono);
+  font-size: 14px;
+}
+
+.ninesTable th {
+  font-family: var(--f-hand);
+  font-weight: 600;
+  font-size: 18px;
+  text-align: left;
+  color: var(--ink-2);
+  padding: 4px 10px 6px 0;
+  border-bottom: 1.5px solid var(--ink-3);
+}
+
+.ninesTable td {
+  padding: 5px 10px 5px 0;
+  border-bottom: 1px dashed var(--ink-4);
+  color: var(--ink);
+}

@@ -1,0 +1,26 @@
+# Željeno stanje: „tri kopije klopa-api, uvijek”.
+# (Objekt Deployment upoznat ćemo u 13. predavanju.)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: klopa-api
+  namespace: klopa
+spec:
+  replicas: 3                 # želja, a ne naredba „pokreni 3”
+  selector:
+    matchLabels:
+      app: klopa-api
+  template:
+    metadata:
+      labels:
+        app: klopa-api
+    spec:
+      containers:
+        - name: klopa-api
+          image: registry.klopa.example/klopa-api:1.3.2
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi

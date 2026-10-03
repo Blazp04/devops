@@ -1,0 +1,145 @@
+.stageNarrow {
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.stageWide {
+  width: 100%;
+}
+
+.slice {
+  border-collapse: collapse;
+  font-family: var(--f-mono);
+  font-size: 13.5px;
+  width: 100%;
+  color: var(--ink);
+}
+
+.slice caption {
+  text-align: left;
+  font-family: var(--f-hand);
+  font-size: 19px;
+  color: var(--ink-2);
+  padding-bottom: 2px;
+}
+
+.slice th {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 13px;
+  text-align: left;
+  color: var(--ink-2);
+  border-bottom: 1.5px solid var(--ink-3);
+  padding: 3px 6px;
+}
+
+.slice td {
+  padding: 3px 6px;
+  border-bottom: 1px dashed var(--ink-4);
+  white-space: nowrap;
+}
+
+.yes {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.no {
+  color: var(--red);
+  font-weight: 700;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.statsGrid > * {
+  min-width: 0;
+}
+
+.statsGrid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  align-items: start;
+  margin-top: 12px;
+}
+
+.hops {
+  margin: 0;
+  padding-left: 1.4em;
+  font-family: var(--f-mono);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.hops li {
+  margin: 2px 0;
+}
+
+.hops .addr {
+  color: var(--pen);
+}
+
+.picked {
+  font-family: var(--f-mono);
+  font-size: 13.5px;
+  color: var(--ink);
+  word-break: break-all;
+}
+
+.muted {
+  color: var(--ink-2);
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 16px;
+  margin: 2px 0;
+}
+
+.results {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px 16px;
+}
+
+/* phones: the EndpointSlice table fits without sideways scrolling */
+@media (max-width: 480px) {
+  .slice {
+    font-size: 12px;
+  }
+
+  .slice th {
+    font-size: 12px;
+  }
+
+  .slice td,
+  .slice th {
+    padding: 3px 3px;
+  }
+}
+
+.warn {
+  color: var(--orange);
+  font-weight: 700;
+}
+
+/* „Put jednog zahtjeva”: the button and its result live together under the controls */
+.trace {
+  margin-top: 14px;
+}
+
+.traceHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin-bottom: 6px;
+}
+
+.traceHead p {
+  font-size: 17px;
+  margin: 0;
+}

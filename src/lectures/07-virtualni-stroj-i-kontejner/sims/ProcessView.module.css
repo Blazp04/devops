@@ -1,0 +1,174 @@
+/* „Kontejner je samo proces” — Lana's laptop screen with a process list (terminal tokens only). */
+
+.wrap {
+  margin: 1.8em 0 2.2em;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.laptop {
+  position: relative;
+  max-width: 720px;
+}
+
+.screen {
+  position: relative;
+  padding: 14px 16px 16px;
+  background: var(--term-bg);
+  color: var(--term-ink);
+  border: 12px solid var(--bezel);
+  border-bottom-width: 18px;
+  border-radius: 10px 10px 4px 4px;
+  box-shadow: inset 0 0 26px color-mix(in srgb, var(--term-bg) 40%, black);
+  font-family: var(--f-mono);
+  font-size: 15px;
+  line-height: 1.55;
+  transform: rotate(-0.3deg);
+}
+
+.prompt {
+  margin: 0 0 6px;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.ps1 {
+  color: var(--term-prompt);
+}
+
+.head,
+.row {
+  display: grid;
+  grid-template-columns: 7ch minmax(0, 1fr) auto;
+  gap: 0 1.2ch;
+  align-items: baseline;
+}
+
+.head {
+  color: var(--term-dim);
+  font-size: 14px;
+}
+
+.head span:first-child,
+.pid {
+  text-align: right;
+}
+
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  position: relative;
+  padding: 1px 4px;
+  margin: 0 -4px;
+  border-radius: 2px;
+}
+
+.me {
+  background: color-mix(in srgb, var(--hl-yellow-ink) 26%, transparent);
+  color: var(--term-ink);
+}
+
+.dim,
+.dim .pid {
+  color: var(--term-dim);
+}
+
+.pid {
+  display: inline-block;
+  position: relative;
+  min-width: 6ch;
+  color: var(--term-ok);
+  font-variant-numeric: tabular-nums;
+}
+
+.pidNum {
+  display: inline-block;
+}
+
+.cmd {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.tree {
+  color: var(--term-dim);
+}
+
+.tag {
+  font-family: var(--f-hand);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--term-pen);
+  white-space: nowrap;
+}
+
+.facts {
+  margin: 12px 0 0;
+  padding-top: 10px;
+  border-top: 1px dashed var(--term-dim);
+  display: grid;
+  gap: 2px;
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: minmax(0, 22ch) minmax(0, 1fr);
+  gap: 0 1.2ch;
+}
+
+.fact dt {
+  color: var(--term-dim);
+}
+
+.fact dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.same {
+  color: var(--term-ok);
+  font-weight: 600;
+}
+
+.sameNote {
+  font-family: var(--f-hand);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--term-pen);
+}
+
+.deck {
+  display: block;
+  width: 104%;
+  margin-left: -2%;
+  height: 34px;
+}
+
+@media (max-width: 560px) {
+  .screen {
+    font-size: 14px;
+    padding: 12px 10px 14px;
+    border-width: 9px;
+    border-bottom-width: 14px;
+  }
+  .head,
+  .row {
+    grid-template-columns: 6ch minmax(0, 1fr);
+  }
+  .tag {
+    grid-column: 2;
+  }
+  .fact {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

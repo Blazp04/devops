@@ -1,0 +1,37 @@
+# Ugrađena strategija 1: RollingUpdate (zadana). Ovako je u petak uvedena 2.0.0.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: klopa-api
+  namespace: klopa
+  annotations:
+    kubernetes.io/change-cause: "uvođenje 2.0.0 (nova košarica)"
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: klopa-api
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%             # 4 → najviše 1 Pod više
+      maxUnavailable: 25%       # 4 → najviše 1 Pod manje
+  template:
+    metadata:
+      labels:
+        app: klopa-api
+    spec:
+      containers:
+        - name: klopa-api
+          image: registry.klopa.example/klopa-api:2.0.0
+          ports:
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8000
+            periodSeconds: 2      # u simulaciji; zadano je 10
+          resources:
+            requests:             # zajamčeni minimum
+              cpu: 100m
+              memory: 256Mi

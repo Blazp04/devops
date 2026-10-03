@@ -1,0 +1,28 @@
+# Canary po težinama: svaki zahtjev ide na canary s vjerojatnošću 5/(95+5).
+# Ovo zamjenjuje pravilo /api iz HTTPRoutea klopa (15. predavanje):
+# dva HTTPRoutea s istim uvjetom bila bi u sukobu.
+# Potrebna su dva objekta Service: klopa-api-stable (track: stable)
+# i klopa-api-canary (track: canary).
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: klopa-api
+  namespace: klopa
+spec:
+  parentRefs:
+    - name: klopa-gw
+      sectionName: https
+  hostnames:
+    - klopa.example
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+      backendRefs:
+        - name: klopa-api-stable
+          port: 80
+          weight: 95
+        - name: klopa-api-canary
+          port: 80
+          weight: 5             # neovisno o broju canary Podova

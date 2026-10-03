@@ -1,0 +1,239 @@
+/* Lecture 02 — local styles (tokens only; paper and chalkboard switch by themselves). */
+
+.clock {
+  font-size: 15px;
+  color: var(--ink-2);
+  padding: 2px 6px;
+  border-bottom: 1.5px dashed var(--ink-3);
+}
+
+.ctlHint {
+  display: block;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+
+.charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.goalsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 28px;
+  align-items: start;
+  margin-top: 26px;
+}
+
+.burstEmpty {
+  margin: 20px 0 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-2);
+}
+
+.burstBox {
+  margin-top: 22px;
+  padding: 14px 18px 16px;
+}
+
+.burstLine {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.burstMachine {
+  font-weight: 600;
+}
+
+.burstNums {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
+  color: var(--ink-2);
+}
+
+.burstBad {
+  color: var(--red);
+}
+
+.burstHead {
+  font-family: var(--f-hand);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--red);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.burstList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.burstList li {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.burstList li > svg {
+  margin-top: 2px;
+}
+
+.burstNote {
+  grid-column: 2;
+  font-family: var(--f-body);
+  font-size: 17px;
+  color: var(--ink-2);
+}
+
+.simNote {
+  margin: 18px 0 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+/* a stage wrapper that keeps the narrow drawing centred */
+.stage {
+  width: 100%;
+}
+
+/* controls row above a small interactive drawing */
+.controlsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 28px;
+  align-items: flex-end;
+  margin: 4px 0 14px;
+}
+
+.controlsRow > * {
+  min-width: min(100%, 240px);
+}
+
+.readout {
+  font-family: var(--f-body);
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 12px 0 0;
+}
+
+.readout strong {
+  white-space: nowrap;
+  font-family: var(--f-mono);
+  font-size: 16.5px;
+}
+
+.formula {
+  font-family: var(--f-mono);
+  font-size: 14.5px;
+  line-height: 1.7;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.formula li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 10px;
+  align-items: baseline;
+}
+
+.formulaTag {
+  font-family: var(--f-hand);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--red);
+}
+
+.modelTag {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-2);
+}
+
+/* the nines table */
+.nines {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--f-mono);
+  font-size: 14.5px;
+  margin-top: 14px;
+}
+
+.nines th {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 14px;
+  text-align: right;
+  padding: 6px 8px;
+  border-bottom: 1.5px solid var(--ink-3);
+  color: var(--ink-2);
+}
+
+.nines th:first-child,
+.nines td:first-child {
+  text-align: left;
+}
+
+.nines td {
+  text-align: right;
+  padding: 7px 8px;
+  border-bottom: 1px dashed color-mix(in srgb, var(--ink-3) 55%, transparent);
+  color: var(--ink);
+}
+
+.nines td {
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .nines th,
+  .nines td {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+}
+
+.nines tr.isCurrent td {
+  background: var(--hl-yellow);
+  /* the marker is nearly opaque chalk on the board: dark note ink keeps the row readable in both themes */
+  color: var(--note-ink);
+  font-weight: 700;
+}
+
+.ninesWrap {
+  overflow-x: auto;
+}
+
+.salveta {
+  margin: 1.2em 0;
+  padding-left: 1.2em;
+}
+
+.salveta li {
+  margin: 0.35em 0;
+}

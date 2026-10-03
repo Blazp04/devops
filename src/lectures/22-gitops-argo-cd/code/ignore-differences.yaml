@@ -1,0 +1,11 @@
+# Application klopa-api – ako replicas MORA ostati u Gitu
+spec:
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      name: klopa-api
+      jsonPointers:
+        - /spec/replicas      # ne broji se kao razlika
+  syncPolicy:
+    syncOptions:
+      - RespectIgnoreDifferences=true   # ni sinkronizacija ga ne dira

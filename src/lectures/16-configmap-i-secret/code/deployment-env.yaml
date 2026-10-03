@@ -1,0 +1,16 @@
+# isječak iz deployment.yaml: vrijednosti kao varijable okruženja
+    spec:
+      containers:
+        - name: api
+          image: registry.klopa.example/klopa-api:1.4.0
+          resources:
+            requests: { cpu: 250m, memory: 384Mi }
+          envFrom:
+            - configMapRef:
+                name: klopa-api-config   # svaki ključ postaje varijabla
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: klopa-db
+                  key: DB_PASSWORD       # pročita se samo pri pokretanju

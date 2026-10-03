@@ -1,0 +1,12 @@
+# overlays/prod/kustomization.yaml – samo ono po čemu se produkcija razlikuje
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+replicas:
+  - name: klopa-api
+    count: 4
+images:
+  - name: registry.klopa.example/klopa-api
+    # isti digest koji je prošao staging – ne nova izgradnja
+    digest: sha256:7c1e9a4b3f2d8e6a1c5b9d7e3f4a2b6c8d0e1f3a5b7c9d2e4f6a8b0c1d3e5f70

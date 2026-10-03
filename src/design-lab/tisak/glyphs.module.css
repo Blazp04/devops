@@ -1,0 +1,167 @@
+.defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fPink {
+  fill: var(--pink);
+}
+.fBlue {
+  fill: var(--blue);
+}
+.fYellow {
+  fill: var(--yellow);
+}
+.fYellowDeep {
+  fill: var(--yellow-deep, var(--yellow));
+}
+.fInk {
+  fill: var(--ink);
+}
+/* knock-out: the plate is left unprinted, so the stock shows through */
+.fKnock {
+  fill: var(--knock, var(--paper));
+}
+.fPaperInk {
+  fill: var(--paper-ink, var(--paper));
+}
+
+.sPink,
+.sBlue,
+.sYellow,
+.sInk,
+.sPaperInk {
+  fill: none;
+}
+.sPink {
+  stroke: var(--pink);
+}
+.sBlue {
+  stroke: var(--blue);
+}
+.sYellow {
+  stroke: var(--yellow);
+}
+.sInk {
+  stroke: var(--ink);
+}
+.sPaperInk {
+  stroke: var(--paper-ink, var(--paper));
+}
+
+/* Overprint: shapes printed in different inks mix where they overlap. */
+.over {
+  mix-blend-mode: var(--over);
+}
+
+.reg {
+  display: inline-block;
+  flex: none;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.1;
+}
+
+.inkbar {
+  display: inline-block;
+  flex: none;
+  overflow: visible;
+}
+
+.logo {
+  flex: none;
+  overflow: visible;
+}
+
+.rim {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  fill: var(--on-yellow);
+}
+
+.needle {
+  transition: transform 0.16s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.stamp {
+  pointer-events: none;
+  filter: url(#tk-stamp);
+}
+
+.stampBg {
+  fill: var(--paper);
+  opacity: 0.92;
+}
+
+.stampOuter {
+  fill: none;
+  stroke-width: 2.4;
+}
+
+.stampInner {
+  fill: none;
+  stroke-width: 1;
+}
+
+.stampText {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+/* stamp ink is a touch deeper than the spot ink so verdicts stay legible */
+.stampPink .stampOuter,
+.stampPink .stampInner {
+  stroke: var(--pink-text);
+}
+.stampPink .stampText {
+  fill: var(--pink-text);
+}
+.stampBlue .stampOuter,
+.stampBlue .stampInner {
+  stroke: var(--blue-text);
+}
+.stampBlue .stampText {
+  fill: var(--blue-text);
+}
+
+.pen {
+  display: block;
+  max-width: none;
+  overflow: visible;
+  pointer-events: none;
+  fill: none;
+  stroke: var(--pen, var(--pink));
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---- Numerals (plates) ------------------------------------------------- */
+.num {
+  display: block;
+  flex: none;
+  line-height: 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+.num svg {
+  display: block;
+  overflow: visible;
+}
+
+.numText {
+  font-family: var(--f-display);
+  font-size: 100px;
+  font-weight: 900;
+  letter-spacing: -4px;
+  font-variation-settings:
+    'opsz' 144,
+    'SOFT' 100,
+    'WONK' 0;
+}

@@ -1,0 +1,78 @@
+# HTTPRoute: pravila za klopa.example. Piše ga tim aplikacije (Lana).
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: klopa
+  namespace: klopa
+spec:
+  parentRefs:
+    - name: klopa-gw
+      sectionName: https
+  hostnames:
+    - klopa.example
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+          headers:
+            - name: x-beta
+              value: "1"
+      backendRefs:
+        - name: klopa-api-141
+          port: 80
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+      backendRefs:
+        - name: klopa-api
+          port: 80
+          weight: 90
+        - name: klopa-api-141
+          port: 80
+          weight: 10
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: klopa-web
+          port: 80
+---
+# Administracija ima svoju domenu i svoju rutu
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: klopa-admin
+  namespace: klopa
+spec:
+  parentRefs:
+    - name: klopa-gw
+      sectionName: https
+  hostnames:
+    - admin.klopa.example
+  rules:
+    - backendRefs:
+        - name: klopa-admin
+          port: 80
+---
+# Na :80 samo preusmjeravamo na https://
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: klopa-http-preusmjeri
+  namespace: klopa
+spec:
+  parentRefs:
+    - name: klopa-gw
+      sectionName: http
+  hostnames:
+    - klopa.example
+    - admin.klopa.example
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301

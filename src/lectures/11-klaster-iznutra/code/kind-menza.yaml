@@ -1,0 +1,12 @@
+# kind-menza.yaml – klaster za učenje na vlastitom računalu:
+# jedan čvor upravljačke ravnine i tri radna čvora (svaki „čvor” je Docker kontejner)
+# Bez polja image kind uzima svoju zadanu sliku čvora; verziju
+# zaključate s image: kindest/node:<verzija>@sha256:<sažetak>
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: menza
+nodes:
+  - role: control-plane
+  - role: worker
+  - role: worker
+  - role: worker

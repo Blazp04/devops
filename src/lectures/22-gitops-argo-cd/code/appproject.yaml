@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: klopa
+  namespace: argocd
+spec:
+  description: Klopa – samo config repo, klopa i klopa-staging
+  sourceRepos:
+    - https://git.klopa.example/klopa/klopa-config.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: klopa
+    - server: https://kubernetes.default.svc
+      namespace: klopa-staging
+  # bez clusterResourceWhitelist: ništa na razini klastera
+  sourceIntegrity:           # Argo CD 3.5: GnuPG potpisi
+    git:
+      policies:
+        - repos:
+            - url: https://git.klopa.example/klopa/klopa-config.git
+          gpg:
+            mode: head       # potpisan mora biti commit koji se postavlja
+            # javni ključevi moraju biti uvezeni u Argo CD (argocd gpg add)
+            keys:
+              - 3B7E91C40D2A58F6   # Lana
+              - 9F3C2E71B0D4A615   # Davor
+              - C1B07A5E2D9F4431   # ci-bot
+              - 5D8A0F3E9C21B7A4   # Git poslužitelj: potpisuje spajanja PR-ova

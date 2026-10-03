@@ -1,0 +1,309 @@
+/* Lecture 16 – local styles (tokens only; paper and chalkboard both work through the tokens) */
+
+.mapWrap {
+  width: 100%;
+}
+
+.timingNote {
+  margin: 8px 0 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.ctlNote {
+  margin: -6px 0 0;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+
+.btnRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+}
+
+.btnCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px 24px;
+  margin-top: 16px;
+}
+
+/* the eye board: one card per onlooker */
+.board {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(196px, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+
+/* the pen-drawn frame comes from the RoughBox around each card (dashed grey = does not read, red = reads) */
+.eyeBox {
+  display: flex;
+  min-width: 0;
+}
+
+.eyeCard {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  padding: 9px 11px 10px;
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.eyeCard[aria-pressed='true'] {
+  outline: 2.5px solid var(--pen);
+  outline-offset: 1px;
+}
+
+.eyeCard:focus-visible {
+  outline: 3px solid var(--pen);
+  outline-offset: 2px;
+}
+
+.eyeHead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.eyeNo {
+  font-family: var(--f-mono);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.eyeCard[data-reads='da'] .eyeNo,
+.eyeCard[data-reads='da'] .eyeVerdict {
+  color: var(--red);
+}
+
+.eyeName {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 15.5px;
+  line-height: 1.15;
+}
+
+.eyeVerdict {
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.eyeWhy {
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--ink-2);
+}
+
+.why {
+  margin-top: 14px;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.why ul {
+  margin: 4px 0 0;
+  padding-left: 1.1em;
+}
+
+.why p {
+  margin: 6px 0 0;
+}
+
+.noteCmd {
+  font-family: var(--f-mono);
+  font-size: 14.5px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.whyHead {
+  font-family: var(--f-ui);
+  font-weight: 800;
+}
+
+/* decode lab: one column inside the reading column, so the kubectl line in the code block does not scroll */
+.decode {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px 26px;
+  align-items: start;
+  margin: 1.6em 0;
+}
+
+.decodeSide {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.plain {
+  font-family: var(--f-mono);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--red);
+  overflow-wrap: anywhere;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+/* writing on a dashed line in the notebook, not a UI box */
+.field input {
+  font-family: var(--f-mono);
+  font-size: 16px;
+  padding: 6px 2px 5px;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px dashed var(--ink-3);
+  border-radius: 0;
+  min-width: 0;
+  max-width: 420px;
+}
+
+.field input:focus-visible {
+  outline: 3px solid var(--pen);
+  outline-offset: 1px;
+}
+
+.mono {
+  font-family: var(--f-mono);
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+/* who-can-read explorer */
+.rows {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 10px;
+  align-items: center;
+  padding: 6px 8px;
+  border-bottom: 1.5px dashed color-mix(in srgb, var(--ink-3) 45%, transparent);
+}
+
+.rowCmd {
+  font-family: var(--f-mono);
+  font-size: 14px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.rowOut {
+  grid-column: 2;
+  font-family: var(--f-ui);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.rowOut[data-ok='da'] {
+  color: var(--red);
+}
+
+.rowOut[data-ok='ne'] {
+  color: var(--green);
+}
+
+.explorer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+.explorerHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 22px;
+  align-items: flex-end;
+}
+
+.bigVerdict {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--f-ui);
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.bigVerdict[data-reads='da'] {
+  color: var(--red);
+}
+
+/* rules checklist */
+.checklist {
+  list-style: none;
+  margin: 1.2em 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checklist li {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  font-family: var(--f-body);
+  font-size: 18.5px;
+  line-height: 1.5;
+}
+
+.tick {
+  width: 28px;
+  height: 28px;
+  margin-top: 2px;
+}
+
+/* timeline */
+.lanes {
+  width: 100%;
+}

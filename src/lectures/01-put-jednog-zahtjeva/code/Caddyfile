@@ -1,0 +1,5 @@
+# Caddy sluša na 80 i 443 i sam nabavi certifikat za klopa.example
+klopa.example {
+	# sve zahtjeve prosljeđuje aplikaciji na istom stroju
+	reverse_proxy 127.0.0.1:8000
+}

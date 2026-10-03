@@ -1,0 +1,421 @@
+/* ---------- code: a printed listing — paper, ink keyline, a blue screen in the line-number gutter ---------- */
+/* the listing + the reader's margin column */
+.spread {
+  --code-lh: 25.5px;
+  --code-top: 55px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 340px);
+  column-gap: clamp(20px, 3vw, 48px);
+  min-width: 0;
+}
+
+.notes {
+  position: relative;
+  min-width: 0;
+}
+
+.mnote {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--code-top) + var(--line) * var(--code-lh) - 6px);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.mnote p {
+  margin: 0;
+  font-family: var(--f-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.25;
+  font-variation-settings:
+    'opsz' 24,
+    'SOFT' 100,
+    'WONK' 1;
+  color: var(--pink-text);
+  transform: rotate(-1.2deg);
+  transform-origin: left top;
+}
+
+.mnote em {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.mArrow {
+  flex: none;
+  margin-top: -6px;
+  margin-left: calc(clamp(20px, 3vw, 48px) * -0.7);
+}
+
+.chip {
+  display: inline-block;
+  vertical-align: -2px;
+  margin-right: 6px;
+  fill: var(--pink);
+}
+
+/* the reader's pen circle around replicas: 3 */
+.marked {
+  position: relative;
+}
+
+.markPen {
+  position: absolute;
+  left: -16px;
+  top: -9px;
+}
+
+.sheet {
+  margin: 0;
+  min-width: 0;
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 2.5px solid var(--ink);
+  font: 600 14px/1 var(--f-ui);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  align-self: stretch;
+  padding: 12px 16px;
+  background: var(--ink);
+  color: var(--on-ink);
+  font: 700 14.5px/1 var(--f-mono);
+}
+
+.tab svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+.lang {
+  font: 600 12px/1 var(--f-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-2);
+}
+
+.copy {
+  margin-left: auto;
+  align-self: stretch;
+  padding: 0 16px;
+  border: 0;
+  border-left: 2.5px solid var(--ink);
+  background: var(--paper);
+  font: 700 14px/1 var(--f-ui);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.copy:hover {
+  background: color-mix(in srgb, var(--yellow) 50%, var(--paper));
+}
+
+.copy:focus-visible,
+.more:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: -3px;
+}
+
+.body {
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 34px), transparent 100%);
+  mask-image: linear-gradient(#000 calc(100% - 34px), transparent 100%);
+}
+
+/* the gutter: a 14 % blue screen */
+.body::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3.6em;
+  font: 400 15px/1 var(--f-mono);
+  background: var(--blue);
+  -webkit-mask-image: var(--screen-30);
+  mask-image: var(--screen-30);
+  -webkit-mask-size: 22px 22px;
+  mask-size: 22px 22px;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.bodyOpen {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.pre {
+  position: relative;
+  margin: 0;
+  padding: 14px 0 18px;
+  font: 400 15px/1.7 var(--f-mono);
+  color: var(--ink);
+  tab-size: 2;
+}
+
+.pre code {
+  font: inherit;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 3.6em minmax(0, 1fr);
+  column-gap: 1em;
+}
+
+.no {
+  padding-right: 0.8em;
+  text-align: right;
+  color: var(--ink-2);
+  user-select: none;
+}
+
+/* long lines wrap (hanging under their own indent) instead of being cut off */
+.src {
+  padding-right: 18px;
+  padding-left: var(--indent, 0);
+  text-indent: calc(var(--indent, 0) * -1);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.key {
+  color: var(--blue-text);
+  font-weight: 700;
+}
+
+.str {
+  color: var(--pink-text);
+}
+
+.num {
+  color: var(--yellow-text);
+  font-weight: 700;
+}
+
+.punct {
+  color: var(--ink-2);
+}
+
+.comment {
+  color: var(--ink-2);
+  font-style: italic;
+}
+
+.short {
+  display: none;
+}
+
+.stamp {
+  position: absolute;
+  right: 22px;
+  top: 18px;
+  padding: 5px 10px 4px;
+  border: 2.5px solid var(--blue-text);
+  outline: 1px solid var(--blue-text);
+  outline-offset: -6px;
+  color: var(--blue-text);
+  background: var(--paper);
+  font: 700 14px/1.2 var(--f-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  transform: rotate(-8deg);
+  animation: tk-stamp 0.32s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+
+@keyframes tk-stamp {
+  from {
+    transform: rotate(-8deg) scale(1.6);
+    opacity: 0;
+  }
+}
+
+.more {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 13px 16px;
+  border: 0;
+  border-top: 2.5px solid var(--ink);
+  background: var(--paper);
+  font: 700 15px/1 var(--f-ui);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+}
+
+.more:hover span:first-child {
+  text-decoration: underline;
+  text-decoration-color: var(--pink);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}
+
+.moreCount {
+  font: 400 13px/1 var(--f-mono);
+  color: var(--ink-2);
+}
+
+/* ---------- terminal as a printed till receipt ----------
+   a physical object: thermal-paper white with black print in BOTH themes, barely skewed */
+.receipt {
+  --receipt: #fffdf7;
+  --ink: #1d1b26;
+  --ink-2: #4c4756;
+  --pink: #ff48b0;
+  --pink-text: #b0126c;
+  --blue-text: #1d44ae;
+  position: relative;
+  margin: 0 6px 18px 0;
+  min-width: 0;
+  max-width: calc(100% - 6px);
+  background: var(--receipt);
+  color: var(--ink);
+  transform: rotate(-0.5deg);
+  will-change: transform;
+  filter: drop-shadow(0 1px 0 rgba(29, 27, 38, 0.22)) drop-shadow(3px 4px 0 rgba(29, 27, 38, 0.1));
+}
+
+.receipt::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -9px;
+  height: 9px;
+  background: conic-gradient(from -45deg at 50% 100%, var(--receipt) 90deg, transparent 0) 0 0 / 18px 9px repeat-x;
+}
+
+.receiptHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 2px dashed var(--ink);
+  font: 700 12px/1.2 var(--f-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+}
+
+.receiptBody {
+  overflow-x: auto;
+}
+
+.receiptBody:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: -3px;
+}
+
+.term {
+  margin: 0;
+  padding: 14px 14px 10px;
+  font: 400 13.5px/1.75 var(--f-mono);
+  color: var(--ink);
+  white-space: pre;
+}
+
+.cmd {
+  font-weight: 700;
+}
+
+.prompt {
+  color: var(--pink-text);
+  font-weight: 700;
+}
+
+.th {
+  color: var(--ink-2);
+}
+
+.ok {
+  color: var(--blue-text);
+  font-weight: 700;
+}
+
+.bad {
+  color: #1d1b26;
+  background: var(--pink);
+  font-weight: 700;
+}
+
+.receiptNote {
+  margin: 0;
+  padding: 10px 14px 16px;
+  border-top: 2px dashed var(--ink);
+  font: 400 16px/1.5 var(--f-ui);
+  color: var(--ink-2);
+}
+
+.receiptNote code {
+  font-family: var(--f-mono);
+  font-size: 0.88em;
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp {
+    animation: none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .spread {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .notes {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .lang {
+    display: none;
+  }
+  .pre {
+    font-size: 13.5px;
+  }
+  /* comments move to their own line instead of being soft-wrapped mid-phrase */
+  .gap {
+    display: none;
+  }
+  .comment {
+    display: block;
+    text-indent: 0;
+  }
+  .full {
+    display: none;
+  }
+  .short {
+    display: inline;
+  }
+  .receipt {
+    transform: none;
+    margin-right: 3px;
+  }
+  /* RESTARTS and AGE are dropped on phones; NAME · READY · STATUS is the part that matters here */
+  .opt {
+    display: none;
+  }
+  .term {
+    font-size: 12.5px;
+    padding: 12px 12px 8px;
+  }
+}

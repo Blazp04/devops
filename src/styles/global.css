@@ -1,0 +1,311 @@
+/* Fonts (all with latin-ext: č ć đ š ž). Loaded once, here. */
+@import '@fontsource-variable/bricolage-grotesque/standard.css';
+@import '@fontsource-variable/newsreader/opsz.css';
+@import '@fontsource-variable/newsreader/opsz-italic.css';
+@import '@fontsource-variable/caveat/wght.css';
+@import '@fontsource/kalam/400.css';
+@import '@fontsource/kalam/700.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+@import '@fontsource/ibm-plex-mono/600.css';
+@import '@fontsource/ibm-plex-mono/400-italic.css';
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-height) + 16px);
+}
+
+/* the desk (kraft paper) or the wall behind the chalkboard */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--desk);
+  background-image: var(--desk-texture);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 19.5px;
+  line-height: 1.62;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+@media (max-width: 760px) {
+  body {
+    font-size: 18px;
+  }
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+svg {
+  overflow: visible;
+}
+
+/* links: blue ballpoint, a wavy pen underline on hover */
+a {
+  color: var(--pen);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline wavy var(--pen) 1.4px;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 4px;
+}
+
+/* links inside running text are underlined (not told apart by colour alone, WCAG 1.4.1); wavy pen on hover */
+:is(.prose, .nb-lhead__prereq, .nb-gloss__item, .nb-404__text, .nb-soon) a:not(:hover) {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--pen) 45%, transparent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: var(--f-ui);
+  font-size: inherit;
+  color: inherit;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--f-mono);
+  font-size: 0.9em;
+}
+
+::selection {
+  background: var(--hl-yellow);
+  color: var(--ink);
+}
+
+/* focus: blue pen, dashed like a hand-drawn ring */
+:focus-visible {
+  outline: 2.5px dashed var(--pen);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 90%;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  margin: 0;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+h3,
+h4 {
+  font-weight: 750;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Voices (HTML) ---------- */
+/* the author's quick handwriting: margin notes, kickers, labels (≥ 17 px, never more than 2 lines) */
+.k-hand {
+  font-family: var(--f-hand);
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+/* what a character says (Kalam): bubbles and short story beats only */
+.k-print {
+  font-family: var(--f-print);
+  line-height: 1.35;
+}
+
+/* printed zine headings */
+.k-display {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 88%;
+  letter-spacing: -0.015em;
+}
+
+/* ---------- Prose: long-form lecture text (Newsreader) ---------- */
+.prose {
+  color: var(--ink);
+}
+
+.prose p {
+  margin-top: 0;
+  margin-bottom: 1.05em;
+}
+
+.prose strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.prose em {
+  color: var(--ink);
+}
+
+.prose h3 {
+  font-size: 1.32em;
+  margin-top: 1.7em;
+  margin-bottom: 0.5em;
+}
+
+.prose h4 {
+  font-size: 1.08em;
+  margin-top: 1.4em;
+  margin-bottom: 0.35em;
+}
+
+.prose ul,
+.prose ol {
+  margin-top: 0;
+  margin-bottom: 1.1em;
+  padding-left: 1.35em;
+}
+
+.prose li {
+  margin: 0.3em 0;
+}
+
+.prose li::marker {
+  color: var(--red);
+  font-family: var(--f-hand);
+  font-weight: 700;
+}
+
+.prose a {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--pen) 45%, transparent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+
+.prose a:hover {
+  text-decoration: underline wavy var(--pen) 1.4px;
+}
+
+/* inline code: a typed label stuck on the page.
+   - Plex Mono looks bigger than Newsreader, so it is set at 0.82 em — but never under 12 px (e.g. in a 14,5 px
+     metric label), and at the size of the surrounding text where that text is already mono (`--code-size: 1em`).
+   - It wraps: a long token (an FQDN, a kubectl message, `aws-actions/configure-aws-credentials`) breaks where it
+     must instead of pushing a phone page sideways; each line fragment keeps its own label background.
+   - Its well is `--paper-2` of the paper it sits on: sticky notes and cards re-define it (text.css, doodles.css),
+     so it stays dark ink on light paper on the chalkboard too. */
+.prose :not(pre) > code,
+.k-code-inline {
+  background: var(--paper-2);
+  border-radius: 3px;
+  box-shadow: inset 0 -1.5px 0 color-mix(in srgb, var(--ink-3) 35%, transparent);
+  padding: 0.06em 0.32em;
+  font-size: var(--code-size, max(0.82em, 12px));
+  color: var(--ink);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* inside text that is already monospaced, inline code keeps the text's size */
+.mono,
+.k-mono {
+  --code-size: 1em;
+}
+
+.prose blockquote {
+  margin: 1.4em 0;
+  padding: 0.1em 0 0.1em 1.1em;
+  border-left: 3px solid var(--margin-line);
+  color: var(--ink-2);
+  font-style: italic;
+}
+
+.prose hr {
+  border: 0;
+  height: 14px;
+  margin: 2.4em 0;
+  background: radial-gradient(circle, var(--ink-3) 1.4px, transparent 1.8px) center / 22px 14px repeat-x;
+  opacity: 0.6;
+}
+
+/* ---------- Layout helpers ---------- */
+.container {
+  width: 100%;
+  max-width: calc(var(--wide-width) + 48px);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 720px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
+/* graph paper */
+.grid-bg {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.mono {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* anything pinned on the chalkboard (code sheet, laptop screen, step card) stays clean above the chalk dust */
+:root[data-theme='dark'] .k-pinned {
+  position: relative;
+  z-index: 5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}

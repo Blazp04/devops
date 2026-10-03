@@ -1,0 +1,6 @@
+--- gunicorn.conf.py    (na Laninu laptopu)
++++ gunicorn.conf.py    (na VPS-u, bez proxyja)
+@@ -1,2 +1,2 @@
+-bind = "127.0.0.1:8000"    # zadano: samo ovo računalo
++bind = "0.0.0.0:8000"      # sve adrese ovog računala
+ workers = 3

@@ -1,0 +1,29 @@
+# rbac.yaml – razvojni tim u Namespaceu klopa: sve osim Secreta
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: razvoj
+  namespace: klopa
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/log", "configmaps", "services"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "watch"]
+  # nema pravila za "secrets": RBAC samo dopušta, pa ono što
+  # nije navedeno nije dopušteno
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: razvoj-iva
+  namespace: klopa
+subjects:
+  - kind: User
+    name: iva@klopa.example
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: razvoj
+  apiGroup: rbac.authorization.k8s.io

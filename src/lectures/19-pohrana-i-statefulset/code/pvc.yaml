@@ -1,0 +1,25 @@
+# PersistentVolumeClaim = narudžbenica za disk. Disk izradi StorageClass, a PV je zapis o njemu.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-pvc-data
+  namespace: klopa
+spec:
+  accessModes:
+    - ReadWriteOnce            # RWO = jedan čvor (Podovi na njemu ga smiju dijeliti)
+  storageClassName: standard   # koja „tvornica”; bez retka: zadana StorageClass
+  resources:
+    requests:
+      storage: 10Gi
+---
+# StorageClass obično postavlja pružatelj klastera. Ovako izgleda:
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: standard
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"   # zadana StorageClass
+provisioner: ebs.csi.aws.com            # CSI driver vašeg oblaka (ovdje AWS EBS)
+reclaimPolicy: Delete                    # zadano: brisanje PVC-a briše i disk
+volumeBindingMode: WaitForFirstConsumer  # disk tek kad Pod dobije čvor (i zonu)
+allowVolumeExpansion: true

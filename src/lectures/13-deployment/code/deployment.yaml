@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: klopa-api
+  namespace: klopa
+  annotations:
+    kubernetes.io/change-cause: "uvođenje 1.4.0 (vegetarijanski meni)"
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: klopa-api            # nepromjenjiv nakon stvaranja
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%             # 4 → +1 Pod (zaokružuje se naviše)
+      maxUnavailable: 25%       # 4 → −1 Pod (zaokružuje se naniže)
+  progressDeadlineSeconds: 60   # u simulaciji; zadano je 600
+  revisionHistoryLimit: 10      # koliko starih ReplicaSetova čuvati
+  template:                     # predložak Poda: promjena = novi ReplicaSet
+    metadata:
+      labels:
+        app: klopa-api          # mora odgovarati selektoru
+    spec:
+      containers:
+        - name: klopa-api
+          image: registry.klopa.example/klopa-api:1.4.0
+          ports:
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8000
+            periodSeconds: 2      # u simulaciji; zadano je 10
+          resources:
+            requests:             # zajamčeni minimum (17. predavanje)
+              cpu: 100m
+              memory: 256Mi

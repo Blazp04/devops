@@ -1,0 +1,349 @@
+/* a torn page stapled into the notebook */
+.torn {
+  position: relative;
+  margin: 0 -22px;
+  padding: 40px 30px 26px;
+  background-color: var(--torn-paper);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-position: -1px -1px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 18px 30px -20px var(--shadow);
+  transform: rotate(0.3deg);
+}
+
+/* the ragged top edge where it was torn out of another notebook */
+.torn::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -11px;
+  height: 12px;
+  background: var(--torn-paper);
+  clip-path: polygon(0 100%, 0 40%, 2% 70%, 4% 20%, 6% 60%, 8% 10%, 11% 55%, 13% 25%, 16% 75%, 18% 30%, 21% 60%, 23% 5%, 26% 50%, 29% 30%, 31% 80%, 34% 20%, 37% 55%, 39% 10%, 42% 65%, 45% 35%, 47% 75%, 50% 15%, 53% 60%, 55% 30%, 58% 70%, 61% 10%, 63% 50%, 66% 25%, 69% 80%, 71% 35%, 74% 60%, 77% 5%, 79% 55%, 82% 30%, 85% 75%, 87% 20%, 90% 60%, 92% 15%, 95% 55%, 97% 30%, 100% 65%, 100% 100%);
+}
+
+:global([data-theme='dark']) .torn {
+  box-shadow: 0 18px 34px -16px rgba(0, 0, 0, 0.55);
+}
+
+.staple {
+  position: absolute;
+  top: 8px;
+  width: 52px;
+  height: 6px;
+  border-radius: 2px;
+  background: linear-gradient(#d6dade, #8d9297 60%, #6d7277);
+  box-shadow: 0 1.5px 0 rgba(0, 0, 0, 0.25);
+  transform: rotate(-4deg);
+  z-index: 2;
+}
+
+.staple + .staple {
+  transform: rotate(3deg);
+}
+
+.scene {
+  position: relative;
+  margin-top: 22px;
+}
+
+.stage {
+  margin: 0 auto;
+}
+
+/* the Service's wire plugs in here */
+.portOn,
+.portOff {
+  stroke: var(--ink);
+  stroke-width: 1.6;
+}
+
+.portOn {
+  fill: var(--green);
+}
+
+.portOff {
+  fill: var(--paper);
+  stroke: var(--ink-3);
+  stroke-dasharray: 2 2;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.pending {
+  opacity: 0.78;
+}
+
+.tapeV1,
+.tapeV2 {
+  opacity: 0.9;
+}
+
+.tapeV1 {
+  fill: var(--hl-blue-ink);
+}
+
+.tapeV2 {
+  fill: var(--hl-green-ink);
+}
+
+.tapeText {
+  font-family: var(--f-mono);
+  font-weight: 600;
+  fill: #fff;
+}
+
+:global([data-theme='dark']) .tapeText {
+  fill: #13201a;
+}
+
+.faceBg {
+  fill: var(--paper);
+  opacity: 0.92;
+}
+
+.stOk {
+  fill: var(--green);
+}
+
+.stRed {
+  fill: var(--red);
+}
+
+.stDim {
+  fill: var(--ink-3);
+}
+
+.barFill {
+  fill: var(--hl-orange-ink);
+  opacity: 0.75;
+}
+
+/* story caption + step controls under the drawing */
+.caption {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px 22px;
+  align-items: center;
+  margin-top: 14px;
+  padding: 14px 0 0;
+  border-top: 1.5px dashed var(--grid-line);
+}
+
+.capTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.caption p {
+  margin: 0;
+  font-family: var(--f-body);
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--ink);
+  min-height: 2.9em;
+}
+
+.caption p b {
+  font-family: var(--f-display);
+  font-weight: 750;
+  font-stretch: 92%;
+}
+
+.capStep {
+  font-family: var(--f-hand);
+  font-size: 25px;
+  font-weight: 700;
+  color: var(--red);
+  white-space: nowrap;
+}
+
+.dots {
+  display: flex;
+  gap: 2px;
+}
+
+.dot {
+  appearance: none;
+  border: 0;
+  background: none;
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.dot svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.capCtl {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  appearance: none;
+  background: none;
+  border: 1.8px solid var(--ink-2);
+  border-radius: 4px 9px 5px 10px / 9px 4px 10px 5px;
+  font-family: var(--f-display);
+  font-weight: 650;
+  font-size: 16px;
+  color: var(--ink);
+  padding: 7px 13px 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn:hover:not(:disabled) {
+  border-color: var(--pen);
+  color: var(--pen);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btnMain {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.btnMain:hover:not(:disabled) {
+  background: var(--pen);
+  border-color: var(--pen);
+  color: var(--paper);
+}
+
+.code {
+  font-family: var(--f-mono);
+  font-size: 0.82em;
+  background: var(--hl-green);
+  padding: 0.05em 0.35em;
+  border-radius: 3px;
+}
+
+.legend {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  font-family: var(--f-hand);
+  font-size: 21px;
+  color: var(--ink-2);
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lgPort {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--green);
+  border: 1.6px solid var(--ink);
+}
+
+.legend li.lgRosetta {
+  display: block;
+  flex-basis: 100%;
+  color: var(--pen);
+}
+
+.lgRosetta b {
+  color: var(--red);
+  font-weight: 700;
+}
+
+.lgBox {
+  display: inline-block;
+  width: 22px;
+  height: 16px;
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+}
+
+.lgBox[data-k='pend'] {
+  border-style: dashed;
+  opacity: 0.7;
+}
+
+.lgBox[data-k='crash'] {
+  border-color: var(--red);
+  background: repeating-linear-gradient(-40deg, var(--red) 0 1.2px, transparent 1.2px 4px);
+}
+
+.lgTape {
+  display: inline-block;
+  font-family: var(--f-mono);
+  font-weight: 600;
+  font-size: 12px;
+  color: #fff;
+  padding: 1px 7px;
+  transform: rotate(-4deg);
+}
+
+:global([data-theme='dark']) .lgTape {
+  color: #13201a;
+}
+
+.lgTape[data-v='v1'] {
+  background: var(--hl-blue-ink);
+}
+
+.lgTape[data-v='v2'] {
+  background: var(--hl-green-ink);
+  transform: rotate(5deg);
+}
+
+@media (min-width: 1101px) {
+  .lgRosetta {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .caption {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .torn {
+    margin: 0 -14px;
+    padding: 40px 22px 24px;
+  }
+}
+
+@media (max-width: 760px) {
+  .torn {
+    margin: 0 -10px;
+    padding: 34px 14px 20px;
+  }
+  .caption {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .caption p {
+    font-size: 17.5px;
+  }
+}

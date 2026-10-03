@@ -1,0 +1,12 @@
+// Deklarativno: zapišemo ŠTO želimo, a petlja usklađivanja zauvijek ispravlja razliku.
+// Pojednostavljeno: jedan kontroler, jedna aplikacija.
+async function reconcileForever(app: string) {
+  while (true) {
+    const desired = await readDesired(app)  // željeno stanje, npr. 3 kopije
+    const actual = await countRunning(app)  // 1. promotri
+    const diff = desired - actual           // 2. usporedi
+    if (diff > 0) await start(app, diff)    // 3. ispravi: nedostaje
+    if (diff < 0) await stop(app, -diff)    //    ili: višak (najnovije prvo)
+    await sleep(10_000)                     // pa ispočetka – zauvijek
+  }
+}

@@ -1,0 +1,20 @@
+# Nastavak .github/workflows/ci.yaml – postavljanje PUSH modelom: CI gura u klaster
+  deploy-prod:
+    needs: build-push
+    runs-on: ubuntu-24.04
+    environment: production          # ljudska vrata: odobrenje ako okruženje ima obavezne recenzente
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: kubeconfig iz trajne tajne
+        env:
+          KUBECONFIG_DATA: ${{ secrets.PROD_KUBECONFIG }}   # cluster-admin, ne istječe
+        run: |
+          mkdir -p ~/.kube
+          printf '%s' "$KUBECONFIG_DATA" > ~/.kube/config
+      - name: kubectl apply
+        env:
+          DIGEST: ${{ needs.build-push.outputs.digest }}
+        run: |
+          cd k8s/overlays/production
+          kustomize edit set image klopa-api="$REGISTRY/$IMAGE@$DIGEST"
+          kubectl apply -k .

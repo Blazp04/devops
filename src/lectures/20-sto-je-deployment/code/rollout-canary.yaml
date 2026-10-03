@@ -1,0 +1,89 @@
+# Argo Rollouts: canary s koracima, analizom i težinama u HTTPRouteu (dodatak za Gateway API).
+# Rollout zamjenjuje Deployment za klopa-api. Objekti Service klopa-api-stable i
+# klopa-api-canary biraju samo app: klopa-api (bez track); Argo Rollouts im sam doda
+# rollouts-pod-template-hash. HTTPRoute klopa-api već postoji (Rollout mu mijenja težine),
+# a kontroler treba RBAC dozvolu za izmjenu HTTPRoutea.
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: klopa-api
+  namespace: klopa
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: klopa-api
+  template:
+    metadata:
+      labels:
+        app: klopa-api
+    spec:
+      containers:
+        - name: klopa-api
+          image: registry.klopa.example/klopa-api:2.0.1
+          ports:
+            - containerPort: 8000
+          resources:
+            requests: { cpu: 100m, memory: 256Mi }
+  strategy:
+    canary:
+      stableService: klopa-api-stable
+      canaryService: klopa-api-canary
+      trafficRouting:
+        plugins:
+          argoproj-labs/gatewayAPI:
+            httpRoute: klopa-api
+            namespace: klopa
+      analysis:                 # pozadinska analiza počinje nakon setWeight: 5 (indeks koraka 1)
+        templates:
+          - templateName: klopa-api-greske
+        startingStep: 1
+      steps:
+        - setWeight: 5
+        - pause: { duration: 5m }
+        - setWeight: 25
+        - pause: { duration: 5m }
+        - setWeight: 50
+        - pause: { duration: 5m }
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: klopa-api-greske
+  namespace: klopa
+spec:
+  metrics:
+    - name: udio-gresaka-canaryja
+      interval: 1m
+      successCondition: result[0] <= 0.02
+      provider:
+        prometheus:
+          address: http://prometheus.monitoring.svc:9090
+          query: |
+            sum(rate(http_requests_total{namespace="klopa",service="klopa-api-canary",code=~"5.."}[2m]))
+            /
+            sum(rate(http_requests_total{namespace="klopa",service="klopa-api-canary"}[2m]))
+    # Krivi PDV vraća 200 OK, pa ga upit iznad ne vidi. Treba i poslovna metrika:
+    # klopa-api broji narudžbe čiji se PDV ne slaže s kontrolnim izračunom.
+    - name: udio-krivog-pdv-a
+      interval: 1m
+      successCondition: result[0] <= 0.02
+      provider:
+        prometheus:
+          address: http://prometheus.monitoring.svc:9090
+          query: |
+            sum(rate(narudzbe_pdv_neispravan_total{namespace="klopa",service="klopa-api-canary"}[2m]))
+            /
+            sum(rate(narudzbe_total{namespace="klopa",service="klopa-api-canary"}[2m]))
+---
+# Dodatak za Gateway API registrira se jednom, u ConfigMapu kontrolera.
+# Verziju i arhitekturu uzmite sa stranice izdanja dodatka.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argo-rollouts-config
+  namespace: argo-rollouts
+data:
+  trafficRouterPlugins: |-
+    - name: "argoproj-labs/gatewayAPI"
+      location: "https://github.com/argoproj-labs/rollouts-plugin-trafficrouter-gatewayapi/releases/download/<verzija>/gatewayapi-plugin-linux-amd64"
